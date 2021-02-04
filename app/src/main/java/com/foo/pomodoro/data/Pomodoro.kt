@@ -6,14 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "pomodoros")
 data class Pomodoro(
-        @PrimaryKey @ColumnInfo(name = "id") val pomodoroId: String,
+        @PrimaryKey (autoGenerate = true) @ColumnInfo(name = "id") val pomodoroId: Int,
         var title: String,
         val description: String,
         var goalCount: Int,
         var nowCount: Int,
 
         val tags: ArrayList<String> = ArrayList<String>()
-
-
 
 )
