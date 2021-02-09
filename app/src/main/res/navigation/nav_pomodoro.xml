@@ -9,6 +9,13 @@
         android:name="com.foo.pomodoro.HomeViewPagerFragment"
         tools:layout="@layout/fragment_view_pager">
 
+        <action
+            android:id="@+id/action_view_pager_fragment_to_newPomodoroFragment"
+            app:destination="@id/newPomodoroFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newPomodoroFragment"
+        android:name="com.foo.pomodoro.NewPomodoroFragment"
+        android:label="NewPomodoroFragment" />
 
 </navigation>

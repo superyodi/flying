@@ -1,13 +1,13 @@
 package com.foo.pomodoro.data
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.foo.pomodoro.utilities.Converters
 import com.foo.pomodoro.utilities.DATABASE_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.util.Collections.list
 
 
 /**
@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
  */
 
 @Database(entities = arrayOf(Pomodoro::class), version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 public abstract class AppDatabase : RoomDatabase() {
     abstract fun pomodoroDao() : PomodoroDao
 
@@ -32,17 +33,19 @@ public abstract class AppDatabase : RoomDatabase() {
 
                     // Add sample words
                     var pomodoro = Pomodoro(
-                        pomodoroId = 0,
-                        title = "sample title",
-                        description = "sample description",
-                        goalCount = 5,
-                        nowCount = 0
+                         "sample title",
+                       "sample description",
+                        5,
+                        0,
+                        listOf("공부", "코딩", "안드로이드")
                     )
                     pomodoroDao.insert(pomodoro)
 
                 }
             }
         }
+
+
     }
 
     companion object {

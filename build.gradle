@@ -29,7 +29,7 @@ ext {
     coroutines = '1.3.9'
     lifecycleVersion = '2.2.0'
     materialVersion = '1.2.1'
-    roomVersion = '2.2.5'
+    roomVersion = '2.2.6'
     navigationVersion = '2.3.2'
 
 

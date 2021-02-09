@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.foo.pomodoro.adapters.DemoTomatoAdapter
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.databinding.FragmentPomodoroBinding
@@ -30,6 +31,8 @@ class PomodoroFragment: Fragment() {
 
 
         binding.addTask.setOnClickListener{
+            it.findNavController().navigate(R.id.action_view_pager_fragment_to_newPomodoroFragment)
+
             Toast.makeText(activity, "새 뽀모도로 생성", Toast.LENGTH_SHORT).show()
         }
 
@@ -81,10 +84,6 @@ class PomodoroFragment: Fragment() {
         )
 
         adapter.submitList(demoPomo)
-
-    }
-
-    private fun navigateToNewPomodoroView() {
 
     }
 

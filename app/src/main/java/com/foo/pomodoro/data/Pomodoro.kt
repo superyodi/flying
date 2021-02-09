@@ -15,7 +15,8 @@ data class Pomodoro(
     var goalCount: Int? = 0
     var nowCount: Int = 0
 
-    var tags: ArrayList<String> = ArrayList<String>()
+    var tags: List<String> ?= null
+
 
     constructor(
         title: String, description: String, id: Int,
@@ -37,7 +38,7 @@ data class Pomodoro(
 
     constructor(
         title: String, description: String,
-        goalCount: Int, nowCount: Int, tags: ArrayList<String>
+        goalCount: Int, nowCount: Int, tags: List<String>
     ) : this(
         title, description, goalCount, nowCount
     ) {
