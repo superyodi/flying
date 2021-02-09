@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.foo.pomodoro.adapters.DemoTomatoAdapter
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.databinding.FragmentPomodoroBinding
-import com.foo.pomodoro.viewmodels.DemoTomatoViewModel
 
 class PomodoroFragment: Fragment() {
 
@@ -44,7 +43,7 @@ class PomodoroFragment: Fragment() {
         val demoPomo = listOf(
 
             Pomodoro(
-                "0",
+
                 "pomo1",
                 "des1",
                 5,
@@ -52,7 +51,6 @@ class PomodoroFragment: Fragment() {
                 arrayListOf("공부", "스터디")
             ),
             Pomodoro(
-                "1",
                 "pomo2",
                 "des2",
                 5,
@@ -60,7 +58,6 @@ class PomodoroFragment: Fragment() {
                 arrayListOf("공부", "스터디")
             ),
             Pomodoro(
-                "2",
                 "pomo3",
                 "des3",
                 8,
@@ -68,7 +65,6 @@ class PomodoroFragment: Fragment() {
                 arrayListOf("공부", "스터디")
             ),
             Pomodoro(
-                "3",
                 "pomo4",
                 "des4",
                 9,
@@ -76,7 +72,6 @@ class PomodoroFragment: Fragment() {
                 arrayListOf("공부", "스터디")
             ),
             Pomodoro(
-                "4",
                 "pomo5",
                 "des5",
                 5,
@@ -87,7 +82,9 @@ class PomodoroFragment: Fragment() {
 
         adapter.submitList(demoPomo)
 
+    }
 
+    private fun navigateToNewPomodoroView() {
 
     }
 

@@ -1,17 +1,52 @@
 package com.foo.pomodoro.data
 
+import androidx.lifecycle.MutableLiveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "pomodoros")
 data class Pomodoro(
-        @PrimaryKey (autoGenerate = true) @ColumnInfo(name = "id") val pomodoroId: Int,
-        var title: String,
-        val description: String,
-        var goalCount: Int,
-        var nowCount: Int,
+    var title: String = "",
+    var description: String = ""
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+    var goalCount: Int? = 0
+    var nowCount: Int = 0
 
-        val tags: ArrayList<String> = ArrayList<String>()
+    var tags: ArrayList<String> = ArrayList<String>()
 
-)
+    constructor(
+        title: String, description: String, id: Int,
+        goalCount: Int?, nowCount: Int
+    ) : this(title, description) {
+        this.id = id
+        this.goalCount = goalCount
+        this.nowCount = nowCount
+    }
+
+
+    constructor(
+        title: String, description: String,
+        goalCount: Int?, nowCount: Int
+    ) : this(title, description) {
+        this.goalCount = goalCount
+        this.nowCount = nowCount
+    }
+
+    constructor(
+        title: String, description: String,
+        goalCount: Int, nowCount: Int, tags: ArrayList<String>
+    ) : this(
+        title, description, goalCount, nowCount
+    ) {
+        this.tags = tags
+    }
+
+    val isEmpty
+        get() = title.isEmpty() && description.isEmpty()
+
+}
+
+
