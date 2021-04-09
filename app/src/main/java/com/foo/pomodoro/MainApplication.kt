@@ -9,6 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 class MainApplication : Application() {
 
     val applicationScope = CoroutineScope(SupervisorJob())
+    val test = "fragmet -> mainapplication 확인"
 
     val database by lazy { AppDatabase.getInstance(this, applicationScope) }
     val repository by lazy { PomodoroRepository(database.pomodoroDao()) }

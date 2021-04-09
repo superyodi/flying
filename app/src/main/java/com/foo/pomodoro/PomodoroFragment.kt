@@ -32,8 +32,6 @@ class PomodoroFragment: Fragment() {
 
         binding.addTask.setOnClickListener{
             it.findNavController().navigate(R.id.action_view_pager_fragment_to_newPomodoroFragment)
-
-            Toast.makeText(activity, "새 뽀모도로 생성", Toast.LENGTH_SHORT).show()
         }
 
         subscribeUi(adapter, binding)

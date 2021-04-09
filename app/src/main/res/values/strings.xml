@@ -3,4 +3,7 @@
     <string name="tab_text_pomo">뽀모도로</string>
     <string name="tab_text_report">리포트</string>
     <string name="empty_pomodoro_message">입력된 데이터가 없습니다.</string>
+    <string name="empty_pomodoro_count_message">목표 횟수를 입력해주세요</string>
+    <string name="wrong_pomodoro_goal_count">1이상의 숫자를 입력해주세요</string>
+
 </resources>

@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
+
+
     val allPomodoros : Flow<List<Pomodoro>> = pomodoroDao.getPomodoros()
 
     @Suppress("RedundantSuspendModifier")
@@ -13,4 +15,5 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
     suspend fun insert(pomodoro: Pomodoro) {
         pomodoroDao.insert(pomodoro)
     }
+
 }

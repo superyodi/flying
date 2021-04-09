@@ -62,7 +62,7 @@ private class DemoTomatoDiffCallback : DiffUtil.ItemCallback<Pomodoro>() {
         oldItem: Pomodoro,
         newItem: Pomodoro
     ): Boolean {
-        return oldItem.pomodoroId == newItem.pomodoroId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(

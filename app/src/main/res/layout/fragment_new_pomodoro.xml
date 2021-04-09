@@ -5,12 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewmodel"
-            type="com.foo.pomodoro.viewmodels.NewPomodoroViewModel" />
-
-    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,7 +30,6 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="작업 이름"
-            android:text="@={viewmodel.title}"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -53,7 +46,7 @@
             app:layout_constraintStart_toStartOf="@+id/task_title"
             app:layout_constraintTop_toBottomOf="@+id/task_title" />
 
-        <EditText
+        <TextView
             android:id="@+id/task_description"
             android:layout_width="match_parent"
             android:layout_height="227dp"
@@ -63,7 +56,6 @@
             android:layout_marginEnd="21dp"
             android:layout_marginRight="21dp"
             android:hint="작업에 대해 써보세요"
-            android:text="@={viewmodel.description}"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -116,7 +108,6 @@
             android:layout_marginEnd="80dp"
             android:layout_marginRight="80dp"
             android:hint="0"
-            android:text="@={viewmodel.goalCount}"
             android:inputType="numberDecimal"
             android:textColor="#535353"
             android:textSize="14sp"
