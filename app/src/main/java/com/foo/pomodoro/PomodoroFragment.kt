@@ -34,6 +34,10 @@ class PomodoroFragment: Fragment() {
             it.findNavController().navigate(R.id.action_view_pager_fragment_to_newPomodoroFragment)
         }
 
+        binding.showTimerButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_view_pager_fragment_to_timerFragment)
+        }
+
         subscribeUi(adapter, binding)
 
         return binding.root

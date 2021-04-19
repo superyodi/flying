@@ -12,10 +12,23 @@
         <action
             android:id="@+id/action_view_pager_fragment_to_newPomodoroFragment"
             app:destination="@id/newPomodoroFragment" />
+
+        <action
+            android:id="@+id/action_view_pager_fragment_to_timerFragment"
+            app:destination="@id/timerFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/newPomodoroFragment"
         android:name="com.foo.pomodoro.NewPomodoroFragment"
         android:label="NewPomodoroFragment" />
+
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.foo.pomodoro.TimerFragment"
+        android:label="TimerFragment">
+
+
+    </fragment>
 
 </navigation>
