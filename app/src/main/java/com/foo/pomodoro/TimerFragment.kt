@@ -11,16 +11,25 @@ import com.foo.pomodoro.databinding.FragmentTimerBinding
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.timer
+import kotlin.properties.Delegates
 
 
 class TimerFragment : Fragment(){
 
 
+
     // 간단한 타이머 화면
     // 25분 run
     // 5분 rest
+    private val TAG = "TimerFragment"
     private lateinit var binding: FragmentTimerBinding
     private lateinit var handler : Handler
+    private lateinit var timerTask : Timer
+    private var nowMin = 0
+    private var nowSecond = 0
+
+    var isRunning = false
 
 
 
@@ -32,46 +41,56 @@ class TimerFragment : Fragment(){
     ): View? {
 
         binding = FragmentTimerBinding.inflate(inflater, container, false)
-        handler = Handler(Looper.getMainLooper())
-
-        val runnable = object:Runnable {
-            public override fun run() {
-                val cal = Calendar.getInstance()
-                val sdf = SimpleDateFormat("mm:ss")
-                val strTime = sdf.format(cal.getTime())
-
-                binding.timerText.setText(strTime)
-            }
-        }
-
-        class NewRunnable : Runnable {
-            override fun run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1000)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                    handler.post(runnable)
-                }
-            }
-        }
-
-
 
         binding.buttonStart.setOnClickListener {
 
-            // change format mm:ss -> ss
-            val nr = NewRunnable()
-            val t = Thread(nr)
-            t.start()
+          startTimer()
 
+        }
 
+        binding.buttonStop.setOnClickListener {
+            stopTimer()
         }
         return binding.root
     }
 
+
+    private fun stopTimer() {
+        timerTask.cancel()
+    }
+
+    private fun startTimer() {
+
+        nowMin = Companion.RUNNING_TIME
+
+        timerTask = timer (period = 1000, initialDelay = 1000)
+        {
+
+            if (nowSecond==0 && nowMin==0)
+            {
+                println("\n타이머 종료")
+                cancel()
+            }
+            if (nowSecond == 0)
+            {
+                nowMin--
+                nowSecond = 60
+            }
+            nowSecond--
+
+            activity?.runOnUiThread {
+                binding.timerText.text = "${nowMin} : ${nowSecond}"
+
+            }
+        }
+    }
+
+    companion object {
+        // 타이머 연습
+        const val RUNNING_TIME = 25
+        const val SHORT_REST_TIME = 5
+        const val LONG_REST_TIME = 15
+    }
 
 
 }
