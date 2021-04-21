@@ -44,12 +44,21 @@ class TimerFragment : Fragment(){
 
         binding.buttonStart.setOnClickListener {
 
-          startTimer()
+            binding.stopLayout.visibility = View.GONE
+            binding.runningLayout.visibility = View.VISIBLE
+
+            startTimer()
 
         }
 
         binding.buttonStop.setOnClickListener {
+
+            binding.runningLayout.visibility = View.GONE
+            binding.stopLayout.visibility = View.VISIBLE
+
             stopTimer()
+
+
         }
         return binding.root
     }
