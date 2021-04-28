@@ -6,14 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+
 import androidx.navigation.findNavController
 import com.foo.pomodoro.adapters.DemoTomatoAdapter
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.databinding.FragmentPomodoroBinding
+import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
+import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
+import com.foo.pomodoro.viewmodels.PomodoroViewModel
+import com.foo.pomodoro.viewmodels.PomodoroViewModelFactory
 
 class PomodoroFragment: Fragment() {
 
     private lateinit var binding: FragmentPomodoroBinding
+    private val viewmodel: PomodoroViewModel by viewModels {
+        PomodoroViewModelFactory((activity?.application as MainApplication).repository)
+    }
 
 
     override fun onCreateView(
@@ -23,11 +33,13 @@ class PomodoroFragment: Fragment() {
     ): View? {
 
         binding = FragmentPomodoroBinding.inflate(inflater, container, false)
-        val adapter = DemoTomatoAdapter()
+
 
         binding.hasPomodoros = true
 
+        val adapter = DemoTomatoAdapter()
         binding.pomodoroList.adapter = adapter
+        subscribeUi(adapter,binding)
 
 
         binding.addTask.setOnClickListener{
@@ -38,59 +50,17 @@ class PomodoroFragment: Fragment() {
             it.findNavController().navigate(R.id.action_view_pager_fragment_to_timerFragment)
         }
 
-        subscribeUi(adapter, binding)
-
         return binding.root
     }
 
     private fun subscribeUi(adapter: DemoTomatoAdapter, binding: FragmentPomodoroBinding) {
+        viewmodel.allPomos.observe(viewLifecycleOwner)  { result ->
+            binding.hasPomodoros = !result.isNullOrEmpty()
+            adapter.submitList(result)
+        }
 
-        val demoPomo = listOf(
-
-            Pomodoro(
-
-                "pomo1",
-                "des1",
-                5,
-                3,
-                arrayListOf("공부", "스터디")
-            ),
-            Pomodoro(
-                "pomo2",
-                "des2",
-                5,
-                3,
-                arrayListOf("공부", "스터디")
-            ),
-            Pomodoro(
-                "pomo3",
-                "des3",
-                8,
-                3,
-                arrayListOf("공부", "스터디")
-            ),
-            Pomodoro(
-                "pomo4",
-                "des4",
-                9,
-                9,
-                arrayListOf("공부", "스터디")
-            ),
-            Pomodoro(
-                "pomo5",
-                "des5",
-                5,
-                3,
-                arrayListOf("스터디")
-            )
-        )
-
-        adapter.submitList(demoPomo)
 
     }
-
-
-
 
 }
 

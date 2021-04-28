@@ -1,9 +1,6 @@
 package com.foo.pomodoro.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import kotlinx.coroutines.launch
@@ -18,6 +15,19 @@ class PomodoroViewModel(private val repository: PomodoroRepository) : ViewModel(
      */
     fun insert(pomodoro: Pomodoro) = viewModelScope.launch {
         repository.insert(pomodoro)
+    }
+
+}
+
+class PomodoroViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
+
+        return if (modelClass.isAssignableFrom(PomodoroViewModel::class.java)) {
+            PomodoroViewModel(repository) as T
+        } else {
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
 }

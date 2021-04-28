@@ -15,7 +15,7 @@ data class Pomodoro(
     var goalCount: Int? = 0
     var nowCount: Int = 0
 
-    var tags: List<String> ?= null
+    var tags: List<String> = listOf("공부","운동","코딩")
 
 
     constructor(

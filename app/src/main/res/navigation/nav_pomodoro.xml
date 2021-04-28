@@ -21,7 +21,11 @@
     <fragment
         android:id="@+id/newPomodoroFragment"
         android:name="com.foo.pomodoro.NewPomodoroFragment"
-        android:label="NewPomodoroFragment" />
+        android:label="NewPomodoroFragment" >
+        <action
+            android:id="@+id/action_newPomodoroFragment_to_view_pager_fragment"
+            app:destination="@id/view_pager_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/timerFragment"
