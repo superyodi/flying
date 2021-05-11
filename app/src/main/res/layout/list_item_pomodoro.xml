@@ -24,7 +24,7 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="viewModel"
-            type="com.foo.pomodoro.viewmodels.DemoTomatoViewModel"/>
+            type="com.foo.pomodoro.viewmodels.PomodoroViewModel"/>
     </data>
 
 
@@ -52,11 +52,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/pomodoro_description"
+                android:id="@+id/pomodoro_tag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@{viewModel.pomoDescription}"
+                android:text="@{viewModel.pomoTags}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_marginBottom="100dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -45,6 +45,8 @@ data class Pomodoro(
         this.tags = tags
     }
 
+    
+
     val isEmpty
         get() = title.isEmpty() && description.isEmpty()
 

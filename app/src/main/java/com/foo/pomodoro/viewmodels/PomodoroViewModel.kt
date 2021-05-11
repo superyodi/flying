@@ -1,33 +1,34 @@
 package com.foo.pomodoro.viewmodels
 
-import androidx.lifecycle.*
+import androidx.databinding.adapters.NumberPickerBindingAdapter.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.foo.pomodoro.data.Pomodoro
-import com.foo.pomodoro.data.PomodoroRepository
-import kotlinx.coroutines.launch
 
-class PomodoroViewModel(private val repository: PomodoroRepository) : ViewModel() {
-
-    val allPomos : LiveData<List<Pomodoro>> = repository.allPomodoros.asLiveData()
+class PomodoroViewModel (pomodoro: Pomodoro)  {
 
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
-    fun insert(pomodoro: Pomodoro) = viewModelScope.launch {
-        repository.insert(pomodoro)
-    }
-
-}
-
-class PomodoroViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    // Rest of the ViewModel...
 
 
-        return if (modelClass.isAssignableFrom(PomodoroViewModel::class.java)) {
-            PomodoroViewModel(repository) as T
-        } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
+
+
+    private val pomodoro = pomodoro
+
+
+    val pomoTitle
+        get() = pomodoro.title
+    val pomoDescription
+        get() = pomodoro.description
+    val pomoGoalCount
+        get() = pomodoro.goalCount
+    val pomoNowCount
+        get() = pomodoro.nowCount
+    val pomoTags
+        get() = pomodoro.tags
+
 
 }
+
+

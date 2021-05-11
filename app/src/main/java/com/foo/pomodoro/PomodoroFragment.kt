@@ -10,19 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 
 import androidx.navigation.findNavController
-import com.foo.pomodoro.adapters.DemoTomatoAdapter
-import com.foo.pomodoro.data.Pomodoro
+import com.foo.pomodoro.adapters.PomodoroAdapter
 import com.foo.pomodoro.databinding.FragmentPomodoroBinding
-import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
-import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
-import com.foo.pomodoro.viewmodels.PomodoroViewModel
-import com.foo.pomodoro.viewmodels.PomodoroViewModelFactory
+import com.foo.pomodoro.viewmodels.*
 
 class PomodoroFragment: Fragment() {
 
     private lateinit var binding: FragmentPomodoroBinding
-    private val viewmodel: PomodoroViewModel by viewModels {
-        PomodoroViewModelFactory((activity?.application as MainApplication).repository)
+    private val viewmodel: PomoListViewModel by viewModels {
+        PomoListViewModelFactory((activity?.application as MainApplication).repository)
     }
 
 
@@ -33,11 +29,9 @@ class PomodoroFragment: Fragment() {
     ): View? {
 
         binding = FragmentPomodoroBinding.inflate(inflater, container, false)
-
-
         binding.hasPomodoros = true
 
-        val adapter = DemoTomatoAdapter()
+        val adapter = PomodoroAdapter()
         binding.pomodoroList.adapter = adapter
         subscribeUi(adapter,binding)
 
@@ -53,7 +47,7 @@ class PomodoroFragment: Fragment() {
         return binding.root
     }
 
-    private fun subscribeUi(adapter: DemoTomatoAdapter, binding: FragmentPomodoroBinding) {
+    private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroBinding) {
         viewmodel.allPomos.observe(viewLifecycleOwner)  { result ->
             binding.hasPomodoros = !result.isNullOrEmpty()
             adapter.submitList(result)

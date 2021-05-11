@@ -1,5 +1,7 @@
 package com.foo.pomodoro.adapters
 
+
+
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +12,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
-import com.foo.pomodoro.databinding.ListItemDemoBinding
-import com.foo.pomodoro.viewmodels.DemoTomatoViewModel
+import com.foo.pomodoro.databinding.ListItemPomodoroBinding
+import com.foo.pomodoro.viewmodels.PomodoroViewModel
 
-class DemoTomatoAdapter :
-    ListAdapter<Pomodoro, DemoTomatoAdapter.ViewHolder>(
-        DemoTomatoDiffCallback()
+class PomodoroAdapter :
+    ListAdapter<Pomodoro, PomodoroAdapter.ViewHolder>(
+        PomodoroDiffCallback()
     ) {
 
     private val TAG = "DemoTomatoAdapter"
@@ -24,7 +26,7 @@ class DemoTomatoAdapter :
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item_demo,
+                R.layout.list_item_pomodoro,
                 parent,
                 false
             )
@@ -32,12 +34,12 @@ class DemoTomatoAdapter :
     }
 
 
-    override fun onBindViewHolder(holder: DemoTomatoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PomodoroAdapter.ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
     class ViewHolder(
-        private  val binding: ListItemDemoBinding
+        private  val binding: ListItemPomodoroBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener { view ->
@@ -49,14 +51,14 @@ class DemoTomatoAdapter :
 
         fun bind(pomodoro: Pomodoro) {
             with(binding) {
-                viewModel = DemoTomatoViewModel(pomodoro)
+                viewModel = PomodoroViewModel(pomodoro)
                 executePendingBindings()
             }
         }
     }
 }
 
-private class DemoTomatoDiffCallback : DiffUtil.ItemCallback<Pomodoro>() {
+private class PomodoroDiffCallback : DiffUtil.ItemCallback<Pomodoro>() {
 
     override fun areItemsTheSame(
         oldItem: Pomodoro,

@@ -24,7 +24,9 @@
         android:label="NewPomodoroFragment" >
         <action
             android:id="@+id/action_newPomodoroFragment_to_view_pager_fragment"
-            app:destination="@id/view_pager_fragment" />
+            app:destination="@id/view_pager_fragment"
+            app:popUpTo="@id/view_pager_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
