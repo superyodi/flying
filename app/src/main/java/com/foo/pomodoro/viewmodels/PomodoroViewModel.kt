@@ -19,14 +19,16 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
 
     val pomoTitle
         get() = pomodoro.title
+    val pomoTag
+        get() = pomodoro.tag
     val pomoDescription
         get() = pomodoro.description
     val pomoGoalCount
         get() = pomodoro.goalCount
     val pomoNowCount
         get() = pomodoro.nowCount
-    val pomoTags
-        get() = pomodoro.tags
+    val pomoHasDuedate
+        get() = pomodoro.hasDuedate
 
 
 }

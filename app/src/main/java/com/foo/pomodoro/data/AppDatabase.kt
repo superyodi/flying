@@ -34,7 +34,8 @@ public abstract class AppDatabase : RoomDatabase() {
                          "sample title",
                        "공부",
                         5,
-                        0
+                        0,
+                        false
 
                     )
                     pomodoroDao.insert(pomodoro)

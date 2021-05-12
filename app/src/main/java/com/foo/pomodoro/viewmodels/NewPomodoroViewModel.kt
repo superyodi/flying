@@ -68,7 +68,7 @@ class NewPomodoroViewModel(
 
 
 
-        createPomodoro(Pomodoro(currentTitle, currentDescription, 5, 0))
+        createPomodoro(Pomodoro(currentTitle, currentDescription, 5, 0, false))
 
         Log.d(TAG, "저장 완료")
     }
