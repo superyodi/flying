@@ -27,6 +27,7 @@ android {
                         "room.expandProjection":"true"]
             }
         }
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

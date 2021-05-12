@@ -35,26 +35,40 @@ class NewPomodoroViewModel(
 
 
 
-    fun savePomo(currentTitle: String, currentDescription: String, currentGoalCount: String) {
+//    fun savePomo(currentTitle: String, currentDescription: String, currentGoalCount: String) {
+//
+//        if (currentTitle.isNullOrEmpty()) {
+//            _snackbarText.value = Event(R.string.empty_pomodoro_message)
+//            return
+//        }
+//
+//        if (currentGoalCount.isNullOrEmpty()) {
+//            _snackbarText.value = Event(R.string.empty_pomodoro_count_message)
+//            return
+//        }
+//
+//        val goalCountNum = currentGoalCount.toInt()
+//
+//        if (goalCountNum < 1) {
+//            _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
+//            return
+//        }
+//
+//        createPomodoro(Pomodoro(currentTitle, currentDescription, goalCountNum, 0))
+//
+//        Log.d(TAG, "저장 완료")
+//    }
+
+    fun savePomo(currentTitle: String, currentDescription: String) {
 
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_message)
             return
         }
 
-        if (currentGoalCount.isNullOrEmpty()) {
-            _snackbarText.value = Event(R.string.empty_pomodoro_count_message)
-            return
-        }
 
-        val goalCountNum = currentGoalCount.toInt()
 
-        if (goalCountNum < 1) {
-            _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
-            return
-        }
-
-        createPomodoro(Pomodoro(currentTitle, currentDescription, goalCountNum, 0))
+        createPomodoro(Pomodoro(currentTitle, currentDescription, 5, 0))
 
         Log.d(TAG, "저장 완료")
     }

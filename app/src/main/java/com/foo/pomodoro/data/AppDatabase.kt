@@ -32,10 +32,10 @@ public abstract class AppDatabase : RoomDatabase() {
                     // Add sample words
                     var pomodoro = Pomodoro(
                          "sample title",
-                       "sample description",
+                       "공부",
                         5,
-                        0,
-                        listOf("공부", "코딩", "안드로이드")
+                        0
+
                     )
                     pomodoroDao.insert(pomodoro)
 

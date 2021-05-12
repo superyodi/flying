@@ -46,8 +46,7 @@ class NewPomodoroFragment : Fragment(){
 
             viewmodel.savePomo(
                 binding.taskTitle.text.toString(),
-                binding.taskDescription.text.toString(),
-                binding.taskGoalcount.text.toString()
+                binding.taskDescription.text.toString()
 
             )
 

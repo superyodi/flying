@@ -1,54 +1,46 @@
 package com.foo.pomodoro.data
 
-import androidx.lifecycle.MutableLiveData
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "pomodoros")
 data class Pomodoro(
     var title: String = "",
-    var description: String = ""
+    var tag: String = "",
+    var goalCount: Int = 0,
+    var nowCount: Int = 0,
+    var hasDuedate: Boolean = false,
+    var description: String = "",
+    var dueDate: Date? = null
+
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-    var goalCount: Int? = 0
-    var nowCount: Int = 0
 
-    var tags: List<String> = listOf("공부","운동","코딩")
 
 
     constructor(
-        title: String, description: String, id: Int,
-        goalCount: Int?, nowCount: Int
-    ) : this(title, description) {
-        this.id = id
-        this.goalCount = goalCount
-        this.nowCount = nowCount
-    }
+        title: String, tag: String,
+        goalCount: Int, nowCount: Int, hasDuedate: Boolean
+    ) : this(title, tag, goalCount, nowCount, hasDuedate, "", null)
 
 
     constructor(
-        title: String, description: String,
-        goalCount: Int?, nowCount: Int
-    ) : this(title, description) {
-        this.goalCount = goalCount
-        this.nowCount = nowCount
-    }
+        title: String, tag: String,
+        goalCount: Int, nowCount: Int, hasDuedate: Boolean, dueDate: Date
+    ) : this(title, tag, goalCount, nowCount, hasDuedate, "")
+
 
     constructor(
-        title: String, description: String,
-        goalCount: Int, nowCount: Int, tags: List<String>
-    ) : this(
-        title, description, goalCount, nowCount
-    ) {
-        this.tags = tags
-    }
+        title: String, tag: String,
+        goalCount: Int, nowCount: Int, hasDuedate: Boolean, description: String
+    ) : this(title, tag, goalCount, nowCount, hasDuedate, description, null)
 
-    
+
 
     val isEmpty
-        get() = title.isEmpty() && description.isEmpty()
+        get() = title.isEmpty() || tag.isEmpty() || goalCount == 0
 
 }
 
