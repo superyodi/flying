@@ -12,63 +12,60 @@ import kotlinx.coroutines.launch
  * The Room database for this app
  */
 
-@Database(entities = arrayOf(Pomodoro::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Pomodoro::class, Tag::class), version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
-public abstract class AppDatabase : RoomDatabase() {
+
+abstract class AppDatabase : RoomDatabase() {
+
+
     abstract fun pomodoroDao() : PomodoroDao
+    abstract fun tagDao() : TagDao
 
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
+
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            instance?.let { database ->
+            INSTANCE?.let { database ->
                 scope.launch {
-                    var pomodoroDao = database.pomodoroDao()
+                    var tagDao = database.tagDao()
 
-                    // Delete all content here.
-                    pomodoroDao.deleteAll()
 
-                    // Add sample words
-                    var pomodoro = Pomodoro(
-                         "sample title",
-                       "공부",
-                        5,
-                        0,
-                        false
+                    // Add sample tags.
+                    tagDao.insert(Tag("프로젝트"))
+                    tagDao.insert(Tag("안드로이드"))
+                    tagDao.insert(Tag("디자인"))
+                    tagDao.insert(Tag("토익"))
 
-                    )
-                    pomodoroDao.insert(pomodoro)
 
                 }
             }
         }
-
-
     }
 
     companion object {
-
-        //For Singleton instantiation
         @Volatile
-        private var instance: AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(
+        fun getDatabase(
             context: Context,
-        scope: CoroutineScope
+            scope: CoroutineScope
         ): AppDatabase {
-            return instance ?: synchronized(this) {
-                val _instance = Room.databaseBuilder(
+            // if the INSTANCE is not null, then return it,
+            // if it is, then create the database
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
-                ).build()
-                instance = _instance
-                _instance
+                )
+                    .addCallback(AppDatabaseCallback(scope))
+                    .build()
+                INSTANCE = instance
+                // return instance
+                instance
             }
         }
-
-
     }
 }
-

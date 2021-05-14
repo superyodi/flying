@@ -20,7 +20,7 @@ class PomodoroAdapter :
         PomodoroDiffCallback()
     ) {
 
-    private val TAG = "DemoTomatoAdapter"
+    private val TAG = "PomodoroAdapter"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(
