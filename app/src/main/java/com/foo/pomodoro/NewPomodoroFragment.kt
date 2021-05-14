@@ -2,12 +2,12 @@ package com.foo.pomodoro
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.foo.pomodoro.custom.TagPickerDialog
@@ -26,7 +26,7 @@ class NewPomodoroFragment : Fragment(){
 
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
-        NewPomodoroViewModelFactory((activity?.application as MainApplication).repository)
+        NewPomodoroViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
     }
 
 
@@ -39,15 +39,32 @@ class NewPomodoroFragment : Fragment(){
 
         binding = FragmentNewPomodoroBinding.inflate(inflater, container, false)
 
-        repository = (requireActivity().application as MainApplication).repository
+        repository = (requireActivity().application as MainApplication).pomodoroRepository
 
 
         binding.btnTag.setOnClickListener {
             val tagPickerDialog = TagPickerDialog().getInstance()
 
             activity?.supportFragmentManager?.let { fragmentManager ->
+
+                tagPickerDialog.setOnButtonClickedListener { it ->
+                    if(!it.isNullOrEmpty()) {
+                        binding.btnTag.text = it
+                    }
+
+                }
+
                 tagPickerDialog.show(fragmentManager, "tag picker dialog")
             }
+
+
+
+
+
+
+
+
+
 
         }
 
