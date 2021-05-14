@@ -13,7 +13,7 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="24dp"
             android:background="@color/flying_orange"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
@@ -30,7 +30,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:layout_marginTop="94dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginEnd="60dp"
                 android:layout_marginRight="60dp"
                 android:layout_marginBottom="33dp"
@@ -43,9 +43,10 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/btn_tag"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintHorizontal_bias="0.482"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.47" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_tag"
@@ -55,10 +56,10 @@
                 android:layout_marginLeft="139dp"
                 android:layout_marginEnd="139dp"
                 android:layout_marginRight="139dp"
-                android:layout_marginBottom="44dp"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
+                android:layout_marginBottom="40dp"
                 android:background="@color/white"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
                 android:text="+ 태그"
                 android:textColor="@color/flying_orange"
                 android:textSize="15sp"
@@ -77,7 +78,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="41dp"
+            android:layout_marginBottom="36dp"
             app:layout_constraintBottom_toTopOf="@+id/add_pomodoro"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -162,20 +163,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:visibility="visible"
+                    android:text="2021/02/25"
                     android:textColor="@color/flying_orange"
                     android:textSize="16sp"
                     android:textStyle="normal"
-                    android:text="2021/02/25" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:text="부터"
                     android:textColor="#a8a8a8"
                     android:textSize="12sp"
                     android:textStyle="normal"
-                    android:text="부터" />
+                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -196,18 +197,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:text="2021/02/28"
                     android:textColor="@color/flying_orange"
                     android:textSize="16sp"
-                    android:textStyle="normal"
-                    android:text="2021/02/28" />
+                    android:textStyle="normal" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="까지"
                     android:textColor="#a8a8a8"
                     android:textSize="12sp"
-                    android:textStyle="normal"
-                    android:text="까지" />
+                    android:textStyle="normal" />
             </LinearLayout>
 
 
@@ -216,38 +217,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
                 android:layout_marginTop="28dp"
+                android:text="메모"
                 android:textColor="#514b4b"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startdate_layout"
-                android:text="메모" />
+                app:layout_constraintTop_toBottomOf="@+id/startdate_layout" />
 
             <FrameLayout
                 android:id="@+id/frameLayout_mem0"
                 android:layout_width="0dp"
-                android:layout_height="204dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8">
 
-                <TextView
+                <EditText
                     android:id="@+id/task_description"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/gray_rectangle"
                     android:hint="작업에 대해 써보세요"
-                    android:inputType="textPersonName"
-                    android:visibility="invisible"
-                    android:padding="12dp"
-                    android:textSize="14sp" />
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
 
                 <ImageButton
                     android:id="@+id/btn_add_memo"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/memo_rectangle"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/ic_baseline_add_24" />
             </FrameLayout>
 
