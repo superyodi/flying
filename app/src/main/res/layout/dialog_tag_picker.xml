@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:padding="20dp">
 
         <EditText
             android:id="@+id/newTag"
@@ -15,6 +15,7 @@
             android:layout_marginTop="48dp"
             android:background="@color/white"
             android:gravity="center"
+            android:hint="태그를 입력해주세요"
             android:inputType="textPersonName"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,9 +27,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
             android:text="최근 사용한 태그"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newTag" />
 
@@ -43,12 +44,14 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddTag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:background="@color/flying_orange"
             android:text="태그 추가"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

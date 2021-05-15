@@ -11,5 +11,6 @@
 
     <color name="flying_orange">#ff6037</color>
     <color name="flying_gray">#dbcfc7</color>
+    <color name="text_gray">#514b4b</color>
 
 </resources>

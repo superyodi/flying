@@ -9,8 +9,6 @@ import com.foo.pomodoro.data.Pomodoro
 class PomodoroViewModel (pomodoro: Pomodoro)  {
 
 
-    // Rest of the ViewModel...
-
 
 
 

@@ -34,41 +34,34 @@ class NewPomodoroViewModel(
     private var pomodoroCompleted = false
 
 
+//    title: String, tag: String,
+//        goalCount: Int, nowCount: Int, hasDuedate: Boolean
 
-//    fun savePomo(currentTitle: String, currentDescription: String, currentGoalCount: String) {
-//
-//        if (currentTitle.isNullOrEmpty()) {
-//            _snackbarText.value = Event(R.string.empty_pomodoro_message)
-//            return
-//        }
-//
-//        if (currentGoalCount.isNullOrEmpty()) {
-//            _snackbarText.value = Event(R.string.empty_pomodoro_count_message)
-//            return
-//        }
-//
-//        val goalCountNum = currentGoalCount.toInt()
-//
-//        if (goalCountNum < 1) {
-//            _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
-//            return
-//        }
-//
-//        createPomodoro(Pomodoro(currentTitle, currentDescription, goalCountNum, 0))
-//
-//        Log.d(TAG, "저장 완료")
-//    }
-
-    fun savePomo(currentTitle: String, currentDescription: String) {
+    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentHasDuedate: Boolean) {
 
         if (currentTitle.isNullOrEmpty()) {
-            _snackbarText.value = Event(R.string.empty_pomodoro_message)
+            _snackbarText.value = Event(R.string.empty_pomodoro_title)
             return
         }
 
+        if (currentTag.isNullOrEmpty()) {
+            _snackbarText.value = Event(R.string.empty_pomodoro_tag)
+            return
+        }
 
+        if (currentGoalCount.isNullOrEmpty()) {
+            _snackbarText.value = Event(R.string.empty_pomodoro_count_message)
+            return
+        }
 
-        createPomodoro(Pomodoro(currentTitle, currentDescription, 5, 0, false))
+        val goalCountNum = currentGoalCount.toInt()
+
+        if (goalCountNum < 1) {
+            _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
+            return
+        }
+
+        createPomodoro(Pomodoro(currentTitle, currentTag, goalCountNum, 0, currentHasDuedate))
 
         Log.d(TAG, "저장 완료")
     }
@@ -80,7 +73,6 @@ class NewPomodoroViewModel(
             pomodoroRepository.insert(newPomodoro)
             _pomodoroUpdated.value = Event(Unit)
 
-            Log.d(TAG, "생성 완료")
         }
     }
 }

@@ -2,7 +2,6 @@ package com.foo.pomodoro
 
 import android.R
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ class NewPomodoroFragment : Fragment(){
     private val TAG = "NewPomodoroFramgment"
     private lateinit var binding: FragmentNewPomodoroBinding
     private lateinit var repository: PomodoroRepository
+    private var taskTag = ""
 
 
 
@@ -50,22 +50,13 @@ class NewPomodoroFragment : Fragment(){
                 tagPickerDialog.setOnButtonClickedListener { it ->
                     if(!it.isNullOrEmpty()) {
                         binding.btnTag.text = it
+                        taskTag = it
                     }
 
                 }
 
                 tagPickerDialog.show(fragmentManager, "tag picker dialog")
             }
-
-
-
-
-
-
-
-
-
-
         }
 
         binding.btnOneday.setOnClickListener {
@@ -91,11 +82,11 @@ class NewPomodoroFragment : Fragment(){
 
 
             // goal count 입력받는 count_dialog 보여줌
-
-
             viewmodel.savePomo(
                 binding.taskTitle.text.toString(),
-                binding.taskDescription.text.toString()
+                taskTag,
+                binding.taskGoalCount.text.toString(),
+                false
 
             )
 
