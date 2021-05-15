@@ -44,26 +44,27 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:text="작업 추가"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <Button
             android:id="@+id/show_timer_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:text="타이머 실행"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/add_task" />
+            app:layout_constraintTop_toTopOf="@+id/add_task" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
