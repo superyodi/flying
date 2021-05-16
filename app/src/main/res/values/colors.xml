@@ -13,5 +13,6 @@
     <color name="flying_bright_orange">#ff8e71</color>
     <color name="flying_gray">#dbcfc7</color>
     <color name="text_gray">#514b4b</color>
+    <color name="text_black">#222222</color>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.foo.pomodoro.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,6 +14,9 @@ interface PomodoroDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(pomodoro: Pomodoro)
+
+    @Query("SELECT * FROM pomodoros WHERE id = :pomodoroId")
+    fun loadPomodoro(pomodoroId: Int): LiveData<Pomodoro>
 
     @Query("DELETE FROM pomodoros")
     suspend fun deleteAll()

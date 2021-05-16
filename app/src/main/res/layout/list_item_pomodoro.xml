@@ -15,13 +15,18 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener"/>
+
+        <variable
+            name="pomodoro"
+            type="com.foo.pomodoro.data.Pomodoro" />
         <variable
             name="viewModel"
             type="com.foo.pomodoro.viewmodels.PomodoroViewModel"/>
@@ -31,31 +36,44 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:onClick="@{clickListener}">
+        android:layout_marginBottom="26dp">
 
-        <TextView
-            android:id="@+id/pomodoro_title"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_pomodoro_informs"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.pomoTitle}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/pomodoro_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:background="#fff4f2"
-            android:text="@{viewModel.pomoTag}"
-            android:textColor="#ff8e71"
-            android:textSize="12sp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:onClick="@{clickListener}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/progressBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pomodoro_title" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/pomodoro_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.pomoTitle}"
+                android:textStyle="normal"
+                android:textSize="15sp"
+                android:textColor="@color/text_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pomodoro_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#fff4f2"
+                android:text="@{viewModel.pomoTag}"
+                android:textColor="#ff8e71"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pomodoro_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

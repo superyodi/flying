@@ -15,6 +15,8 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
     private val pomodoro = pomodoro
 
 
+    val pomoId
+        get() = pomodoro.id
     val pomoTitle
         get() = pomodoro.title
     val pomoTag
@@ -27,6 +29,7 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
         get() = pomodoro.nowCount
     val pomoHasDuedate
         get() = pomodoro.hasDuedate
+
 
     val progressText = "$pomoNowCount/$pomoGoalCount"
 
