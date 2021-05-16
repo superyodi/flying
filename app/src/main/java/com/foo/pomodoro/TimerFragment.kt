@@ -42,18 +42,18 @@ class TimerFragment : Fragment(){
 
         binding = FragmentTimerBinding.inflate(inflater, container, false)
 
-        binding.buttonStart.setOnClickListener {
+        binding.btnStart.setOnClickListener {
 
             binding.stopLayout.visibility = View.GONE
-            binding.runningLayout.visibility = View.VISIBLE
+            binding.btnStop.visibility =View.VISIBLE
 
             startTimer()
 
         }
 
-        binding.buttonStop.setOnClickListener {
+        binding.btnStop.setOnClickListener {
 
-            binding.runningLayout.visibility = View.GONE
+            binding.btnStop.visibility = View.GONE
             binding.stopLayout.visibility = View.VISIBLE
 
             stopTimer()

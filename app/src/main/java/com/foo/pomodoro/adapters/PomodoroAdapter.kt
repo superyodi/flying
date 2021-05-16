@@ -68,13 +68,6 @@ class PomodoroAdapter :
                         }
 
 
-
-//                        binding.pomodoro?.let {
-//
-//
-//
-//
-//                        }
                 }
 
 

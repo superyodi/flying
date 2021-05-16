@@ -25,9 +25,6 @@
             type="android.view.View.OnClickListener"/>
 
         <variable
-            name="pomodoro"
-            type="com.foo.pomodoro.data.Pomodoro" />
-        <variable
             name="viewModel"
             type="com.foo.pomodoro.viewmodels.PomodoroViewModel"/>
     </data>
