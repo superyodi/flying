@@ -2,35 +2,38 @@ package com.foo.pomodoro
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.foo.pomodoro.databinding.FragmentTimerBinding
-import java.lang.Exception
-import java.text.SimpleDateFormat
+import com.foo.pomodoro.viewmodels.TimerViewModel
+import com.foo.pomodoro.viewmodels.TimerViewModelFactory
 import java.util.*
 import kotlin.concurrent.timer
-import kotlin.properties.Delegates
 
 
 class TimerFragment : Fragment(){
 
-
-
-    // 간단한 타이머 화면
-    // 25분 run
-    // 5분 rest
     private val TAG = "TimerFragment"
-    private lateinit var binding: FragmentTimerBinding
+    private val avgs: TimerFragmentArgs by navArgs()
+    private lateinit var binding : FragmentTimerBinding
+
+    private val timerViewmodel: TimerViewModel by viewModels {
+        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository, avgs.pomoId)
+    }
+
     private lateinit var handler : Handler
     private lateinit var timerTask : Timer
     private var nowMin = 0
     private var nowSecond = 0
 
-    var isRunning = false
 
+    var isRunning = false
 
 
 
@@ -39,27 +42,42 @@ class TimerFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate<FragmentTimerBinding>(
 
-        binding = FragmentTimerBinding.inflate(inflater, container, false)
+            inflater,
+            R.layout.fragment_timer,
+            container,
+            false
+        ).apply {
 
-        binding.btnStart.setOnClickListener {
+//            timerViewmodel.initPomodoro()
+            viewModel = timerViewmodel
+            lifecycleOwner = viewLifecycleOwner
 
-            binding.stopLayout.visibility = View.GONE
-            binding.btnStop.visibility =View.VISIBLE
 
-            startTimer()
+
+            btnStart.setOnClickListener {
+
+                stopLayout.visibility = View.GONE
+                btnStop.visibility =View.VISIBLE
+
+
+
+
+//                startTimer()
+            }
+
+            btnStop.setOnClickListener {
+
+                btnStop.visibility = View.GONE
+                stopLayout.visibility = View.VISIBLE
+                stopTimer()
+
+            }
 
         }
 
-        binding.btnStop.setOnClickListener {
 
-            binding.btnStop.visibility = View.GONE
-            binding.stopLayout.visibility = View.VISIBLE
-
-            stopTimer()
-
-
-        }
         return binding.root
     }
 

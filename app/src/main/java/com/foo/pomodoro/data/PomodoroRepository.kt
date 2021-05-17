@@ -12,7 +12,9 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
     val allPomodoros : Flow<List<Pomodoro>> = pomodoroDao.getPomodoros()
 
 
-    fun loadPomodoro(pomodoroId: Int) : LiveData<Pomodoro> = pomodoroDao.loadPomodoro(pomodoroId)
+
+    fun getPomodoro(pomoId: Int) = pomodoroDao.getPomodoro(pomoId)
+
 
 
     @Suppress("RedundantSuspendModifier")

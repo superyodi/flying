@@ -80,9 +80,7 @@ class PomodoroAdapter :
             view: View
         ) {
             val direction =
-                HomeViewPagerFragmentDirections.actionViewPagerFragmentToTimerFragment(
-                    pomoId
-                )
+                HomeViewPagerFragmentDirections.actionViewPagerFragmentToTimerFragment(pomoId)
             view.findNavController().navigate(direction)
         }
 

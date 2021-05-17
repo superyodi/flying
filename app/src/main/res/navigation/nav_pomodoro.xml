@@ -34,7 +34,7 @@
         android:name="com.foo.pomodoro.TimerFragment"
         android:label="TimerFragment">
         <argument
-            android:name="timerArg"
+            android:name="pomoId"
             app:argType="integer" />
 
 

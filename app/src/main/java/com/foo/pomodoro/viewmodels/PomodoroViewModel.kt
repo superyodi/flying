@@ -8,10 +8,6 @@ import com.foo.pomodoro.data.Pomodoro
 
 class PomodoroViewModel (pomodoro: Pomodoro)  {
 
-
-
-
-
     private val pomodoro = pomodoro
 
 
