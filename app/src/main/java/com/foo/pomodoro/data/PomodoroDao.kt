@@ -16,7 +16,7 @@ interface PomodoroDao {
     suspend fun insert(pomodoro: Pomodoro)
 
     @Query("SELECT * FROM pomodoros WHERE id = :pomodoroId")
-    fun getPomodoro(pomodoroId: Int): LiveData<Pomodoro>
+    suspend fun getPomodoro(pomodoroId: Int): Pomodoro
 
     @Query("DELETE FROM pomodoros")
     suspend fun deleteAll()

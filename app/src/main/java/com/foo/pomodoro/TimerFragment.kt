@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.foo.pomodoro.databinding.FragmentTimerBinding
 import com.foo.pomodoro.viewmodels.TimerViewModel
@@ -50,33 +52,43 @@ class TimerFragment : Fragment(){
             false
         ).apply {
 
-//            timerViewmodel.initPomodoro()
+
             viewModel = timerViewmodel
             lifecycleOwner = viewLifecycleOwner
 
 
-
-            btnStart.setOnClickListener {
-
-                stopLayout.visibility = View.GONE
-                btnStop.visibility =View.VISIBLE
-
-
-
-
-//                startTimer()
-            }
-
-            btnStop.setOnClickListener {
-
-                btnStop.visibility = View.GONE
-                stopLayout.visibility = View.VISIBLE
-                stopTimer()
-
-            }
-
         }
 
+
+
+        timerViewmodel.pomodoro.observe(::getLifecycle) { it ->
+
+            Log.d(TAG, it.state.toString())
+
+            when(it.state) {
+                0,1,4 -> binding.timerState.text = "${it.nowCount}/${it.goalCount}"
+                2 -> binding.timerState.text = "Short Break"
+                3 -> binding.timerState.text = "Long Break"
+                else -> binding.timerState.text = "상태 알 수 없음 "
+            }
+            
+        }
+
+        binding.btnStart.setOnClickListener {
+
+            binding.stopLayout.visibility = View.GONE
+            binding.btnStop.visibility =View.VISIBLE
+
+            startTimer()
+        }
+
+        binding.btnStop.setOnClickListener {
+
+            binding.btnStop.visibility = View.GONE
+            binding.stopLayout.visibility = View.VISIBLE
+            stopTimer()
+
+        }
 
         return binding.root
     }
