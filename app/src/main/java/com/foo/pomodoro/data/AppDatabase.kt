@@ -3,7 +3,7 @@ package com.foo.pomodoro.data
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.foo.pomodoro.utilities.DATABASE_NAME
+import com.foo.pomodoro.utils.DATABASE_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

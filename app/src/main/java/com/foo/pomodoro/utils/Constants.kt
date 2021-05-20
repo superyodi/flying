@@ -1,4 +1,4 @@
-package com.foo.pomodoro.utilities
+package com.foo.pomodoro.utils
 
 /**
  * Constants used throughout the app.

@@ -18,8 +18,8 @@ data class Pomodoro(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var state = PomodoroState.NONE
-    var timeMin = 0
-    var timeSecond = 0
+    var leftTime = 0L
+
 
 
 

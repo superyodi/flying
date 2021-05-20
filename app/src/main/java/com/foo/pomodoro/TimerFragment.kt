@@ -2,16 +2,18 @@ package com.foo.pomodoro
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.foo.pomodoro.data.PomodoroState.Companion.FINISHED
+import com.foo.pomodoro.data.PomodoroState.Companion.FLYING
+import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
+import com.foo.pomodoro.data.PomodoroState.Companion.NONE
+import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import com.foo.pomodoro.databinding.FragmentTimerBinding
 import com.foo.pomodoro.viewmodels.TimerViewModel
 import com.foo.pomodoro.viewmodels.TimerViewModelFactory
@@ -60,33 +62,61 @@ class TimerFragment : Fragment(){
         }
 
 
+//        timerViewmodel.pomodoro.observe(::getLifecycle) { it ->
+//            when(it.state) {
+//                NONE, FLYING, FINISHED -> binding.timerState.text = "${it.nowCount}/${it.goalCount}"
+//                SHORT_BREAK -> binding.timerState.text = "Short Break"
+//                LONG_BREAK -> binding.timerState.text = "Long Break"
+//                else -> binding.timerState.text = "상태 알 수 없음 "
+//            }
+//
+//        }
 
-        timerViewmodel.pomodoro.observe(::getLifecycle) { it ->
 
-            Log.d(TAG, it.state.toString())
+//        timerViewmodel.timerState
+//            .observe(::getLifecycle) { it ->
+//            when(it) {
+//                NONE, FLYING, FINISHED -> binding.timerState.text = "${timerViewmodel.timerNowCount.value}/${timerViewmodel.timerGoalCount.value}"
+//                SHORT_BREAK -> binding.timerState.text = "Short Break"
+//                LONG_BREAK -> binding.timerState.text = "Long Break"
+//                else -> binding.timerState.text = "상태 알 수 없음 "
+//            }
+//
+//        }
 
-            when(it.state) {
-                0,1,4 -> binding.timerState.text = "${it.nowCount}/${it.goalCount}"
-                2 -> binding.timerState.text = "Short Break"
-                3 -> binding.timerState.text = "Long Break"
-                else -> binding.timerState.text = "상태 알 수 없음 "
-            }
-            
-        }
+       timerViewmodel.timerNowCount
+           .observe(::getLifecycle) { cnt ->
 
+               if(cnt == 4) {
+                   timerViewmodel.setPomodoroState(cnt)
+               }
+
+           }
+
+
+
+
+
+        // Test 용
         binding.btnStart.setOnClickListener {
 
-            binding.stopLayout.visibility = View.GONE
-            binding.btnStop.visibility =View.VISIBLE
+//            binding.stopLayout.visibility = View.GONE
+//            binding.btnStop.visibility =View.VISIBLE
 
-            startTimer()
+
+            timerViewmodel.plusTomatoCount()
+
+            binding.timerText.text = timerViewmodel.timerNowCount.value.toString()
+
+
+//            startTimer()
         }
 
         binding.btnStop.setOnClickListener {
 
             binding.btnStop.visibility = View.GONE
             binding.stopLayout.visibility = View.VISIBLE
-            stopTimer()
+//            stopTimer()
 
         }
 
