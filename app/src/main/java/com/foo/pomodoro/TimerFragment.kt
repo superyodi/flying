@@ -1,5 +1,7 @@
 package com.foo.pomodoro
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
 import com.foo.pomodoro.data.PomodoroState.Companion.NONE
 import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import com.foo.pomodoro.databinding.FragmentTimerBinding
+import com.foo.pomodoro.service.TimerService
 import com.foo.pomodoro.viewmodels.TimerViewModel
 import com.foo.pomodoro.viewmodels.TimerViewModelFactory
 import java.util.*
@@ -103,26 +106,29 @@ class TimerFragment : Fragment(){
 //            binding.stopLayout.visibility = View.GONE
 //            binding.btnStop.visibility =View.VISIBLE
 
+            startForegroundService()
 
             timerViewmodel.plusTomatoCount()
 
             binding.timerText.text = timerViewmodel.timerNowCount.value.toString()
 
-
-//            startTimer()
         }
 
         binding.btnStop.setOnClickListener {
 
             binding.btnStop.visibility = View.GONE
             binding.stopLayout.visibility = View.VISIBLE
-//            stopTimer()
+
+            stopForegroundService()
 
         }
 
         return binding.root
     }
 
+    private fun startTimerService() {
+
+    }
 
     private fun stopTimer() {
         timerTask.cancel()
@@ -153,6 +159,21 @@ class TimerFragment : Fragment(){
             }
         }
     }
+
+    private fun startForegroundService() {
+        Intent(context, TimerService::class.java).run {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) context?.startForegroundService(this)
+            else context?.startService(this)
+        }
+    }
+
+    private fun stopForegroundService() {
+        Intent(context, TimerService::class.java).run {
+            context?.stopService(this)
+        }
+    }
+
+
 
     companion object {
         // 타이머 연습

@@ -50,11 +50,6 @@ class TimerViewModel(
         get() = _timeLeft
 
 
-
-//    val timerState: LiveData<TimerState>
-//        get() = workoutRepository.getTimerServiceTimerState()
-
-
     val timerStateString: LiveData<String>
         get() = timerNowCount.map {
 
@@ -65,7 +60,6 @@ class TimerViewModel(
                     4 -> "Long Short"
                     in 0..goalCount ->"$it/${goalCount}"
                     else -> "타이머가 끝났습니다."
-
                 }
             }
             else {
@@ -77,9 +71,7 @@ class TimerViewModel(
 
 
     init {
-
         loadPomodoro()
-
     }
 
     fun loadPomodoro() {
@@ -89,9 +81,6 @@ class TimerViewModel(
             _pomodoroState.value = _pomodoro.value!!.state
             _timerNowCount.value = _pomodoro.value!!.nowCount
             _timerGoalCount.value = _pomodoro.value!!.goalCount
-
-            Log.d(TAG, _pomodoro.value?.title+ _pomodoro.value?.state.toString())
-
 
         }
     }
