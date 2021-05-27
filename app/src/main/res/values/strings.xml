@@ -6,5 +6,6 @@
     <string name="empty_pomodoro_tag">태그를 선택해주세요</string>
     <string name="empty_pomodoro_count_message">목표 횟수를 입력해주세요</string>
     <string name="wrong_pomodoro_goal_count">1이상의 숫자를 입력해주세요</string>
+    <string name="notification_timer_name">타이머</string>
 
 </resources>
