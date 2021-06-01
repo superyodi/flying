@@ -89,7 +89,7 @@ class TimerService : Service(){
 
     private  fun createCompleteNotification() = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).apply {
 
-        setContentTitle("뽀모도로 타이머가 왼료")
+        setContentTitle("뽀모도로 타이머 왼료")
         setContentText("🛩 비행기가 도쿄에 도착했습니다.")
         setSmallIcon(R.drawable.ic_baseline_access_alarm_24)
         setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

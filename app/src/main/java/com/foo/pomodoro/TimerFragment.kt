@@ -56,36 +56,10 @@ class TimerFragment : Fragment(){
             container,
             false
         ).apply {
-
-
             viewModel = timerViewmodel
             lifecycleOwner = viewLifecycleOwner
-
-
         }
 
-
-//        timerViewmodel.pomodoro.observe(::getLifecycle) { it ->
-//            when(it.state) {
-//                NONE, FLYING, FINISHED -> binding.timerState.text = "${it.nowCount}/${it.goalCount}"
-//                SHORT_BREAK -> binding.timerState.text = "Short Break"
-//                LONG_BREAK -> binding.timerState.text = "Long Break"
-//                else -> binding.timerState.text = "상태 알 수 없음 "
-//            }
-//
-//        }
-
-
-//        timerViewmodel.timerState
-//            .observe(::getLifecycle) { it ->
-//            when(it) {
-//                NONE, FLYING, FINISHED -> binding.timerState.text = "${timerViewmodel.timerNowCount.value}/${timerViewmodel.timerGoalCount.value}"
-//                SHORT_BREAK -> binding.timerState.text = "Short Break"
-//                LONG_BREAK -> binding.timerState.text = "Long Break"
-//                else -> binding.timerState.text = "상태 알 수 없음 "
-//            }
-//
-//        }
 
        timerViewmodel.timerNowCount
            .observe(::getLifecycle) { cnt ->
@@ -93,18 +67,15 @@ class TimerFragment : Fragment(){
                if(cnt == 4) {
                    timerViewmodel.setPomodoroState(cnt)
                }
-
            }
-
-
 
 
 
         // Test 용
         binding.btnStart.setOnClickListener {
 
-//            binding.stopLayout.visibility = View.GONE
-//            binding.btnStop.visibility =View.VISIBLE
+            binding.stopLayout.visibility = View.GONE
+            binding.btnStop.visibility =View.VISIBLE
 
             startForegroundService()
 
