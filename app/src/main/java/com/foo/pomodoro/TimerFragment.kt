@@ -11,13 +11,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.foo.pomodoro.data.PomodoroState.Companion.FINISHED
-import com.foo.pomodoro.data.PomodoroState.Companion.FLYING
-import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
-import com.foo.pomodoro.data.PomodoroState.Companion.NONE
-import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import com.foo.pomodoro.databinding.FragmentTimerBinding
 import com.foo.pomodoro.service.TimerService
+import com.foo.pomodoro.utils.ACTION_START
+import com.foo.pomodoro.utils.EXTRA_TIMER_ID
 import com.foo.pomodoro.viewmodels.TimerViewModel
 import com.foo.pomodoro.viewmodels.TimerViewModelFactory
 import java.util.*
@@ -27,11 +24,11 @@ import kotlin.concurrent.timer
 class TimerFragment : Fragment(){
 
     private val TAG = "TimerFragment"
-    private val avgs: TimerFragmentArgs by navArgs()
+    private val args: TimerFragmentArgs by navArgs()
     private lateinit var binding : FragmentTimerBinding
 
     private val timerViewmodel: TimerViewModel by viewModels {
-        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository, avgs.pomoId)
+        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository, args.pomoId)
     }
 
     private lateinit var handler : Handler
@@ -132,7 +129,11 @@ class TimerFragment : Fragment(){
     }
 
     private fun startForegroundService() {
+
         Intent(context, TimerService::class.java).run {
+            this.action = ACTION_START
+            this.putExtra(EXTRA_TIMER_ID, args.pomoId)
+
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) context?.startForegroundService(this)
             else context?.startService(this)
         }
@@ -143,7 +144,6 @@ class TimerFragment : Fragment(){
             context?.stopService(this)
         }
     }
-
 
 
     companion object {

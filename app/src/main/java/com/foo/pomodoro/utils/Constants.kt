@@ -21,6 +21,9 @@ const val ACTION_VIBRATE            = "ACTION_VIBRATE"
 const val ACTION_SOUND              = "ACTION_SOUND"
 const val ACTION_SHOW_MAIN_ACTIVITY = "ACTION_SHOW_MAIN_ACTIVITY"
 
+const val EXTRA_TIMER_ID          = "EXTRA_TIMER_ID"
+const val TIMER_DETAIL_URI        = "app://timer.screen/"
+
 const val NOTIFICATION_CHANNEL_ID   = "timer_channel"
 const val NOTIFICATION_CHANNEL_NAME = "타이머"
 
