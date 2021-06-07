@@ -13,12 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.foo.pomodoro.databinding.FragmentTimerBinding
 import com.foo.pomodoro.service.TimerService
+import com.foo.pomodoro.utils.ACTION_CANCEL_AND_RESET
+import com.foo.pomodoro.utils.ACTION_INITIALIZE_DATA
 import com.foo.pomodoro.utils.ACTION_START
-import com.foo.pomodoro.utils.EXTRA_TIMER_ID
+import com.foo.pomodoro.utils.EXTRA_POMODORO_ID
 import com.foo.pomodoro.viewmodels.TimerViewModel
 import com.foo.pomodoro.viewmodels.TimerViewModelFactory
+import timber.log.Timber
 import java.util.*
-import kotlin.concurrent.timer
 
 
 class TimerFragment : Fragment(){
@@ -28,18 +30,16 @@ class TimerFragment : Fragment(){
     private lateinit var binding : FragmentTimerBinding
 
     private val timerViewmodel: TimerViewModel by viewModels {
-        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository, args.pomoId)
+        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
     }
 
-    private lateinit var handler : Handler
-    private lateinit var timerTask : Timer
-    private var nowMin = 0
-    private var nowSecond = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    var isRunning = false
+        sendCommandToService(ACTION_INITIALIZE_DATA)
 
-
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,16 +56,6 @@ class TimerFragment : Fragment(){
             viewModel = timerViewmodel
             lifecycleOwner = viewLifecycleOwner
         }
-
-
-       timerViewmodel.timerNowCount
-           .observe(::getLifecycle) { cnt ->
-
-               if(cnt == 4) {
-                   timerViewmodel.setPomodoroState(cnt)
-               }
-           }
-
 
 
         // Test 용
@@ -94,45 +84,16 @@ class TimerFragment : Fragment(){
         return binding.root
     }
 
-    private fun startTimerService() {
-
-    }
-
-    private fun stopTimer() {
-        timerTask.cancel()
-    }
-
-    private fun startTimer() {
-
-        nowMin = Companion.RUNNING_TIME
-
-        timerTask = timer (period = 1000, initialDelay = 1000)
-        {
-
-            if (nowSecond==0 && nowMin==0)
-            {
-                println("\n타이머 종료")
-                cancel()
-            }
-            if (nowSecond == 0)
-            {
-                nowMin--
-                nowSecond = 60
-            }
-            nowSecond--
-
-            activity?.runOnUiThread {
-                binding.timerText.text = "${nowMin} : ${nowSecond}"
-
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        sendCommandToService(ACTION_CANCEL_AND_RESET)
     }
 
     private fun startForegroundService() {
 
         Intent(context, TimerService::class.java).run {
             this.action = ACTION_START
-            this.putExtra(EXTRA_TIMER_ID, args.pomoId)
+            this.putExtra(EXTRA_POMODORO_ID, args.pomoId)
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) context?.startForegroundService(this)
             else context?.startService(this)
@@ -145,13 +106,18 @@ class TimerFragment : Fragment(){
         }
     }
 
+    private fun sendCommandToService(action: String) {
+        Intent(context, TimerService::class.java).also {
+            it.action = action
 
-    companion object {
-        // 타이머 연습
-        const val RUNNING_TIME = 25
-        const val SHORT_REST_TIME = 5
-        const val LONG_REST_TIME = 15
+            Timber.d("sendCommandService - Action: $action - ID: $args.pomoId")
+            if (action == ACTION_INITIALIZE_DATA) {
+                it.putExtra(EXTRA_POMODORO_ID, args.pomoId)
+            }
+            context?.startService(it)
+        }
     }
+
 
 
 }

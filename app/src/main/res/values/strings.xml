@@ -10,9 +10,7 @@
 
     <string name="notification_title">뽀모도로 타이머</string>
     <string name="notification_text">타이머가 실행중입니다. </string>
-    <string name="timer_notification_channel_id">pomodoro_channel</string>
-    <string name="timer_notification_channel_name">타이머</string>
-    <string name="timer_notification_channel_description">뽀모도로 타이머</string>
+
     <string name="timer_end">타이머가 종료되었습니다.</string>
     <string name="timer_running">타이머가 실행되고 있습니다.</string>
     <string name="timer_restart">계속</string>

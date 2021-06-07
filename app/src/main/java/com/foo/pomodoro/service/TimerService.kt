@@ -2,21 +2,41 @@ package com.foo.pomodoro.service
 
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
-import android.content.Context
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
+import com.foo.pomodoro.MainApplication
+import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
+import com.foo.pomodoro.data.PomodoroRepository
+import com.foo.pomodoro.data.PomodoroState
 import com.foo.pomodoro.data.TimerState
 
 import com.foo.pomodoro.utils.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class TimerService : Service(){
+class TimerService : LifecycleService(){
+
+
+    // repository
+    lateinit var pomodoroRepository: PomodoroRepository
+    // current pomodoro
+    private var pomodoro: Pomodoro? = null
+
+    // service state
+    private var isInitialized = false
+    private var isKilled = true
+    private var isBound = false
+    private var pomodoroState = PomodoroState.FLYING
 
     // notification builder
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
@@ -25,6 +45,10 @@ class TimerService : Service(){
         get() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
 
+    // utility
+    private val serviceJob = Job()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+    private var wakeLock: PowerManager.WakeLock? = null
 
     // pending intents for notification action-handling
     lateinit var mainActivityPendingIntent: PendingIntent
@@ -32,15 +56,28 @@ class TimerService : Service(){
     lateinit var pauseActionPendingIntent: PendingIntent
     lateinit var cancelActionPendingIntent: PendingIntent
 
-
-    override fun onCreate() {
-
-        initializeNotification()
-
+    companion object{
+        // holds MutableLiveData for UI to observe
+        val currentTimerState = MutableLiveData<TimerState>()
+        val currentPomodoro = MutableLiveData<Pomodoro>()
+        val currentPomodoroState = MutableLiveData<Int>()
+        val currentTomatoCount = MutableLiveData<Int>()
+        val elapsedTimeInMillis = MutableLiveData<Long>()
+        val elapsedTimeInMillisEverySecond = MutableLiveData<Long>()
     }
 
 
-    override fun onBind(p0: Intent?): IBinder?  = null
+
+    override fun onCreate() {
+        super.onCreate()
+
+        pomodoroRepository = (application as MainApplication).pomodoroRepository
+
+        initializeNotification()
+        setupObservers()
+
+    }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -52,7 +89,7 @@ class TimerService : Service(){
                     /*Is called when navigating from ListScreen to DetailScreen, fetching data
                     * from database here -> data initialization*/
                     Timber.i("ACTION_INITIALIZE_DATA")
-//                    initializeData(it)
+                    initializeData(it)
                 }
                 ACTION_START -> {
                     /*This is called when Start-Button is pressed, starting timer here and setting*/
@@ -60,7 +97,7 @@ class TimerService : Service(){
 
                     // test
                     pushToForeground()
-                    initializeData(it)
+
 
 //                    startServiceTimer()
                 }
@@ -84,20 +121,51 @@ class TimerService : Service(){
                     Timber.i("ACTION_CANCEL")
                     cancelServiceTimer()
                 }
+
+                */
                 ACTION_CANCEL_AND_RESET -> {
                     /*Is called when navigating back to ListsScreen, resetting acquired data
                     * to null*/
                     Timber.i("ACTION_CANCEL_AND_RESET")
-                    cancelServiceTimer()
                     resetData()
                 }
 
-                 */
+
             }
         }
         return START_STICKY
     }
 
+    override fun onBind(intent: Intent): IBinder? {
+        // UI is visible, use service without being foreground
+        isBound = true
+        if(!isKilled) pushToForeground()
+        return super.onBind(intent)
+    }
+
+    override fun onRebind(intent: Intent?) {
+        // UI is visible again, push service to background -> notification are not visible
+        Timber.i("onRebind")
+        isBound = true
+        if(!isKilled) pushToBackground()
+        super.onRebind(intent)
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        // UI is not visible anymore, push service to foreground -> notifications visible
+        Timber.i("onUnbind")
+        isBound = false
+        if(!isKilled) pushToForeground()
+        // return true so onRebind is used if service is alive and client connects
+        return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy")
+        // cancel coroutine job
+        serviceJob.cancel()
+    }
 
     private fun initializeNotification(){
         mainActivityPendingIntent = provideMainActivityPendingIntent(this)
@@ -110,6 +178,11 @@ class TimerService : Service(){
     }
 
 
+    private fun pushToBackground(){
+        Timber.i("pushToBackground - isBound: $isBound")
+        stopForeground(true)
+    }
+
     // 지금은 그냥 테스트
     private fun pushToForeground() {
 
@@ -118,29 +191,90 @@ class TimerService : Service(){
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
     }
 
-    private fun initializeData(intent: Intent){
-        intent.extras?.let {
-            val id = it.getInt(EXTRA_TIMER_ID)
-            if(id != -1){
-                // id is valid
-                currentNotificationBuilder
-                    .setContentIntent(buildTimeFragmentPendingIntentWithId(id, this))
+    private fun initializeData(intent: Intent) {
+        if (!isInitialized) {
+            intent.extras?.let {
+                val id = it.getInt(EXTRA_POMODORO_ID)
+                if (id != -1) {
+                    // id is valid
+                    currentNotificationBuilder
+                        .setContentIntent(buildTimeFragmentPendingIntentWithId(id, this))
 
+                    // launch coroutine, fetch workout from db & audiostate from data store
+                    serviceScope.launch {
+                        pomodoro = pomodoroRepository.getPomodoro(id)
+                        isInitialized = true
+                        postInitData()
+                    }
+
+                }
             }
         }
     }
 
-
-
-    companion object{
-        // holds MutableLiveData for UI to observe
-        val currentTimerState = MutableLiveData<TimerState>()
-        val currentPomodoro = MutableLiveData<Pomodoro>()
-        val currentPomodoroState = MutableLiveData<Int>()
-        val currentTomatoCount = MutableLiveData<Int>()
-        val elapsedTimeInMillis = MutableLiveData<Long>()
-        val elapsedTimeInMillisEverySecond = MutableLiveData<Long>()
+    private fun postInitData(){
+        /*Post current data to MutableLiveData*/
+        pomodoro?.let {
+            currentTimerState.postValue(TimerState.EXPIRED)
+            currentPomodoro.postValue(it)
+            currentPomodoroState.postValue(it.state)
+            currentTomatoCount.postValue(it.nowCount)
+            elapsedTimeInMillis.postValue(TIMER_STARTING_IN_TIME)
+            elapsedTimeInMillisEverySecond.postValue(TIMER_STARTING_IN_TIME)
+        }
     }
+    private fun updateNotificationActions(state: TimerState){
+        // Updates actions of current notification depending on TimerState
+        val notificationActionText = if(state == TimerState.RUNNING) "Pause" else "Resume"
+
+        // Build pendingIntent depending on TimerState
+        val pendingIntent = if(state == TimerState.RUNNING){
+            pauseActionPendingIntent
+        }else{
+            resumeActionPendingIntent
+        }
+
+        // Clear current actions
+        currentNotificationBuilder.javaClass.getDeclaredField("mActions").apply {
+            isAccessible = true
+            set(currentNotificationBuilder, ArrayList<NotificationCompat.Action>())
+        }
+
+        // Set Action, icon seems irrelevant
+        currentNotificationBuilder = baseNotificationBuilder
+            .setContentTitle(pomodoro?.title)
+            .addAction(R.drawable.ic_baseline_access_alarm_24, notificationActionText, pendingIntent)
+            .addAction(R.drawable.ic_baseline_access_alarm_24, "Cancel", cancelActionPendingIntent)
+        notificationManager.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+    }
+
+    private fun resetData(){
+        isInitialized = false
+        pomodoro = null
+
+    }
+
+    private fun setupObservers(){
+        // observe timerState and update notification actions
+        currentTimerState.observe(this, Observer {
+            Timber.i("currentTimerState changed - ${it.stateName}")
+            if(!isKilled && !isBound)
+                updateNotificationActions(it)
+        })
+
+        // Observe timeInMillis and update notification
+        elapsedTimeInMillisEverySecond.observe(this, Observer {
+            if (!isKilled && !isBound) {
+                // Only do something if timer is running and service in foreground
+                val notification = currentNotificationBuilder
+                    .setContentText(getFormattedStopWatchTime(it))
+                notificationManager.notify(NOTIFICATION_ID, notification.build())
+            }
+        })
+    }
+
+
+
 
 
 }
