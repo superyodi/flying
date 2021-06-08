@@ -21,7 +21,7 @@ const val ACTION_VIBRATE            = "ACTION_VIBRATE"
 const val ACTION_SOUND              = "ACTION_SOUND"
 const val ACTION_SHOW_MAIN_ACTIVITY = "ACTION_SHOW_MAIN_ACTIVITY"
 
-const val EXTRA_TIMER_ID          = "EXTRA_TIMER_ID"
+const val EXTRA_POMODORO_ID          = "EXTRA_TIMER_ID"
 const val TIMER_DETAIL_URI        = "app://timer.screen/"
 
 const val NOTIFICATION_CHANNEL_ID   = "timer_channel"
@@ -29,5 +29,15 @@ const val NOTIFICATION_CHANNEL_NAME = "타이머"
 
 const val NOTIFICATION_ID           = 1
 const val NOTIFICATION_COMPLETE_ID  = 2
+
+const val ONE_SECOND                = 1000L
+const val TIMER_UPDATE_INTERVAL     = 5L    //5ms
+const val TIMER_STARTING_IN_TIME    = 5000L //5s
+
+
+// 임시 사용자 설정 변수
+const val SHORT_BREAK_TIME = 300000L //5min
+const val LONG_BREAK_TIME = 900000L //15min
+const val RUNNING_TIME = 1500000L //25min
 
 

@@ -4,37 +4,40 @@ import android.os.NetworkOnMainThreadException
 import android.util.Log
 import androidx.lifecycle.*
 import com.foo.pomodoro.Event
-import com.foo.pomodoro.TimerFragment.Companion.RUNNING_TIME
-import com.foo.pomodoro.TimerFragment.Companion.SHORT_REST_TIME
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.data.PomodoroState
+import com.foo.pomodoro.data.PomodoroState.Companion.FLYING
 import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
-import com.foo.pomodoro.data.PomodoroState.Companion.NONE
 import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import com.foo.pomodoro.data.TimerState
+import com.foo.pomodoro.service.TimerService
+import com.foo.pomodoro.utils.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.timer
 
 class TimerViewModel(
-    private val pomodoroRepository: PomodoroRepository,
-    private val pomodoroId: Int
-
+    private val pomodoroRepository: PomodoroRepository
 ) : ViewModel() {
 
     private lateinit var timerTask : Timer
     private val TAG = "PlantDetailViewModel"
 
 
+    val pomodoro : LiveData<Pomodoro?>
+        get() = TimerService.currentPomodoro
 
-    private val _pomodoro = MutableLiveData<Pomodoro>()
-    val pomodoro : LiveData<Pomodoro>
-        get() =  _pomodoro
+
+
+
+
+
 
     private val _pomodoroState = MutableLiveData<Int>()
-    val timerState : LiveData<Int>
+    val pomodoroState : LiveData<Int>
         get() = _pomodoroState
 
     private val _timerGoalCount = MutableLiveData<Int>()
@@ -68,22 +71,35 @@ class TimerViewModel(
 
         }
 
+    val timerState: LiveData<TimerState>
+        get() = pomodoroRepository.getTimerServiceTimerState()
 
-
-    init {
-        loadPomodoro()
-    }
-
-    fun loadPomodoro() {
-        viewModelScope.launch {
-
-            _pomodoro.value = pomodoroRepository.getPomodoro(pomodoroId)
-            _pomodoroState.value = _pomodoro.value!!.state
-            _timerNowCount.value = _pomodoro.value!!.nowCount
-            _timerGoalCount.value = _pomodoro.value!!.goalCount
-
+    val repString: LiveData<String>
+        get() = pomodoroRepository.getTimerServiceRepetition().map {
+            if(pomodoro.value != null && it != -1) "$it/${pomodoro.value?.goalCount}"
+            else ""
         }
-    }
+
+    val timeString: LiveData<String>
+        get() = pomodoroRepository.getTimerServiceElapsedTimeMillisESeconds().map {
+            if(pomodoro.value != null){
+                if(timerState.value != TimerState.EXPIRED)
+                    getFormattedStopWatchTime(it)
+                else
+                    getFormattedStopWatchTime(TIMER_STARTING_IN_TIME)
+            }else ""
+        }
+
+    val elapsedTime: LiveData<Long>
+        get() = pomodoroRepository.getTimerServiceElapsedTimeMillis().map {
+            //Timber.i("elapsedTime: $it")
+            if(timerState.value != TimerState.EXPIRED)
+                it
+            else
+                TIMER_STARTING_IN_TIME
+        }
+
+
 
     fun plusTomatoCount() {
         val cnt = _timerNowCount.value
@@ -92,34 +108,16 @@ class TimerViewModel(
         }
     }
 
-    fun setPomodoroState(cnt : Int) {
-
-        val goalCount = _timerGoalCount.value
-
-
-        when(cnt) {
-
-            4 ->
-                _pomodoroState.value = PomodoroState.LONG_BREAK
-
-            goalCount ->
-                _pomodoroState.value = PomodoroState.FINISHED
-
-        }
-
-
-    }
-
 
 
 }
 
-class TimerViewModelFactory(val repository: PomodoroRepository, val pomoId: Int) : ViewModelProvider.Factory {
+class TimerViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
 
         return if (modelClass.isAssignableFrom(TimerViewModel::class.java)) {
-            TimerViewModel(repository, pomoId) as T
+            TimerViewModel(repository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }

@@ -19,61 +19,6 @@ import com.foo.pomodoro.service.TimerService
 import timber.log.Timber
 
 
-fun NotificationManager.cancelNotifications() {
-    cancelAll()
-}
-
-
-fun provideMainActivityPendingIntent(
-    app: Context
-): PendingIntent = PendingIntent.getActivity(
-    app,
-    0,
-    Intent(app, MainActivity::class.java).also {
-        it.action = ACTION_SHOW_MAIN_ACTIVITY
-    },
-    PendingIntent.FLAG_UPDATE_CURRENT
-)
-
-
-
-fun provideCancelActionPendingIntent(
-    app: Context
-): PendingIntent = PendingIntent.getService(
-    app,
-    1,
-    Intent(app, TimerService::class.java).also {
-        it.action = ACTION_CANCEL
-    },
-    PendingIntent.FLAG_UPDATE_CURRENT
-)
-
-
-
-fun provideResumeActionPendingIntent(
-    app: Context
-): PendingIntent = PendingIntent.getService(
-    app,
-    2,
-    Intent(app, TimerService::class.java).also {
-        it.action = ACTION_RESUME
-    },
-    PendingIntent.FLAG_UPDATE_CURRENT
-)
-
-
-fun providePauseActionPendingIntent(
-    app: Context
-): PendingIntent = PendingIntent.getService(
-    app,
-    3,
-    Intent(app, TimerService::class.java).also {
-        it.action = ACTION_PAUSE
-    },
-    PendingIntent.FLAG_UPDATE_CURRENT
-)
-
-
 fun provideBaseNotificationBuilder(
     app: Context,
     pendingIntent: PendingIntent
@@ -111,7 +56,6 @@ fun buildTimeFragmentPendingIntentWithId(id: Int, context: Context): PendingInte
         .setDestination(R.id.timerFragment)
         .setArguments(arg)
         .createPendingIntent()
-
 }
 
 

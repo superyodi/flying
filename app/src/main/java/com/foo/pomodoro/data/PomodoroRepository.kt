@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
 
-
     val allPomodoros : Flow<List<Pomodoro>> = pomodoroDao.getPomodoros()
 
 
@@ -27,7 +26,7 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
     // return immutable livedata from timer service
 
-    //fun getTimerServiceWorkoutState() = TimerService.currentWorkoutState as LiveData<WorkoutState>
+    fun getTimerServicePomodoroState() = TimerService.currentPomodoroState as LiveData<Int>
     fun getTimerServiceTimerState() = TimerService.currentTimerState as LiveData<TimerState>
     fun getTimerServiceRepetition() = TimerService.currentTomatoCount as LiveData<Int>
     fun getTimerServiceElapsedTimeMillisESeconds ()

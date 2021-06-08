@@ -18,8 +18,6 @@ class TagViewModel(
     val TAG = "TagViewModel"
     val allTags : LiveData<List<Tag>> = tagRepository.allTags.asLiveData()
 
-
-
     fun addTag(title: String) {
         if (title.isNullOrEmpty()) return
 
@@ -27,15 +25,11 @@ class TagViewModel(
             tagRepository.insert(Tag(title))
         }
     }
-
-
 }
 
 
 class TagViewModelFactory(val repository: TagRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
-
         return if (modelClass.isAssignableFrom(TagViewModel::class.java)) {
             TagViewModel(repository) as T
         } else {
