@@ -37,7 +37,7 @@ const val TIMER_STARTING_IN_TIME    = 5000L //5s
 
 // 임시 사용자 설정 변수
 const val SHORT_BREAK_TIME = 300000L //5min
-const val LONNG_BREAK_TIME = 900000L //15min
+const val LONG_BREAK_TIME = 900000L //15min
 const val RUNNING_TIME = 1500000L //25min
 
 

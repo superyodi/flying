@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Build
+import android.os.CountDownTimer
 import android.os.IBinder
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
@@ -15,6 +16,7 @@ import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.data.PomodoroState
+import com.foo.pomodoro.data.PomodoroState.Companion.NONE
 import com.foo.pomodoro.data.TimerState
 
 import com.foo.pomodoro.utils.*
@@ -37,6 +39,14 @@ class TimerService : LifecycleService(){
     private var isKilled = true
     private var isBound = false
     private var pomodoroState = PomodoroState.FLYING
+
+    // timer
+    private var timer: CountDownTimer? = null
+    private var millisToCompletion = 0L
+    private var lastSecondTimestamp = 0L
+    private var timerIndex = 0
+    private var timerMaxRepetitions = 0
+
 
     // notification builder
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
@@ -64,6 +74,8 @@ class TimerService : LifecycleService(){
         val currentTomatoCount = MutableLiveData<Int>()
         val elapsedTimeInMillis = MutableLiveData<Long>()
         val elapsedTimeInMillisEverySecond = MutableLiveData<Long>()
+
+        var goalTomatoCount  = 0
     }
 
 
@@ -95,11 +107,7 @@ class TimerService : LifecycleService(){
                     /*This is called when Start-Button is pressed, starting timer here and setting*/
                     Timber.i("ACTION_START")
 
-                    // test
-                    pushToForeground()
-
-
-//                    startServiceTimer()
+                    startServiceTimer()
                 }
 
 
@@ -177,6 +185,93 @@ class TimerService : LifecycleService(){
         currentNotificationBuilder = baseNotificationBuilder
     }
 
+    private fun startServiceTimer(){
+        // get wakelock
+//        acquireWakelock()
+        isKilled = false
+        resetTimer()
+        startTimer()
+        currentTimerState.postValue(TimerState.RUNNING)
+    }
+
+    private fun startTimer(wasPaused: Boolean = false){
+        pomodoro?.let {
+
+            // time to count down
+            val time = getTimeFromPomodoroState(wasPaused, pomodoroState, millisToCompletion)
+            Timber.i("Starting timer - time: $time - workoutState: ${pomodoroState}")
+
+            // post start values
+            elapsedTimeInMillisEverySecond.postValue(time)
+            elapsedTimeInMillis.postValue(time)
+            lastSecondTimestamp = time
+
+            //initialize timer and start
+            timer = object : CountDownTimer(time, TIMER_UPDATE_INTERVAL){
+                override fun onTick(millisUntilFinished: Long) {
+                    /*handle what happens on every tick with interval of TIMER_UPDATE_INTERVAL*/
+                    onTimerTick(millisUntilFinished)
+                }
+
+                override fun onFinish() {
+                    /*handle finishing of a timer
+                    * start new one if there are still repetition left*/
+                    Timber.i("onFinish")
+                    onTimerFinish()
+                }
+            }.start()
+
+        }
+    }
+    private fun onTimerTick(millisUntilFinished: Long){
+        millisToCompletion = millisUntilFinished
+        elapsedTimeInMillis.postValue(millisUntilFinished)
+        if(millisUntilFinished <= lastSecondTimestamp - 1000L){
+            lastSecondTimestamp -= 1000L
+            //Timber.i("onTick - lastSecondTimestamp: $lastSecondTimestamp")
+            elapsedTimeInMillisEverySecond.postValue(lastSecondTimestamp)
+
+
+        }
+    }
+
+    private fun onTimerFinish(){
+        // increase timerIndex
+        timerIndex += 1
+        Timber.i("onTimerFinish - timerIndex: $timerIndex - maxRep: $timerMaxRepetitions")
+
+        // check if index still in bound
+        if(timerIndex < timerMaxRepetitions){
+            // if timerIndex odd -> post new rep
+            if(timerIndex % 2 != 0)
+                currentTomatoCount.postValue(currentTomatoCount.value?.plus(1))
+
+            val _currentTomatoCount = currentTomatoCount.value ?: 0
+            // get next workout state
+            pomodoroState = getNextPomodoroState(pomodoroState, _currentTomatoCount)
+
+            currentPomodoroState.postValue(pomodoroState)
+
+            // start new timer
+            startTimer()
+        }else{
+            // finished all repetitions, cancel timer
+            cancelTimer()
+        }
+    }
+
+    private fun cancelTimer(){
+        timer?.cancel()
+        resetTimer()
+    }
+
+    private fun resetTimer(){
+        timerIndex = 0
+        timerMaxRepetitions = pomodoro?.goalCount?.times(2)?.minus(2) ?: 0
+        pomodoroState = NONE
+        postInitData()
+    }
+
 
     private fun pushToBackground(){
         Timber.i("pushToBackground - isBound: $isBound")
@@ -221,6 +316,8 @@ class TimerService : LifecycleService(){
             currentTomatoCount.postValue(it.nowCount)
             elapsedTimeInMillis.postValue(TIMER_STARTING_IN_TIME)
             elapsedTimeInMillisEverySecond.postValue(TIMER_STARTING_IN_TIME)
+
+            goalTomatoCount = it.goalCount
         }
     }
     private fun updateNotificationActions(state: TimerState){

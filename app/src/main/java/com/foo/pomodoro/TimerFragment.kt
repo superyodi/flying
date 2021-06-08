@@ -64,7 +64,7 @@ class TimerFragment : Fragment(){
             binding.stopLayout.visibility = View.GONE
             binding.btnStop.visibility =View.VISIBLE
 
-            startForegroundService()
+            sendCommandToService(ACTION_START)
 
             timerViewmodel.plusTomatoCount()
 

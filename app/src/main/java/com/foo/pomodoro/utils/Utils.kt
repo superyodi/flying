@@ -1,6 +1,11 @@
 package com.foo.pomodoro.utils
 
+import androidx.lifecycle.LiveData
 import com.foo.pomodoro.data.PomodoroState
+import com.foo.pomodoro.data.PomodoroState.Companion.FLYING
+import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
+import com.foo.pomodoro.data.PomodoroState.Companion.NONE
+import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -76,7 +81,15 @@ fun convertDateToLong(date: String?): Long {
     return 0L
 }
 
+fun getNextPomodoroState(state: Int, nowCount: Int) = when(state){
+    NONE -> FLYING
+    FLYING ->
+        if (nowCount % 4 == 0) LONG_BREAK else SHORT_BREAK
 
+    SHORT_BREAK -> FLYING
+    LONG_BREAK -> FLYING
+    else -> NONE
+}
 
 
 
