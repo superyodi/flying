@@ -26,13 +26,8 @@ class TimerViewModel(
     private lateinit var timerTask : Timer
     private val TAG = "PlantDetailViewModel"
 
-
     val pomodoro : LiveData<Pomodoro?>
         get() = TimerService.currentPomodoro
-
-
-
-
 
 
 

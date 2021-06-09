@@ -114,9 +114,9 @@ class TimerService : LifecycleService(){
                 ACTION_PAUSE -> {
                     /*Called when pause button is pressed, pause timer, set isTimerRunning = false*/
                     Timber.i("ACTION_PAUSE")
-//                    pauseTimer()
+                    pauseTimer()
                 }
-                /*
+
                 ACTION_RESUME -> {
                     /*Called when resume button is pressed, resume timer here, set isTimerRunning
                     * = true*/
@@ -130,11 +130,12 @@ class TimerService : LifecycleService(){
                     cancelServiceTimer()
                 }
 
-                */
+
                 ACTION_CANCEL_AND_RESET -> {
                     /*Is called when navigating back to ListsScreen, resetting acquired data
                     * to null*/
                     Timber.i("ACTION_CANCEL_AND_RESET")
+                    cancelServiceTimer()
                     resetData()
                 }
 
@@ -199,7 +200,7 @@ class TimerService : LifecycleService(){
 
             // time to count down
             val time = getTimeFromPomodoroState(wasPaused, pomodoroState, millisToCompletion)
-            Timber.i("Starting timer - time: $time - workoutState: ${pomodoroState}")
+            Timber.i("Starting timer - time: $time - pomodoroState: ${pomodoroState}")
 
             // post start values
             elapsedTimeInMillisEverySecond.postValue(time)
@@ -260,6 +261,26 @@ class TimerService : LifecycleService(){
         }
     }
 
+    private fun cancelServiceTimer(){
+        cancelTimer()
+        currentTimerState.postValue(TimerState.EXPIRED)
+        isKilled = true
+        stopForeground(true)
+    }
+
+
+
+    private fun pauseTimer(){
+        currentTimerState.postValue(TimerState.PAUSED)
+        timer?.cancel()
+    }
+
+    private fun resumeTimer(){
+        currentTimerState.postValue(TimerState.RUNNING)
+        startTimer(wasPaused = true)
+    }
+
+
     private fun cancelTimer(){
         timer?.cancel()
         resetTimer()
@@ -284,6 +305,7 @@ class TimerService : LifecycleService(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel(notificationManager)
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
+        currentTimerState.value?.let { updateNotificationActions(it) }
     }
 
     private fun initializeData(intent: Intent) {
