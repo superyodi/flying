@@ -21,9 +21,7 @@ fun getFormattedStopWatchTime(ms: Long?): String{
     ms?.let {
         var milliseconds = ms
 
-        // Convert to hours
-        val hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
-        milliseconds -= TimeUnit.HOURS.toMillis(hours)
+
 
         // Convert to minutes
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
@@ -33,8 +31,7 @@ fun getFormattedStopWatchTime(ms: Long?): String{
         val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
 
         // Build formatted String
-        return "${if(hours < 10) "0" else ""}$hours : " +
-                "${if(minutes < 10) "0" else ""}$minutes : " +
+        return "${if(minutes < 10) "0" else ""}$minutes : " +
                 "${if(seconds < 10) "0" else ""}$seconds"
     }
     return ""
@@ -85,7 +82,6 @@ fun getNextPomodoroState(state: Int, nowCount: Int) = when(state){
     NONE -> FLYING
     FLYING ->
         if (nowCount % 4 == 0) LONG_BREAK else SHORT_BREAK
-
     SHORT_BREAK -> FLYING
     LONG_BREAK -> FLYING
     else -> NONE

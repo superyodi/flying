@@ -32,7 +32,7 @@ const val NOTIFICATION_COMPLETE_ID  = 2
 
 const val ONE_SECOND                = 1000L
 const val TIMER_UPDATE_INTERVAL     = 5L    //5ms
-const val TIMER_STARTING_IN_TIME    = 5000L //5s
+const val TIMER_STARTING_IN_TIME    = 100L // 100ms
 
 
 // 임시 사용자 설정 변수
