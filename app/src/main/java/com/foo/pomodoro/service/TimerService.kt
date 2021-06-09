@@ -334,7 +334,7 @@ class TimerService : LifecycleService(){
         pomodoro?.let {
             currentTimerState.postValue(TimerState.EXPIRED)
             currentPomodoro.postValue(it)
-            currentPomodoroState.postValue(it.state)
+            currentPomodoroState.postValue(PomodoroState.NONE)
             currentTomatoCount.postValue(it.nowCount)
             elapsedTimeInMillis.postValue(TIMER_STARTING_IN_TIME)
             elapsedTimeInMillisEverySecond.postValue(TIMER_STARTING_IN_TIME)
@@ -370,6 +370,7 @@ class TimerService : LifecycleService(){
     private fun resetData(){
         isInitialized = false
         pomodoro = null
+        currentTomatoCount.postValue(-1)
 
     }
 

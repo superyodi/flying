@@ -1,10 +1,13 @@
 package com.foo.pomodoro
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +34,7 @@ class TimerFragment : Fragment(){
     private val args: TimerFragmentArgs by navArgs()
 
     private var isTimerRunninng = false
+    private var bound: Boolean = false
 
     private lateinit var binding : FragmentTimerBinding
 
@@ -39,29 +43,36 @@ class TimerFragment : Fragment(){
         TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
     }
 
+    /*This acts as a dummy to trigger onBind/onRebind/onUnbind in TimerService*/
+    private val mConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {}
+        override fun onServiceDisconnected(className: ComponentName) {}
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sendCommandToService(ACTION_INITIALIZE_DATA)
+        
+    }
 
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if(isTimerRunninng){
-                    requireActivity().finish()
-                }else{
-                    isEnabled = false
-                    activity?.onBackPressed()
-                    sendCommandToService( ACTION_CANCEL_AND_RESET )
+    override fun onStart() {
+        super.onStart()
+        Intent(context, TimerService::class.java).also { intent ->
+            context?.bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
+        }
+        bound = true
+    }
 
-                }
-            }
-        })
-
-
-
-
-
+    override fun onStop() {
+        super.onStop()
+        // Unbind from the service
+        if (bound) {
+            //Timber.d("Trying to unbind service")
+            context?.unbindService(mConnection)
+            bound = false
+        }
     }
 
     override fun onCreateView(
@@ -81,23 +92,15 @@ class TimerFragment : Fragment(){
         }
 
 
-        // Test 용
         binding.btnStart.setOnClickListener {
 
             binding.stopLayout.visibility = View.GONE
             binding.btnStop.visibility =View.VISIBLE
 
-            timerViewmodel.timerState.observe(::getLifecycle) {
-                when(it) {
-                    TimerState.EXPIRED -> {
-                        sendCommandToService(ACTION_START)
-                    }
-                    TimerState.PAUSED -> {
-                        sendCommandToService(ACTION_RESUME)
-                    }
-                }
+            when(timerViewmodel.timerState.value) {
+                TimerState.EXPIRED -> sendCommandToService(ACTION_START)
+                TimerState.PAUSED -> sendCommandToService(ACTION_RESUME)
             }
-
             isTimerRunninng = true
 
         }
@@ -107,11 +110,12 @@ class TimerFragment : Fragment(){
             binding.btnStop.visibility = View.GONE
             binding.stopLayout.visibility = View.VISIBLE
 
-            sendCommandToService(ACTION_PAUSE)
+            if(timerViewmodel.timerState.value == TimerState.RUNNING) sendCommandToService(ACTION_PAUSE)
 
         }
 
         binding.btnInit.setOnClickListener {
+
             sendCommandToService(ACTION_CANCEL)
             isTimerRunninng = false
         }
@@ -126,22 +130,7 @@ class TimerFragment : Fragment(){
         sendCommandToService(ACTION_CANCEL_AND_RESET)
     }
 
-    private fun startForegroundService() {
 
-        Intent(context, TimerService::class.java).run {
-            this.action = ACTION_START
-            this.putExtra(EXTRA_POMODORO_ID, args.pomoId)
-
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) context?.startForegroundService(this)
-            else context?.startService(this)
-        }
-    }
-
-    private fun stopForegroundService() {
-        Intent(context, TimerService::class.java).run {
-            context?.stopService(this)
-        }
-    }
 
     private fun sendCommandToService(action: String) {
         Intent(context, TimerService::class.java).also {
