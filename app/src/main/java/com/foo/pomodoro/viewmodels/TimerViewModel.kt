@@ -30,58 +30,29 @@ class TimerViewModel(
         get() = TimerService.currentPomodoro
 
 
-
-    private val _pomodoroState = MutableLiveData<Int>()
     val pomodoroState : LiveData<Int>
-        get() = _pomodoroState
+        get()  = pomodoroRepository.getTimerServicePomodoroState()
 
-    private val _timerGoalCount = MutableLiveData<Int>()
-    val timerGoalCount : LiveData<Int>
-        get() = _timerGoalCount
 
-    private val _timerNowCount = MutableLiveData<Int>()
+    val timerGoalCount : Int?
+        get() = pomodoro.value?.goalCount
+
+
     val timerNowCount : LiveData<Int>
-        get() = _timerNowCount
+       get() = pomodoroRepository.getTimerServiceRepetition()
 
-    private val _timeLeft = MutableLiveData<Long>()
-    val timeLeft : LiveData<Long>
-        get() = _timeLeft
-
-
-    val timerStateString: LiveData<String>
-        get() = timerNowCount.map {
-
-            if (pomodoro.value != null && it != -1) {
-                val goalCount = pomodoro.value!!.goalCount
-
-                when (it) {
-                    4 -> "Long Short"
-                    in 0..goalCount ->"$it/${goalCount}"
-                    else -> "타이머가 끝났습니다."
-                }
-            }
-            else {
-                "상태 알 수 없음"
-            }
-
-        }
 
     val timerState: LiveData<TimerState>
         get() = pomodoroRepository.getTimerServiceTimerState()
 
-    val repString: LiveData<String>
-        get() = pomodoroRepository.getTimerServiceRepetition().map {
-            if(pomodoro.value != null && it != -1) "$it/${pomodoro.value?.goalCount}"
-            else ""
-        }
 
     val timeString: LiveData<String>
         get() = pomodoroRepository.getTimerServiceElapsedTimeMillisESeconds().map {
             if(pomodoro.value != null){
-                if(timerState.value != TimerState.EXPIRED)
+                if(pomodoroState.value != PomodoroState.NONE && timerState.value != TimerState.EXPIRED)
                     getFormattedStopWatchTime(it)
                 else
-                    getFormattedStopWatchTime(TIMER_STARTING_IN_TIME)
+                    getFormattedStopWatchTime(RUNNING_TIME)
             }else ""
         }
 
@@ -96,12 +67,6 @@ class TimerViewModel(
 
 
 
-    fun plusTomatoCount() {
-        val cnt = _timerNowCount.value
-        if (cnt != null) {
-            _timerNowCount.value = cnt + 1
-        }
-    }
 
 
 

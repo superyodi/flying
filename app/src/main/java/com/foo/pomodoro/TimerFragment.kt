@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.foo.pomodoro.data.PomodoroState
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.databinding.FragmentTimerBinding
 import com.foo.pomodoro.service.TimerService
@@ -86,6 +87,13 @@ class TimerFragment : Fragment(){
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if(timerViewmodel.timerState.value == TimerState.EXPIRED) sendCommandToService(
+            ACTION_CANCEL_AND_RESET)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -106,10 +114,10 @@ class TimerFragment : Fragment(){
             lifecycleOwner = viewLifecycleOwner
         }
 
-        // timerState의 상태에 따른 UI visible
+        // UI Setting according to timerState
         timerViewmodel.timerState.observe(::getLifecycle) { it ->
 
-            when(timerViewmodel.timerState.value) {
+            when(it) {
                 TimerState.RUNNING -> {
                     binding.stopLayout.visibility = View.GONE
                     binding.btnStop.visibility = View.VISIBLE
@@ -118,6 +126,30 @@ class TimerFragment : Fragment(){
                 TimerState.EXPIRED , TimerState.PAUSED-> {
                     binding.stopLayout.visibility = View.VISIBLE
                     binding.btnStop.visibility = View.GONE
+                }
+            }
+        }
+
+        // UI Setting according to pomodoroState
+        timerViewmodel.pomodoroState.observe(::getLifecycle) {
+            Timber.i("pomodoro state - time: ${it}")
+
+            when(it) {
+                PomodoroState.NONE, PomodoroState.FLYING, PomodoroState.FINISHED -> {
+
+                    val nowCount = timerViewmodel.timerNowCount.value ?: 0
+                    val goalCount = timerViewmodel.timerGoalCount
+
+                    binding.timerState.text = "${nowCount}/${goalCount}"
+                }
+
+                PomodoroState.SHORT_BREAK -> {
+                    binding.timerState.text = "Meal time"
+
+                }
+
+                PomodoroState.LONG_BREAK -> {
+                    binding.timerState.text = "Stop over"
                 }
             }
         }
@@ -144,7 +176,7 @@ class TimerFragment : Fragment(){
         return binding.root
     }
 
-    
+
     private fun sendCommandToService(action: String) {
         Intent(context, TimerService::class.java).also {
             it.action = action
