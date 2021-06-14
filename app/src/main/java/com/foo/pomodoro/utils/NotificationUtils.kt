@@ -21,13 +21,13 @@ import timber.log.Timber
 
 fun provideBaseNotificationBuilder(
     app: Context,
-    pendingIntent: PendingIntent
+    pendingIntent: PendingIntent,
 ): NotificationCompat.Builder = NotificationCompat.Builder(app, NOTIFICATION_CHANNEL_ID)
     .setAutoCancel(false)
     .setOngoing(true)
     .setSmallIcon(R.drawable.ic_baseline_access_alarm_24)
     .setContentTitle("뽀모도로 타이머")
-    .setContentText("00:00:00")
+    .setContentText("25:00")
     .setContentIntent(pendingIntent)
 
 fun provideNotificationManager(

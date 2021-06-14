@@ -1,5 +1,6 @@
 package com.foo.pomodoro
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -33,7 +34,6 @@ class TimerFragment : Fragment(){
     private val TAG = "TimerFragment"
     private val args: TimerFragmentArgs by navArgs()
 
-    private var isTimerRunninng = false
     private var bound: Boolean = false
 
     private lateinit var binding : FragmentTimerBinding
@@ -50,15 +50,24 @@ class TimerFragment : Fragment(){
     }
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Timber.i("OnCreate")
+
+        Timber.i("timer state - time: ${timerViewmodel.timerState.value}")
+
         sendCommandToService(ACTION_INITIALIZE_DATA)
-        
+
+
     }
 
     override fun onStart() {
         super.onStart()
+
+        Timber.i("onStop")
+        Timber.i("timer state - time: ${timerViewmodel.timerState.value}, bound: ${bound}")
         Intent(context, TimerService::class.java).also { intent ->
             context?.bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
         }
@@ -68,6 +77,8 @@ class TimerFragment : Fragment(){
     override fun onStop() {
         super.onStop()
         // Unbind from the service
+        Timber.i("onStop")
+        Timber.i("timer state - time: ${timerViewmodel.timerState.value}, bound: ${bound}")
         if (bound) {
             //Timber.d("Trying to unbind service")
             context?.unbindService(mConnection)
@@ -80,6 +91,10 @@ class TimerFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        Timber.i("onCreateView()")
+
         binding = DataBindingUtil.inflate<FragmentTimerBinding>(
 
             inflater,
@@ -91,47 +106,45 @@ class TimerFragment : Fragment(){
             lifecycleOwner = viewLifecycleOwner
         }
 
+        // timerState의 상태에 따른 UI visible
+        timerViewmodel.timerState.observe(::getLifecycle) { it ->
+
+            when(timerViewmodel.timerState.value) {
+                TimerState.RUNNING -> {
+                    binding.stopLayout.visibility = View.GONE
+                    binding.btnStop.visibility = View.VISIBLE
+                }
+
+                TimerState.EXPIRED , TimerState.PAUSED-> {
+                    binding.stopLayout.visibility = View.VISIBLE
+                    binding.btnStop.visibility = View.GONE
+                }
+            }
+        }
+
 
         binding.btnStart.setOnClickListener {
-
-            binding.stopLayout.visibility = View.GONE
-            binding.btnStop.visibility =View.VISIBLE
-
             when(timerViewmodel.timerState.value) {
                 TimerState.EXPIRED -> sendCommandToService(ACTION_START)
                 TimerState.PAUSED -> sendCommandToService(ACTION_RESUME)
             }
-            isTimerRunninng = true
 
         }
 
         binding.btnStop.setOnClickListener {
 
-            binding.btnStop.visibility = View.GONE
-            binding.stopLayout.visibility = View.VISIBLE
-
             if(timerViewmodel.timerState.value == TimerState.RUNNING) sendCommandToService(ACTION_PAUSE)
-
         }
 
         binding.btnInit.setOnClickListener {
 
             sendCommandToService(ACTION_CANCEL)
-            isTimerRunninng = false
         }
 
         return binding.root
     }
 
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        sendCommandToService(ACTION_CANCEL_AND_RESET)
-    }
-
-
-
+    
     private fun sendCommandToService(action: String) {
         Intent(context, TimerService::class.java).also {
             it.action = action
@@ -143,9 +156,6 @@ class TimerFragment : Fragment(){
             context?.startService(it)
         }
     }
-
-
-
 
 }
 

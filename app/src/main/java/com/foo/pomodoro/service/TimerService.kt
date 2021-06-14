@@ -90,7 +90,6 @@ class TimerService : LifecycleService(){
 
     }
 
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         // Handle action from the activity
@@ -109,7 +108,6 @@ class TimerService : LifecycleService(){
 
                     startServiceTimer()
                 }
-
 
                 ACTION_PAUSE -> {
                     /*Called when pause button is pressed, pause timer, set isTimerRunning = false*/
@@ -138,8 +136,6 @@ class TimerService : LifecycleService(){
                     cancelServiceTimer()
                     resetData()
                 }
-
-
             }
         }
         return START_STICKY
@@ -147,8 +143,9 @@ class TimerService : LifecycleService(){
 
     override fun onBind(intent: Intent): IBinder? {
         // UI is visible, use service without being foreground
+        Timber.i("onBind")
         isBound = true
-        if(!isKilled) pushToForeground()
+        if(!isKilled) pushToBackground()
         return super.onBind(intent)
     }
 
@@ -168,6 +165,7 @@ class TimerService : LifecycleService(){
         // return true so onRebind is used if service is alive and client connects
         return true
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
