@@ -128,7 +128,6 @@ class TimerService : LifecycleService(){
                     cancelServiceTimer()
                 }
 
-
                 ACTION_CANCEL_AND_RESET -> {
                     /*Is called when navigating back to ListsScreen, resetting acquired data
                     * to null*/
@@ -186,15 +185,23 @@ class TimerService : LifecycleService(){
 
     private fun startServiceTimer(){
         // get wakelock
+
 //        acquireWakelock()
         isKilled = false
         resetTimer()
-        startTimer()
         currentTimerState.postValue(TimerState.RUNNING)
+        startTimer()
+
     }
 
     private fun startTimer(wasPaused: Boolean = false){
         pomodoro?.let {
+
+            // set pomodoro state
+            if(pomodoroState == PomodoroState.NONE) {
+                pomodoroState = PomodoroState.FLYING
+            }
+            currentPomodoroState.postValue(pomodoroState)
 
             // time to count down
             val time = getTimeFromPomodoroState(wasPaused, pomodoroState, millisToCompletion)
@@ -230,33 +237,39 @@ class TimerService : LifecycleService(){
             //Timber.i("onTick - lastSecondTimestamp: $lastSecondTimestamp")
             elapsedTimeInMillisEverySecond.postValue(lastSecondTimestamp)
 
-
         }
     }
 
     private fun onTimerFinish(){
+
+        Timber.i("onTimerFinish - timerIndex: $timerIndex - maxRep: $timerMaxRepetitions")
+
         // increase timerIndex
         timerIndex += 1
-        Timber.i("onTimerFinish - timerIndex: $timerIndex - maxRep: $timerMaxRepetitions")
 
         // check if index still in bound
         if(timerIndex < timerMaxRepetitions){
+
             // if timerIndex odd -> post new rep
             if(timerIndex % 2 != 0)
                 currentTomatoCount.postValue(currentTomatoCount.value?.plus(1))
 
-            val _currentTomatoCount = currentTomatoCount.value ?: 0
-            // get next workout state
-            pomodoroState = getNextPomodoroState(pomodoroState, _currentTomatoCount)
 
-            currentPomodoroState.postValue(pomodoroState)
+            // get next workout state
+            pomodoroState = getNextPomodoroState(pomodoroState, timerIndex)
+
+            Timber.i("currentTomatoCount: $timerIndex- maxRep: $timerMaxRepetitions")
+
 
             // start new timer
             startTimer()
+
         }else{
             // finished all repetitions, cancel timer
             cancelTimer()
         }
+
+
     }
 
     private fun cancelServiceTimer(){
@@ -286,7 +299,7 @@ class TimerService : LifecycleService(){
 
     private fun resetTimer(){
         timerIndex = 0
-        timerMaxRepetitions = pomodoro?.goalCount?.times(2)?.minus(2) ?: 0
+        timerMaxRepetitions = pomodoro?.goalCount?.times(2) ?: 0
         pomodoroState = NONE
         postInitData()
     }
@@ -368,7 +381,7 @@ class TimerService : LifecycleService(){
     private fun resetData(){
         isInitialized = false
         pomodoro = null
-        currentTomatoCount.postValue(-1)
+        currentTomatoCount.postValue(0)
 
     }
 
