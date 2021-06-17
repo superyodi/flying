@@ -14,6 +14,9 @@
         <item name="android:progressDrawable">@drawable/progress_circle</item>
     </style>
 
-
+    <style name="CircularProgressBarNonClickable">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_circle_nonclickable</item>
+    </style>
 
 </resources>
