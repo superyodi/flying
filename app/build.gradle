@@ -106,6 +106,4 @@ dependencies {
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    // Paris
-    implementation 'com.airbnb.android:paris:1.7.3'
 }
