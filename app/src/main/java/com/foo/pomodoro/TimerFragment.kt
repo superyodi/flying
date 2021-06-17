@@ -100,9 +100,6 @@ class TimerFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
-
-        Timber.i("onCreateView()")
-
         binding = DataBindingUtil.inflate<FragmentTimerBinding>(
 
             inflater,

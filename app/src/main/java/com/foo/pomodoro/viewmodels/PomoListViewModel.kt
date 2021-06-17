@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.foo.pomodoro.Event
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
+import com.foo.pomodoro.data.TimerState
+import com.foo.pomodoro.service.TimerService
 import kotlinx.coroutines.launch
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
@@ -13,6 +15,12 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
     private val _openTimerEvent = MutableLiveData<Event<Int>>()
     val openTimerEvent : LiveData<Event<Int>>
         get() = _openTimerEvent
+
+    val timerState: LiveData<TimerState>
+        get() = repository.getTimerServiceTimerState()
+
+    val runningPomodoroId : Int?
+        get() = TimerService.currentPomodoro.value?.id
 
 
     /**
