@@ -1,4 +1,4 @@
-package com.foo.pomodoro
+package com.foo.pomodoro.ui
 
 
 
@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.foo.pomodoro.R
 import com.foo.pomodoro.adapters.POMODORO_PAGE_INDEX
 import com.foo.pomodoro.adapters.REPORT_PAGE_INDEX
 import com.foo.pomodoro.adapters.SectionsPagerAdapter

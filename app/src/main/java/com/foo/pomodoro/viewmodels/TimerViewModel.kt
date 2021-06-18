@@ -1,23 +1,13 @@
 package com.foo.pomodoro.viewmodels
 
-import android.os.NetworkOnMainThreadException
-import android.util.Log
 import androidx.lifecycle.*
-import com.foo.pomodoro.Event
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.data.PomodoroState
-import com.foo.pomodoro.data.PomodoroState.Companion.FLYING
-import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
-import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.service.TimerService
 import com.foo.pomodoro.utils.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.*
-import kotlin.concurrent.timer
 
 class TimerViewModel(
     private val pomodoroRepository: PomodoroRepository

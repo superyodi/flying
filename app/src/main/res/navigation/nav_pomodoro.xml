@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/view_pager_fragment"
-        android:name="com.foo.pomodoro.HomeViewPagerFragment"
+        android:name="com.foo.pomodoro.ui.HomeViewPagerFragment"
         tools:layout="@layout/fragment_view_pager">
 
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/newPomodoroFragment"
-        android:name="com.foo.pomodoro.NewPomodoroFragment"
+        android:name="com.foo.pomodoro.ui.NewPomodoroFragment"
         android:label="NewPomodoroFragment" >
         <action
             android:id="@+id/action_newPomodoroFragment_to_view_pager_fragment"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/timerFragment"
-        android:name="com.foo.pomodoro.TimerFragment"
+        android:name="com.foo.pomodoro.ui.TimerFragment"
         android:label="TimerFragment">
         <argument
             android:name="pomoId"

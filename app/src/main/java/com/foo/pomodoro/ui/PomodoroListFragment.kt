@@ -1,4 +1,4 @@
-package com.foo.pomodoro
+package com.foo.pomodoro.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-
 import androidx.navigation.findNavController
+
+import com.foo.pomodoro.MainApplication
+import com.foo.pomodoro.R
 import com.foo.pomodoro.adapters.PomodoroAdapter
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.databinding.FragmentPomodoroListBinding

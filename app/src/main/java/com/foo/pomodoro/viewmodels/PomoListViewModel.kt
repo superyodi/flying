@@ -1,14 +1,11 @@
 package com.foo.pomodoro.viewmodels
 
 import androidx.lifecycle.*
-import com.foo.pomodoro.Event
+import com.foo.pomodoro.utils.Event
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
-import com.foo.pomodoro.data.PomodoroState
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.service.TimerService
-import com.foo.pomodoro.utils.RUNNING_TIME
-import com.foo.pomodoro.utils.getFormattedStopWatchTime
 import kotlinx.coroutines.launch
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {

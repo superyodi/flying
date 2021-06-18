@@ -1,4 +1,4 @@
-package com.foo.pomodoro
+package com.foo.pomodoro.ui
 
 import android.R
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.custom.TagPickerDialog
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.databinding.FragmentNewPomodoroBinding
