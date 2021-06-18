@@ -95,7 +95,7 @@ class NewPomodoroFragment : Fragment(){
                 it.getContentIfNotHandled()?.let {
 
                     Toast.makeText(activity, "새 뽀모도로를 추가했습니다.", Toast.LENGTH_SHORT).show()
-                    view.findNavController().navigate(com.foo.pomodoro.R.id.action_newPomodoroFragment_to_view_pager_fragment)
+                    view.findNavController().navigate(com.foo.pomodoro.R.id.action_newPomodoroFragment_to_pomodoroListFragment)
 
                 }
             }

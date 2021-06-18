@@ -16,6 +16,10 @@
     <string name="timer_restart">계속</string>
     <string name="timer_stop">일시정지</string>
     <string name="timer_cancel">취소</string>
-    
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_pomodoro">flying</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 
 </resources>

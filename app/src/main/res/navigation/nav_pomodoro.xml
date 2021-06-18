@@ -2,31 +2,35 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/view_pager_fragment">
+    app:startDestination="@id/navigation_pomodoro">
+
 
     <fragment
-        android:id="@+id/view_pager_fragment"
-        android:name="com.foo.pomodoro.ui.HomeViewPagerFragment"
-        tools:layout="@layout/fragment_view_pager">
+        android:id="@+id/navigation_pomodoro"
+        android:name="com.foo.pomodoro.ui.PomodoroListFragment"
+        android:label="@string/title_pomodoro"
+        tools:layout="@layout/fragment_pomodoro_list">
 
         <action
-            android:id="@+id/action_view_pager_fragment_to_newPomodoroFragment"
+            android:id="@+id/action_pomodoroListFragment_to_newPomodoroFragment"
             app:destination="@id/newPomodoroFragment" />
 
         <action
-            android:id="@+id/action_view_pager_fragment_to_timerFragment"
+            android:id="@+id/action_pomodoroListFragment_to_timerFragment"
             app:destination="@id/timerFragment" />
 
     </fragment>
+
     <fragment
         android:id="@+id/newPomodoroFragment"
         android:name="com.foo.pomodoro.ui.NewPomodoroFragment"
         android:label="NewPomodoroFragment" >
         <action
-            android:id="@+id/action_newPomodoroFragment_to_view_pager_fragment"
-            app:destination="@id/view_pager_fragment"
-            app:popUpTo="@id/view_pager_fragment"
+            android:id="@+id/action_newPomodoroFragment_to_pomodoroListFragment"
+            app:destination="@id/navigation_pomodoro"
+            app:popUpTo="@id/navigation_pomodoro"
             app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
@@ -36,8 +40,19 @@
         <argument
             android:name="pomoId"
             app:argType="integer" />
-
-
     </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.foo.pomodoro.ui.ReportFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.foo.pomodoro.ui.PreferenceFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
 
 </navigation>

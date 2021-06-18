@@ -14,10 +14,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.foo.pomodoro.HomeViewPagerFragmentDirections
 import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.databinding.ListItemPomodoroBinding
+import com.foo.pomodoro.ui.PomodoroListFragmentDirections
 import com.foo.pomodoro.viewmodels.PomodoroViewModel
 import timber.log.Timber
 
@@ -79,7 +79,8 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
             view: View
         ) {
             val direction =
-                HomeViewPagerFragmentDirections.actionViewPagerFragmentToTimerFragment(pomoId)
+                PomodoroListFragmentDirections.actionPomodoroListFragmentToTimerFragment(pomoId)
+
             view.findNavController().navigate(direction)
         }
 
