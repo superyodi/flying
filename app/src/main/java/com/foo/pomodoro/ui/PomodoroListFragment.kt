@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.R
 import com.foo.pomodoro.adapters.PomodoroAdapter
@@ -25,6 +30,7 @@ class PomodoroListFragment: Fragment() {
     }
     private var isTimerRunning = false
     var runningPomodoroId  = -1
+
 
 
     override fun onCreateView(

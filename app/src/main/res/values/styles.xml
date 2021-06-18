@@ -19,4 +19,8 @@
         <item name="android:progressDrawable">@drawable/progress_circle_nonclickable</item>
     </style>
 
+
+
+
+
 </resources>
