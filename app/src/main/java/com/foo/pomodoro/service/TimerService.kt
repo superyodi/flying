@@ -203,6 +203,11 @@ class TimerService : LifecycleService(){
             }
             currentPomodoroState.postValue(pomodoroState)
 
+            if(currentPomodoroState.value == PomodoroState.NONE) {
+                currentPomodoroState.postValue(PomodoroState.FLYING)
+            }
+
+
             // time to count down
             val time = getTimeFromPomodoroState(wasPaused, pomodoroState, millisToCompletion)
             Timber.i("Starting timer - time: $time - pomodoroState: ${pomodoroState}")
@@ -226,7 +231,6 @@ class TimerService : LifecycleService(){
                     onTimerFinish()
                 }
             }.start()
-
         }
     }
     private fun onTimerTick(millisUntilFinished: Long){
@@ -236,7 +240,6 @@ class TimerService : LifecycleService(){
             lastSecondTimestamp -= 1000L
             //Timber.i("onTick - lastSecondTimestamp: $lastSecondTimestamp")
             elapsedTimeInMillisEverySecond.postValue(lastSecondTimestamp)
-
         }
     }
 
@@ -267,6 +270,19 @@ class TimerService : LifecycleService(){
         }else{
             // finished all repetitions, cancel timer
             cancelTimer()
+        }
+
+        // update currentPomodoro
+        serviceScope.launch {
+            // 현재 pomodoro state, tomato count update
+            currentPomodoro.value.let {
+                if (it != null) {
+                    it.state = pomodoroState
+                    it.nowCount = currentTomatoCount.value ?: it.nowCount
+
+                    pomodoroRepository.update(it)
+                }
+            }
         }
 
 

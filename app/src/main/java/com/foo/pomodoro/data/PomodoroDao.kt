@@ -1,10 +1,7 @@
 package com.foo.pomodoro.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PomodoroDao {
@@ -20,4 +17,7 @@ interface PomodoroDao {
 
     @Query("DELETE FROM pomodoros")
     suspend fun deleteAll()
+
+    @Update
+    suspend fun updatePomodoro(pomodoro: Pomodoro): Int
 }

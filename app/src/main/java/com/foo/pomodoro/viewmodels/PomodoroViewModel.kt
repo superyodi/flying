@@ -27,7 +27,6 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
     val pomoHasDuedate
         get() = pomodoro.hasDuedate
 
-
     val progressText = "$pomoNowCount/$pomoGoalCount"
 
 

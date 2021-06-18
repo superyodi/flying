@@ -56,7 +56,6 @@ class TimerFragment : Fragment(){
         super.onCreate(savedInstanceState)
 
         Timber.i("OnCreate")
-
         Timber.i("timer state - time: ${timerViewmodel.timerState.value}")
 
         sendCommandToService(ACTION_INITIALIZE_DATA)
@@ -134,7 +133,7 @@ class TimerFragment : Fragment(){
             when(it) {
                 PomodoroState.NONE, PomodoroState.FLYING, PomodoroState.FINISHED -> {
 
-                    val nowCount = timerViewmodel.timerNowCount.value ?: 0
+                    val nowCount = timerViewmodel.timerNowCount
                     val goalCount = timerViewmodel.timerGoalCount
 
                     binding.timerState.text = "${nowCount}/${goalCount}"

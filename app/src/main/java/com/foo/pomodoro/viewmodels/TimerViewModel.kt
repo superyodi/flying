@@ -38,8 +38,8 @@ class TimerViewModel(
         get() = pomodoro.value?.goalCount
 
 
-    val timerNowCount : LiveData<Int>
-       get() = pomodoroRepository.getTimerServiceRepetition()
+    val timerNowCount : Int?
+       get() = pomodoro.value?.nowCount
 
 
     val timerState: LiveData<TimerState>
