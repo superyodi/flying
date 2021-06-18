@@ -20,6 +20,5 @@
     </style>
 
     <style name="Theme.Pomodoro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.Pomodoro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
