@@ -1,23 +1,21 @@
-package com.foo.pomodoro
+package com.foo.pomodoro.ui
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.foo.pomodoro.MainApplication
+import com.foo.pomodoro.R
+import com.foo.pomodoro.TimerFragmentArgs
 import com.foo.pomodoro.data.PomodoroState
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.databinding.FragmentTimerBinding
@@ -27,7 +25,6 @@ import com.foo.pomodoro.viewmodels.TimerViewModel
 import com.foo.pomodoro.viewmodels.TimerViewModelFactory
 import timber.log.Timber
 import java.util.*
-import kotlin.concurrent.timer
 
 
 class TimerFragment : Fragment(){

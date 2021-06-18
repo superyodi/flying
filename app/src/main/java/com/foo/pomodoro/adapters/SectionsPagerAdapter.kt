@@ -3,8 +3,8 @@ package com.foo.pomodoro.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.foo.pomodoro.ReportFragment
-import com.foo.pomodoro.PomodoroListFragment
+import com.foo.pomodoro.ui.ReportFragment
+import com.foo.pomodoro.ui.PomodoroListFragment
 import com.foo.pomodoro.R
 
 private val TAB_TITLES = arrayOf(

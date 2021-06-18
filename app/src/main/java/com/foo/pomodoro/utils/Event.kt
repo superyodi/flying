@@ -1,6 +1,4 @@
-package com.foo.pomodoro
-
-import androidx.lifecycle.Observer
+package com.foo.pomodoro.utils
 
 
 /**

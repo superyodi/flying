@@ -29,9 +29,9 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="230dp"
-            android:layout_height="230dp"
-            android:src="@drawable/juyeon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ticket_bgrnd"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

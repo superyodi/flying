@@ -2,12 +2,11 @@ package com.foo.pomodoro.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.foo.pomodoro.Event
+import com.foo.pomodoro.utils.Event
 import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import kotlinx.coroutines.launch
-import java.lang.Integer.parseInt
 
 class NewPomodoroViewModel(
     private val pomodoroRepository: PomodoroRepository
