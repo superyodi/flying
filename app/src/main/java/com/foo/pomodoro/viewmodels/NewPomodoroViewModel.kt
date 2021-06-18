@@ -72,7 +72,6 @@ class NewPomodoroViewModel(
         viewModelScope.launch {
             pomodoroRepository.insert(newPomodoro)
             _pomodoroUpdated.value = Event(Unit)
-
         }
     }
 }

@@ -17,11 +17,16 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
     suspend fun getPomodoro(pomoId: Int): Pomodoro = pomodoroDao.getPomodoro(pomoId)
 
 
-
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(pomodoro: Pomodoro) {
         pomodoroDao.insert(pomodoro)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun update(pomodoro: Pomodoro) {
+        pomodoroDao.updatePomodoro(pomodoro)
     }
 
     // return immutable livedata from timer service

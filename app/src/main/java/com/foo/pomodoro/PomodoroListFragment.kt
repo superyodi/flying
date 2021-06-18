@@ -11,13 +11,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.foo.pomodoro.adapters.PomodoroAdapter
 import com.foo.pomodoro.data.TimerState
-import com.foo.pomodoro.databinding.FragmentPomodoroBinding
+import com.foo.pomodoro.databinding.FragmentPomodoroListBinding
 import com.foo.pomodoro.viewmodels.*
 import timber.log.Timber
 
-class PomodoroFragment: Fragment() {
+class PomodoroListFragment: Fragment() {
 
-    private lateinit var binding: FragmentPomodoroBinding
+    private lateinit var binding: FragmentPomodoroListBinding
 
 
     private val pomoListViewModel: PomoListViewModel by viewModels {
@@ -33,7 +33,7 @@ class PomodoroFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentPomodoroBinding.inflate(inflater, container, false)
+        binding = FragmentPomodoroListBinding.inflate(inflater, container, false)
         binding.hasPomodoros = true
 
         if(pomoListViewModel.timerState.value != null && pomoListViewModel.timerState.value != TimerState.EXPIRED) {
@@ -46,7 +46,6 @@ class PomodoroFragment: Fragment() {
 
 
         pomoListViewModel.isTimerRunning.observe(::getLifecycle) {
-
             isTimerRunning = it
 
             if(isTimerRunning) {
@@ -72,7 +71,7 @@ class PomodoroFragment: Fragment() {
         return binding.root
     }
 
-    private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroBinding) {
+    private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {
         pomoListViewModel.allPomos.observe(viewLifecycleOwner)  { result ->
             binding.hasPomodoros = !result.isNullOrEmpty()
             adapter.submitList(result)

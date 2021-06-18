@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.foo.pomodoro.ReportFragment
-import com.foo.pomodoro.PomodoroFragment
+import com.foo.pomodoro.PomodoroListFragment
 import com.foo.pomodoro.R
 
 private val TAB_TITLES = arrayOf(
@@ -22,7 +22,7 @@ const val REPORT_PAGE_INDEX = 1
 class SectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private val tabFragmentsCreators: Map<Int, () -> Fragment> = mapOf(
-        POMODORO_PAGE_INDEX to { PomodoroFragment() },
+        POMODORO_PAGE_INDEX to { PomodoroListFragment() },
         REPORT_PAGE_INDEX to { ReportFragment() }
     )
 

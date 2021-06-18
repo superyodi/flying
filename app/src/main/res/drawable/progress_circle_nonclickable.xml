@@ -24,7 +24,7 @@
             android:shape= "ring"
             android:thickness= "2dp"
             android:useLevel="true">
-            <solid android:color="#5D5D5D" />
+            <solid android:color="@color/flying_gray" />
 
 
         </shape>

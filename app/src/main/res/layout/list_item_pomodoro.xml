@@ -92,7 +92,8 @@
                 android:layout_marginBottom="8dp"
                 android:indeterminateOnly="false"
                 android:onClick="@{clickListener}"
-                android:progress="60" />
+                android:progress="@{viewModel.pomoNowCount}"
+                android:max="@{viewModel.pomoGoalCount}" />
 
             <ProgressBar
                 android:id="@+id/invalid_progressBar"
@@ -104,7 +105,8 @@
                 android:layout_marginBottom="8dp"
                 android:indeterminateOnly="false"
                 android:onClick="@{clickListener}"
-                android:progress="60"
+                android:progress="@{viewModel.pomoNowCount}"
+                android:max="@{viewModel.pomoGoalCount}"
                 android:visibility="gone" />
 
 
