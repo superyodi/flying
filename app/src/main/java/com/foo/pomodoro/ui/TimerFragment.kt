@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.R
-import com.foo.pomodoro.TimerFragmentArgs
+
 import com.foo.pomodoro.data.PomodoroState
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.databinding.FragmentTimerBinding

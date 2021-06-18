@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.R
 import com.foo.pomodoro.adapters.PomodoroAdapter
@@ -27,6 +30,7 @@ class PomodoroListFragment: Fragment() {
     }
     private var isTimerRunning = false
     var runningPomodoroId  = -1
+
 
 
     override fun onCreateView(
@@ -68,13 +72,13 @@ class PomodoroListFragment: Fragment() {
         }
 
         binding.addTask.setOnClickListener{
-            it.findNavController().navigate(R.id.action_view_pager_fragment_to_newPomodoroFragment)
+            it.findNavController().navigate(R.id.action_pomodoroListFragment_to_newPomodoroFragment)
         }
         return binding.root
     }
 
     private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {
-        pomoListViewModel.allPomos.observe(viewLifecycleOwner)  { result ->
+        pomoListViewModel.allPomos.observe(::getLifecycle)  { result ->
             binding.hasPomodoros = !result.isNullOrEmpty()
             adapter.submitList(result)
         }

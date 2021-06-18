@@ -14,8 +14,9 @@ import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.foo.pomodoro.MainActivity
 import com.foo.pomodoro.R
-import com.foo.pomodoro.TimerFragmentArgs
+
 import com.foo.pomodoro.service.TimerService
+import com.foo.pomodoro.ui.TimerFragmentArgs
 import timber.log.Timber
 
 
