@@ -32,12 +32,10 @@ class MainActivity : AppCompatActivity() {
         }
         toolbar.visibility = View.GONE
 
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
         navView.setupWithNavController(navController)
-
 
         // set bottom view visibility depending on fragment's id
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -61,15 +59,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         setupTimber()
     }
-
-
 
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
     }
 
 }
-
-
