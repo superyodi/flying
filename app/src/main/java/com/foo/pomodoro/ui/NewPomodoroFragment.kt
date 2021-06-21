@@ -16,6 +16,8 @@ import com.foo.pomodoro.databinding.FragmentNewPomodoroBinding
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
 
 class NewPomodoroFragment : Fragment(){
 
@@ -28,6 +30,12 @@ class NewPomodoroFragment : Fragment(){
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
         NewPomodoroViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)  {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform()
+
     }
 
     override fun onCreateView(

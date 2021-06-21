@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.R
 import com.foo.pomodoro.adapters.PomodoroAdapter
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.databinding.FragmentPomodoroListBinding
 import com.foo.pomodoro.viewmodels.*
+import com.google.android.material.transition.MaterialElevationScale
 import timber.log.Timber
 
 class PomodoroListFragment: Fragment() {
@@ -30,6 +27,18 @@ class PomodoroListFragment: Fragment() {
     }
     private var isTimerRunning = false
     var runningPomodoroId  = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+    }
 
 
 
@@ -72,7 +81,16 @@ class PomodoroListFragment: Fragment() {
         }
 
         binding.addTask.setOnClickListener{
-            it.findNavController().navigate(R.id.action_pomodoroListFragment_to_newPomodoroFragment)
+
+            exitTransition = MaterialElevationScale(false).apply {
+                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            }
+            reenterTransition = MaterialElevationScale(true).apply {
+                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            }
+
+            val extras = FragmentNavigatorExtras(it to "shared_element_container")
+            it.findNavController().navigate(R.id.action_pomodoroListFragment_to_newPomodoroFragment, null, null, extras)
         }
         return binding.root
     }
