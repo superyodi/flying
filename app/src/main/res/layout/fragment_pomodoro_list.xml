@@ -51,6 +51,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:id="@+id/frameLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="65dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,25 +73,43 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 app:isGone="@{!hasPomodoros}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_pomodoro" />
-
-
         </FrameLayout>
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/add_task"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:background="@drawable/bottomsheet_oragne"
+            android:transitionName="shared_element_container"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/button" />
+            app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textview_addpomo"
+                android:gravity="center"
+                android:text="새로운 작업을 추가해주세요"
+                android:textSize="14sp"
+                android:textColor="@color/text_gray_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

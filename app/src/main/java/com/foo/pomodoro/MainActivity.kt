@@ -14,15 +14,22 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import com.foo.pomodoro.ui.NewPomodoroFragmentDirections
 import com.foo.pomodoro.utils.setupActionBar
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 
 
 class MainActivity : AppCompatActivity() {
 
-    @SuppressLint("ResourceAsColor")
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+
 
 
         val toolbar = findViewById<Toolbar>(R.id.tool_bar)
@@ -66,5 +73,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
     }
+
+
+
 
 }
