@@ -36,7 +36,7 @@ class NewPomodoroViewModel(
 //    title: String, tag: String,
 //        goalCount: Int, nowCount: Int, hasDuedate: Boolean
 
-    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentHasDuedate: Boolean) {
+    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentHasDuedate: Boolean, currentDueDate: String?) {
 
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_title)
@@ -58,6 +58,10 @@ class NewPomodoroViewModel(
         if (goalCountNum < 1) {
             _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
             return
+        }
+
+        if (currentHasDuedate && currentDueDate == null) {
+            _snackbarText.value = Event(R.string.empty_duedate_message)
         }
 
         createPomodoro(Pomodoro(currentTitle, currentTag, goalCountNum, 0, currentHasDuedate))

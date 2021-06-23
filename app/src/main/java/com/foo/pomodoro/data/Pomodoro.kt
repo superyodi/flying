@@ -12,6 +12,7 @@ data class Pomodoro(
     var nowCount: Int = 0,
     var hasDuedate: Boolean = false,
     var description: String = "",
+    var initDate: Date? = null,
     var dueDate: Date? = null
 
 ) {
@@ -19,8 +20,6 @@ data class Pomodoro(
     var id: Int = 0
     var state = PomodoroState.NONE
     var leftTime = 0L
-
-
 
 
     constructor(
