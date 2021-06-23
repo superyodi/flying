@@ -7,6 +7,7 @@ import com.foo.pomodoro.data.PomodoroState.Companion.LONG_BREAK
 import com.foo.pomodoro.data.PomodoroState.Companion.NONE
 import com.foo.pomodoro.data.PomodoroState.Companion.SHORT_BREAK
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -68,6 +69,9 @@ fun convertLongToTime(time: Long?): String {
     return "No time found!"
 }
 
+fun convertDateToString(date: Date?): String =
+    SimpleDateFormat("yyyy-MM-dd").format(date)
+
 fun convertDateToLong(date: String?): Long {
     date?.let {
         val df = DateFormat.getDateTimeInstance()
@@ -77,6 +81,8 @@ fun convertDateToLong(date: String?): Long {
     }
     return 0L
 }
+
+
 
 fun getNextPomodoroState(state: Int, nowCount: Int) = when(state){
     NONE -> FLYING
