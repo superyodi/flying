@@ -7,6 +7,9 @@ import com.foo.pomodoro.R
 import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewPomodoroViewModel(
     private val pomodoroRepository: PomodoroRepository
@@ -33,10 +36,7 @@ class NewPomodoroViewModel(
     private var pomodoroCompleted = false
 
 
-//    title: String, tag: String,
-//        goalCount: Int, nowCount: Int, hasDuedate: Boolean
-
-    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentHasDuedate: Boolean, currentDueDate: String?) {
+    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentDescription: String,currentHasDuedate: Boolean, currentInitDate: String ,currentDueDate: String?) {
 
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_title)
@@ -62,11 +62,26 @@ class NewPomodoroViewModel(
 
         if (currentHasDuedate && currentDueDate == null) {
             _snackbarText.value = Event(R.string.empty_duedate_message)
+            return
         }
 
-        createPomodoro(Pomodoro(currentTitle, currentTag, goalCountNum, 0, currentHasDuedate))
+        Timber.d("생성일: ${currentInitDate}, 목표일 ${currentDueDate}")
 
-        Log.d(TAG, "저장 완료")
+        if(currentHasDuedate) {
+            createPomodoro(
+                Pomodoro(
+                    currentTitle, currentTag, goalCountNum,
+                    0, currentDescription,currentHasDuedate, currentInitDate, currentDueDate))
+        }
+        else{
+            createPomodoro(
+                Pomodoro(currentTitle, currentTag, goalCountNum,
+                    0, currentDescription, currentHasDuedate, currentInitDate))
+        }
+
+
+
+
     }
 
 
@@ -77,7 +92,11 @@ class NewPomodoroViewModel(
             _pomodoroUpdated.value = Event(Unit)
         }
     }
-}
+
+    fun setStartDateText() : String = SimpleDateFormat("yyyy/MM/dd").format(Date(System.currentTimeMillis()))
+
+
+ }
 
 
 class NewPomodoroViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {

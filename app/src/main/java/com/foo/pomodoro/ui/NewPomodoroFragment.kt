@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.common.BackgroundShapeType
@@ -22,11 +20,11 @@ import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.custom.TagPickerDialog
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.databinding.FragmentNewPomodoroBinding
+import com.foo.pomodoro.utils.convertDateToString
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
-import timber.log.Timber
 import java.util.*
 
 
@@ -39,7 +37,7 @@ class NewPomodoroFragment : Fragment() {
 
     private var taskTag = ""
     private var hasDueDate = false
-    private var initDate : String? = null
+
     private var dueDate : String? = null
 
 
@@ -67,6 +65,8 @@ class NewPomodoroFragment : Fragment() {
         repository = (requireActivity().application as MainApplication).pomodoroRepository
 
 
+        binding.startDate.text = viewmodel.setStartDateText()
+
         binding.btnTag.setOnClickListener {
             val tagPickerDialog = TagPickerDialog().getInstance()
 
@@ -78,13 +78,10 @@ class NewPomodoroFragment : Fragment() {
                         taskTag = it
                     }
                 }
-                tagPickerDialog.show(fragmentManager, "tag picker dialog")
+                tagPickerDialog.show(fragmentManager,  TAG_BOTTOM_SHEET_TAG)
             }
         }
-
         binding.enddateLayout.setOnClickListener{
-
-
             val today = CalendarFactory.newInstance(CalendarType.CIVIL, Locale.KOREAN)
             val theme = getDefaultTheme()
 
@@ -125,13 +122,18 @@ class NewPomodoroFragment : Fragment() {
         binding.addPomodoro.setOnClickListener { view ->
 
 
+            val initDate = convertDateToString(Date(System.currentTimeMillis()))
+
+
             // TODO("goal count 입력받는 dialog 보여줌 ")
 
             viewmodel.savePomo(
                 binding.taskTitle.text.toString(),
                 taskTag,
                 binding.taskGoalCount.text.toString(),
+                binding.taskDescription.text.toString() ?: "",
                 hasDueDate,
+                initDate,
                 dueDate
             )
 
@@ -169,16 +171,22 @@ class NewPomodoroFragment : Fragment() {
         }
     }
 
+
     private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
-        dueDate = singleDay.shortDateString
-        binding.dueDate.text = dueDate
+
+
+        dueDate = convertDateToString(singleDay.getTime())
+        Toast.makeText(activity, dueDate, Toast.LENGTH_SHORT).show()
+
+        binding.dueDate.text = singleDay.shortDateString
     }
 
 
 
 
     companion object {
-        const val DATE_PICKER_TAG = "PrimeDatePickerBottomSheet"
+        const val DATE_PICKER_TAG = "prime date picker bottomSheet"
+        const val TAG_BOTTOM_SHEET_TAG = "tag picker bottomSheet"
     }
 
 

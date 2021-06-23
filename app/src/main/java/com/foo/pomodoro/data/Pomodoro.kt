@@ -10,10 +10,10 @@ data class Pomodoro(
     var tag: String = "",
     var goalCount: Int = 0,
     var nowCount: Int = 0,
-    var hasDuedate: Boolean = false,
     var description: String = "",
-    var initDate: Date? = null,
-    var dueDate: Date? = null
+    var hasDuedate: Boolean = false,
+    var initDate: String = "",
+    var dueDate: String? = null
 
 ) {
     @PrimaryKey(autoGenerate = true)
@@ -24,20 +24,12 @@ data class Pomodoro(
 
     constructor(
         title: String, tag: String,
-        goalCount: Int, nowCount: Int, hasDuedate: Boolean
-    ) : this(title, tag, goalCount, nowCount, hasDuedate, "", null)
+        goalCount: Int, nowCount: Int, description: String, hasDuedate: Boolean, initDate: String
+    ) : this(title, tag, goalCount, nowCount, description, hasDuedate, initDate, null)
 
 
-    constructor(
-        title: String, tag: String,
-        goalCount: Int, nowCount: Int, hasDuedate: Boolean, dueDate: Date
-    ) : this(title, tag, goalCount, nowCount, hasDuedate, "")
 
 
-    constructor(
-        title: String, tag: String,
-        goalCount: Int, nowCount: Int, hasDuedate: Boolean, description: String
-    ) : this(title, tag, goalCount, nowCount, hasDuedate, description, null)
 
 
 
