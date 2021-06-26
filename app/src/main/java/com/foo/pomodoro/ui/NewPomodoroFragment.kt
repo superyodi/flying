@@ -1,6 +1,8 @@
 package com.foo.pomodoro.ui
 
-import android.R
+
+import android.graphics.Color
+import com.foo.pomodoro.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.common.BackgroundShapeType
@@ -18,6 +21,7 @@ import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
 import com.foo.pomodoro.MainApplication
 import com.foo.pomodoro.custom.TagPickerDialog
+import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.databinding.FragmentNewPomodoroBinding
 import com.foo.pomodoro.utils.convertDateToString
@@ -25,20 +29,21 @@ import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
+import timber.log.Timber
+
 import java.util.*
 
 
 class NewPomodoroFragment : Fragment() {
 
-    private val TAG = "NewPomodoroFramgment"
     private lateinit var binding: FragmentNewPomodoroBinding
     private lateinit var repository: PomodoroRepository
+    private val args: NewPomodoroFragmentArgs by navArgs()
 
 
-    private var taskTag = ""
-    private var hasDueDate = false
+    private var isNewPomodoro = false
 
-    private var dueDate : String? = null
+    private var dueDate : String = ""
 
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
@@ -48,24 +53,91 @@ class NewPomodoroFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition = MaterialContainerTransform()
-
+        if(args.pomoId == -1) {
+            sharedElementEnterTransition = MaterialContainerTransform()
+            isNewPomodoro = true
+        }
 
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         binding = FragmentNewPomodoroBinding.inflate(inflater, container, false)
+            .apply {
+                viewModel = viewmodel
+                lifecycleOwner = viewLifecycleOwner
+            }
 
         repository = (requireActivity().application as MainApplication).pomodoroRepository
 
+        Timber.i("${args.pomoId}")
+        viewmodel.start(args.pomoId)
 
-        binding.startDate.text = viewmodel.setStartDateText()
+
+
+        if (isNewPomodoro) viewmodel.setNewPomoData()
+
+        else {
+            viewmodel.isDataLoaded.observe(::getLifecycle) { isDataLoaded ->
+                if (isDataLoaded) {
+                    viewmodel.setEditPomoData()
+                    setPomodoroView()
+                }
+            }
+        }
+
+        setPomodoroEventListener()
+
+
+        return binding.root
+    }
+
+    private fun getDefaultTheme(): ThemeFactory {
+        return object : LightThemeFactory() {
+            override val pickedDayBackgroundShapeType: BackgroundShapeType
+                get() = BackgroundShapeType.CIRCLE
+
+        }
+    }
+
+    private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
+
+        dueDate = convertDateToString(singleDay.getTime())
+        Toast.makeText(activity, dueDate, Toast.LENGTH_SHORT).show()
+
+        binding.dueDate.text = singleDay.shortDateString
+    }
+
+    private fun setPomodoroView() {
+        if(viewmodel.hasMemo) {
+            binding.btnAddMemo.visibility = View.GONE
+            binding.taskDescription.visibility = View.VISIBLE
+
+        }
+        else {
+            binding.btnAddMemo.visibility = View.VISIBLE
+            binding.taskDescription.visibility = View.GONE
+
+        }
+
+        if(viewmodel.hasDuedate.value == true) {
+            binding.groupDuedate.visibility = View.VISIBLE
+        }
+        else {
+            binding.groupDuedate.visibility = View.GONE
+        }
+
+    }
+
+
+
+    private fun setPomodoroEventListener() {
+
 
         binding.btnTag.setOnClickListener {
             val tagPickerDialog = TagPickerDialog().getInstance()
@@ -74,8 +146,7 @@ class NewPomodoroFragment : Fragment() {
 
                 tagPickerDialog.setOnButtonClickedListener { it ->
                     if(!it.isNullOrEmpty()) {
-                        binding.btnTag.text = it
-                        taskTag = it
+                        viewmodel.tag.value = it
                     }
                 }
                 tagPickerDialog.show(fragmentManager,  TAG_BOTTOM_SHEET_TAG)
@@ -84,7 +155,6 @@ class NewPomodoroFragment : Fragment() {
         binding.enddateLayout.setOnClickListener{
             val today = CalendarFactory.newInstance(CalendarType.CIVIL, Locale.KOREAN)
             val theme = getDefaultTheme()
-
 
             val datePicker = PrimeDatePicker.bottomSheetWith(today)
                 .pickSingleDay(singleDayPickCallback)
@@ -99,18 +169,23 @@ class NewPomodoroFragment : Fragment() {
 
         binding.btnOneday.setOnClickListener {
 
+            viewmodel.hasDuedate.postValue(false)
+
             binding.groupDuedate.visibility = View.GONE
-            hasDueDate = false
+            binding.btnEveryday.setBackgroundColor(Color.GRAY)
+            binding.btnOneday.setBackgroundColor(Color.MAGENTA)
 
         }
 
         binding.btnEveryday.setOnClickListener {
 
+            viewmodel.hasDuedate.postValue(true)
+
             binding.groupDuedate.visibility = View.VISIBLE
-            hasDueDate = true
+            binding.btnOneday.setBackgroundColor(Color.GRAY)
+            binding.btnEveryday.setBackgroundColor(Color.MAGENTA)
 
         }
-
 
         binding.btnAddMemo.setOnClickListener {
 
@@ -120,38 +195,22 @@ class NewPomodoroFragment : Fragment() {
         }
 
         binding.addPomodoro.setOnClickListener { view ->
-
-
-            val initDate = convertDateToString(Date(System.currentTimeMillis()))
-
+            viewmodel.savePomodoro()
 
             // TODO("goal count 입력받는 dialog 보여줌 ")
-
-            viewmodel.savePomo(
-                binding.taskTitle.text.toString(),
-                taskTag,
-                binding.taskGoalCount.text.toString(),
-                binding.taskDescription.text.toString() ?: "",
-                hasDueDate,
-                initDate,
-                dueDate
-            )
-
-
             viewmodel.pomodoroUpdatedEvent.observe(::getLifecycle) { it ->
                 it.getContentIfNotHandled()?.let {
-
-                    Toast.makeText(activity, "새 뽀모도로를 추가했습니다.", Toast.LENGTH_SHORT).show()
                     view.findNavController().navigate(com.foo.pomodoro.R.id.action_newPomodoroFragment_to_pomodoroListFragment)
                 }
             }
+
+
         }
 
-
         viewmodel.snackbarMessage.observe(::getLifecycle) {
-            it.getContentIfNotHandled()?.let {
+            it.getContentIfNotHandled()?.let { msg ->
 
-                val message = getString(it)
+                val message = getString(msg)
                 val snackBar = Snackbar.make(
                     requireActivity().findViewById(R.id.content),
                     message, Snackbar.LENGTH_LONG
@@ -160,26 +219,8 @@ class NewPomodoroFragment : Fragment() {
             }
         }
 
-        return binding.root
     }
 
-    private fun getDefaultTheme(): ThemeFactory {
-        return object : LightThemeFactory() {
-            override val pickedDayBackgroundShapeType: BackgroundShapeType
-                get() = BackgroundShapeType.CIRCLE
-
-        }
-    }
-
-
-    private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
-
-
-        dueDate = convertDateToString(singleDay.getTime())
-        Toast.makeText(activity, dueDate, Toast.LENGTH_SHORT).show()
-
-        binding.dueDate.text = singleDay.shortDateString
-    }
 
 
 
