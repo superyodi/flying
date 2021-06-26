@@ -63,13 +63,17 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
 
             binding.setClickListener { view ->
                 when(view) {
-                    binding.layoutPomodoroInforms ->
-                        Timber.i("Show task inform")
 
                     binding.progressBar ->
                         binding.viewModel?.let {
                             navigateToTimer(it.pomoId, view)
                         }
+
+                    else ->
+                        binding.viewModel?.let {
+                            navigateToPomoDetail(it.pomoId, view)
+                        }
+
                 }
             }
 
@@ -83,6 +87,18 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
 
             view.findNavController().navigate(direction)
         }
+
+        private fun navigateToPomoDetail(
+            pomoId: Int,
+            view: View
+        ) {
+            val direction =
+                PomodoroListFragmentDirections.actionPomodoroListFragmentToNewPomodoroFragment(pomoId)
+
+            view.findNavController().navigate(direction)
+        }
+
+
 
 
         private fun setInvalidProgressbar() {

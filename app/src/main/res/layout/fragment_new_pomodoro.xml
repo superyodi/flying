@@ -5,9 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.foo.pomodoro.viewmodels.NewPomodoroViewModel"/>
+    </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -34,7 +41,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginLeft="60dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="60dp"
                 android:layout_marginRight="60dp"
                 android:layout_marginBottom="33dp"
@@ -42,6 +49,7 @@
                 android:gravity="center"
                 android:hint="새로운 작업을 추가해주세요"
                 android:inputType="textPersonName"
+                android:text="@={viewModel.title}"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="22sp"
@@ -65,7 +73,7 @@
                 android:background="@color/white"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="+ 태그"
+                android:text="@={viewModel.tag}"
                 android:textColor="@color/flying_orange"
                 android:textSize="15sp"
                 app:backgroundTint="@color/white"
@@ -79,6 +87,7 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/add_pomodoro"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
@@ -106,7 +115,7 @@
                         android:id="@+id/group_duedate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:constraint_referenced_ids="textView3, startdate_layout, enddate_layout, " />
 
                     <TextView
@@ -149,12 +158,9 @@
                         android:layout_width="102dp"
                         android:layout_height="32dp"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="11dp"
-                        android:layout_marginRight="11dp"
                         android:background="#ff8e71"
-                        android:text="오늘하루만"
+                        android:text="@string/btn_has_not_duedate"
                         android:textColor="@color/white"
-                        app:layout_constraintEnd_toStartOf="@+id/btn_everyday"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -162,14 +168,15 @@
                         android:id="@+id/btn_everyday"
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
-                        android:layout_marginStart="120dp"
-                        android:layout_marginLeft="120dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
                         android:background="#ff8e71"
-                        android:text="매일매일"
+                        android:text="@string/btn_has_duedate"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@+id/btn_oneday"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn_oneday"
                         app:layout_constraintTop_toTopOf="@+id/btn_oneday" />
+
 
                     <LinearLayout
                         android:id="@+id/startdate_layout"
@@ -192,6 +199,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
+                            android:text="@={viewModel.initDate}"
                             android:textColor="@color/flying_orange"
                             android:textSize="16sp"
                             android:textStyle="normal"
@@ -225,6 +233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
+                            android:text="@={viewModel.dueDate}"
                             android:textColor="@color/flying_orange"
                             android:textSize="16sp"
                             android:textStyle="normal" />
@@ -269,9 +278,10 @@
                         android:layout_marginEnd="60dp"
                         android:layout_marginRight="60dp"
                         android:ems="1"
-                        android:hint="0"
                         android:gravity="center"
+                        android:hint="0"
                         android:inputType="number"
+                        android:text="@={viewModel.goalCount}"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="@+id/textView4"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -290,12 +300,13 @@
                         <EditText
                             android:id="@+id/task_description"
                             android:layout_width="match_parent"
-                            android:layout_height="140dp"
+                            android:layout_height="129dp"
                             android:background="@drawable/gray_rectangle"
                             android:gravity="top"
                             android:hint="작업에 대해 써보세요"
                             android:inputType="textMultiLine"
                             android:padding="8dp"
+                            android:text="@={viewModel.description}"
                             android:textColor="#222222"
                             android:textSize="14sp"
                             android:visibility="gone" />

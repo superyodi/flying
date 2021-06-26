@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_pomodoroListFragment_to_timerFragment"
             app:destination="@id/timerFragment" />
+        <action
+            android:id="@+id/action_navigation_pomodoro_to_newPomodoroFragment"
+            app:destination="@id/newPomodoroFragment" />
 
     </fragment>
 
@@ -30,6 +33,10 @@
             app:destination="@id/navigation_pomodoro"
             app:popUpTo="@id/navigation_pomodoro"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="pomoId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
 
     </fragment>
 

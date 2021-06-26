@@ -1,6 +1,5 @@
 package com.foo.pomodoro.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.foo.pomodoro.utils.Event
 import com.foo.pomodoro.R
@@ -18,7 +17,6 @@ class NewPomodoroViewModel(
     val TAG = "NewPomodoroViewModel"
 
 
-
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
@@ -27,23 +25,94 @@ class NewPomodoroViewModel(
     val pomodoroUpdatedEvent: LiveData<Event<Unit>>
         get() = _pomodoroUpdated
 
-    private var pomodoroId: Int? = null
+    private val pomodoro = MutableLiveData<Pomodoro>()
+
+
+    val title = MutableLiveData<String>()
+    val description = MutableLiveData<String>()
+    val tag = MutableLiveData<String>()
+    val initDate = MutableLiveData<String>()
+    val dueDate= MutableLiveData<String>()
+    val hasDuedate = MutableLiveData<Boolean>()
+    val goalCount = MutableLiveData<String>()
+
+    var hasMemo = false
+
 
     private var isNewPomo: Boolean = false
-
-    private var isDataLoaded = false
-
     private var pomodoroCompleted = false
 
+    private val _isDataLoaded = MutableLiveData<Boolean>()
+    val isDataLoaded: LiveData<Boolean>
+        get() =_isDataLoaded
 
-    fun savePomo(currentTitle: String, currentTag: String, currentGoalCount: String, currentDescription: String,currentHasDuedate: Boolean, currentInitDate: String ,currentDueDate: String?) {
 
+    fun start(pomoId: Int) {
+        _isDataLoaded.value = false
+
+        if (pomoId == -1) {
+            // No need to populate, it's a new task
+            isNewPomo = true
+            return
+        }
+
+        isNewPomo = false
+
+        viewModelScope.launch {
+            pomodoro.value = pomodoroRepository.getPomodoro(pomoId)
+            _isDataLoaded.value = true
+        }
+
+    }
+    fun setNewPomoData() {
+        title.value = ""
+        tag.value = "+ 태그"
+        description.value = ""
+        initDate.value = setStartDateText()
+        hasDuedate.value = false
+
+    }
+
+    // 불러온 데이터 binding
+    fun setEditPomoData() {
+
+        pomodoro.value.let{
+            if (it != null) {
+                title.value = it.title
+                description.value = it.description
+                goalCount.value = it.goalCount.toString()
+                hasDuedate.value = it.hasDuedate
+                tag.value = it.tag
+                initDate.value = it.initDate.replace('-','/')
+                dueDate.value = it.dueDate?:""
+                    .replace('-','/')
+
+                hasMemo = !(description.value.isNullOrEmpty())
+            }
+        }
+
+
+    }
+
+    fun savePomodoro() {
+        val currentTitle = title.value
+        var currentDueDate= dueDate.value
+        val currentGoalCount = goalCount.value
+        val currentDescription = description.value ?: ""
+        val currentTag = tag.value
+        val currentHasDuedate = hasDuedate.value ?: false
+        val currentInitDate = initDate.value ?: "0000/00/00"
+            .replace('/','-')
+
+
+
+        // check data validation
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_title)
             return
         }
 
-        if (currentTag.isNullOrEmpty()) {
+        if (currentTag.isNullOrEmpty() || currentTag == "+ 태그") {
             _snackbarText.value = Event(R.string.empty_pomodoro_tag)
             return
         }
@@ -65,33 +134,45 @@ class NewPomodoroViewModel(
             return
         }
 
-        Timber.d("생성일: ${currentInitDate}, 목표일 ${currentDueDate}")
+        if (!currentHasDuedate && !(currentDueDate.isNullOrEmpty())) {
+            currentDueDate = ""
+        }
 
-        if(currentHasDuedate) {
+        if(isNewPomo) {
             createPomodoro(
                 Pomodoro(
                     currentTitle, currentTag, goalCountNum,
-                    0, currentDescription,currentHasDuedate, currentInitDate, currentDueDate))
+                    0, currentDescription, currentHasDuedate, currentInitDate, currentDueDate
+                )
+            )
         }
-        else{
-            createPomodoro(
-                Pomodoro(currentTitle, currentTag, goalCountNum,
-                    0, currentDescription, currentHasDuedate, currentInitDate))
+        else {
+            viewModelScope.launch {
+                pomodoro.value.let {
+                    if (it != null) {
+                        it.title = currentTitle
+                        it.description = currentDescription
+                        it.goalCount = currentGoalCount.toInt()
+                        it.hasDuedate = currentHasDuedate
+                        it.dueDate = currentDueDate
+                        it.tag = currentTag
+
+                        pomodoroRepository.update(it)
+                        _pomodoroUpdated.value = Event(Unit)
+                    }
+                }
+            }
         }
-
-
-
-
     }
 
 
     private fun createPomodoro(newPomodoro: Pomodoro) {
-
         viewModelScope.launch {
             pomodoroRepository.insert(newPomodoro)
             _pomodoroUpdated.value = Event(Unit)
         }
     }
+
 
     fun setStartDateText() : String = SimpleDateFormat("yyyy/MM/dd").format(Date(System.currentTimeMillis()))
 
