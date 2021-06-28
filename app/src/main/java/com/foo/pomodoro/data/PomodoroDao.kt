@@ -18,6 +18,8 @@ interface PomodoroDao {
     @Query("DELETE FROM pomodoros")
     suspend fun deleteAll()
 
+    @Delete
+    suspend fun delete(pomodoro: Pomodoro): Int
     @Update
     suspend fun updatePomodoro(pomodoro: Pomodoro): Int
 }

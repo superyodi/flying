@@ -3,9 +3,7 @@ package com.foo.pomodoro.adapters
 
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,16 +17,13 @@ import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.databinding.ListItemPomodoroBinding
 import com.foo.pomodoro.ui.PomodoroListFragmentDirections
 import com.foo.pomodoro.viewmodels.PomodoroViewModel
-import timber.log.Timber
+
+
 
 class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
     ListAdapter<Pomodoro, PomodoroAdapter.ViewHolder>(
-
         PomodoroDiffCallback()
     ) {
-
-
-    private val TAG = "PomodoroAdapter"
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,9 +45,8 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
     }
 
 
-
     inner class ViewHolder(
-        private  val binding: ListItemPomodoroBinding,
+        private val binding: ListItemPomodoroBinding,
         private val isTimerRunning: Boolean,
         private val runningPomodoroId: Int
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -73,9 +67,9 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
                         binding.viewModel?.let {
                             navigateToPomoDetail(it.pomoId, view)
                         }
-
                 }
             }
+
 
         }
         private fun navigateToTimer(
@@ -93,12 +87,12 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
             view: View
         ) {
             val direction =
-                PomodoroListFragmentDirections.actionPomodoroListFragmentToNewPomodoroFragment(pomoId)
+                PomodoroListFragmentDirections.actionPomodoroListFragmentToNewPomodoroFragment(
+                    pomoId
+                )
 
             view.findNavController().navigate(direction)
         }
-
-
 
 
         private fun setInvalidProgressbar() {
@@ -115,6 +109,7 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
 
         }
 
+
         fun bind(pomodoro: Pomodoro) {
             with(binding) {
                 viewModel = PomodoroViewModel(pomodoro)
@@ -123,6 +118,7 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
             if (pomodoro.id == runningPomodoroId) setValidProgressbar()
         }
     }
+
 }
 
 private class PomodoroDiffCallback : DiffUtil.ItemCallback<Pomodoro>() {
@@ -141,3 +137,4 @@ private class PomodoroDiffCallback : DiffUtil.ItemCallback<Pomodoro>() {
         return oldItem == newItem
     }
 }
+
