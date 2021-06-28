@@ -7,10 +7,13 @@ import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.data.TimerState
 import com.foo.pomodoro.service.TimerService
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
 
     val allPomos : LiveData<List<Pomodoro>> = repository.allPomodoros.asLiveData()
+
+    var deletedPomooro : Pomodoro? = null
 
     private val _openTimerEvent = MutableLiveData<Event<Int>>()
     val openTimerEvent : LiveData<Event<Int>>
@@ -42,6 +45,14 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
      */
     internal fun openTimer(taskId: Int) {
         _openTimerEvent.value = Event(taskId)
+    }
+
+    fun delete(pomodoro: Pomodoro) = viewModelScope.launch {
+
+        Timber.i(pomodoro.title)
+        deletedPomooro = pomodoro
+        repository.delete(pomodoro)
+
     }
 
 }

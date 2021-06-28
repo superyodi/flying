@@ -61,7 +61,6 @@ class NewPomodoroFragment : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -134,10 +133,7 @@ class NewPomodoroFragment : Fragment() {
 
     }
 
-
-
     private fun setPomodoroEventListener() {
-
 
         binding.btnTag.setOnClickListener {
             val tagPickerDialog = TagPickerDialog().getInstance()

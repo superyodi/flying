@@ -25,6 +25,13 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun delete(pomodoro: Pomodoro) {
+        pomodoroDao.delete(pomodoro)
+    }
+
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun update(pomodoro: Pomodoro) {
         pomodoroDao.updatePomodoro(pomodoro)
     }
