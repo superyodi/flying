@@ -1,24 +1,18 @@
 package com.foo.pomodoro
 
-import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.foo.pomodoro.databinding.ActivityMainBinding
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.foo.pomodoro.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import com.foo.pomodoro.ui.NewPomodoroFragmentDirections
-import com.foo.pomodoro.utils.setupActionBar
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialSharedAxis
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,10 +49,13 @@ class MainActivity : AppCompatActivity() {
                     toolbar.setTitle("6/18 Task") //test
                     toolbar.setBackgroundColor(Color.parseColor("#ff6037"))
                     toolbar.setTitleTextColor(Color.parseColor("#ffffff"))
+
                 }
-                R.id.timerFragment->  {
+                R.id.timerFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.GONE
+
+
                 }
                 else -> {
                     navView.visibility = View.VISIBLE
@@ -73,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
     }
+
 
 
 
