@@ -20,7 +20,8 @@
             app:destination="@id/timerFragment" />
         <action
             android:id="@+id/action_navigation_pomodoro_to_newPomodoroFragment"
-            app:destination="@id/newPomodoroFragment" />
+            app:destination="@id/newPomodoroFragment"
+            app:launchSingleTop="false" />
 
     </fragment>
 

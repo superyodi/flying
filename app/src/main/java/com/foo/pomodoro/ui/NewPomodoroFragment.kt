@@ -54,7 +54,6 @@ class NewPomodoroFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if(args.pomoId == -1) {
-            sharedElementEnterTransition = MaterialContainerTransform()
             isNewPomodoro = true
         }
 

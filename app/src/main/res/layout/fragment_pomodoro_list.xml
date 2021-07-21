@@ -86,7 +86,6 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:background="@drawable/bottomsheet_oragne"
-            android:transitionName="shared_element_container"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

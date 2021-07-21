@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -35,18 +36,6 @@ class PomodoroListFragment: Fragment() {
     }
     private var isTimerRunning = false
     var runningPomodoroId  = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-        }
-    }
 
 
 
@@ -93,23 +82,16 @@ class PomodoroListFragment: Fragment() {
 
         binding.addTask.setOnClickListener{
 
-            exitTransition = MaterialElevationScale(false).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialElevationScale(true).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
 
-            val extras = FragmentNavigatorExtras(it to "shared_element_container")
             it.findNavController().navigate(
                 R.id.action_pomodoroListFragment_to_newPomodoroFragment,
                 null,
-                null,
-                extras
+                null
             )
         }
         return binding.root
     }
+
 
     private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {
         pomoListViewModel.allPomos.observe(::getLifecycle)  { result ->
