@@ -1,10 +1,9 @@
 package com.foo.pomodoro
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil.setContentView
@@ -23,11 +22,14 @@ class MainActivity : AppCompatActivity() {
         setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
 
-
         val toolbar = findViewById<Toolbar>(R.id.tool_bar)
         setSupportActionBar(toolbar)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeAsUpIndicator(R.drawable.ic_resource_return)
+            it.setDisplayHomeAsUpEnabled(true)
+
+
         }
         toolbar.visibility = View.GONE
 
@@ -44,7 +46,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.newPomodoroFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.VISIBLE
-                    toolbar.setTitle("6/18 Task") //test
                     toolbar.setBackgroundColor(Color.parseColor("#ff6037"))
                     toolbar.setTitleTextColor(Color.parseColor("#ffffff"))
 
@@ -63,6 +64,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupTimber()
+    }
+
+    fun setToolBarTitle(title: String) {
+        supportActionBar?.title = title
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId) {
+            android.R.id.home -> {
+                super.onBackPressed()
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupTimber() {

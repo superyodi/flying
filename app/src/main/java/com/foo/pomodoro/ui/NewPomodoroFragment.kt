@@ -2,7 +2,6 @@ package com.foo.pomodoro.ui
 
 
 import android.graphics.Color
-import com.foo.pomodoro.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,18 +18,18 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
+import com.foo.pomodoro.MainActivity
 import com.foo.pomodoro.MainApplication
+import com.foo.pomodoro.R
 import com.foo.pomodoro.custom.TagPickerDialog
-import com.foo.pomodoro.data.Pomodoro
 import com.foo.pomodoro.data.PomodoroRepository
 import com.foo.pomodoro.databinding.FragmentNewPomodoroBinding
 import com.foo.pomodoro.utils.convertDateToString
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModel
 import com.foo.pomodoro.viewmodels.NewPomodoroViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialContainerTransform
 import timber.log.Timber
-
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -42,9 +41,7 @@ class NewPomodoroFragment : Fragment() {
 
 
     private var isNewPomodoro = false
-
     private var dueDate : String = ""
-
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
         NewPomodoroViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
@@ -93,6 +90,13 @@ class NewPomodoroFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
+
     }
 
     private fun getDefaultTheme(): ThemeFactory {
@@ -144,7 +148,7 @@ class NewPomodoroFragment : Fragment() {
                         viewmodel.tag.value = it
                     }
                 }
-                tagPickerDialog.show(fragmentManager,  TAG_BOTTOM_SHEET_TAG)
+                tagPickerDialog.show(fragmentManager, TAG_BOTTOM_SHEET_TAG)
             }
         }
         binding.enddateLayout.setOnClickListener{
@@ -213,6 +217,15 @@ class NewPomodoroFragment : Fragment() {
                 snackBar.show()
             }
         }
+
+    }
+
+    private fun setToolbarTitle() : String {
+
+        if (isNewPomodoro) return "New Task"
+
+        val taskDate = SimpleDateFormat("MM/dd").format(Date(System.currentTimeMillis()))
+        return taskDate.plus(" Task")
 
     }
 
