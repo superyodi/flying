@@ -171,8 +171,11 @@ class NewPomodoroFragment : Fragment() {
             viewmodel.hasDuedate.postValue(false)
 
             binding.groupDuedate.visibility = View.GONE
-            binding.btnEveryday.setBackgroundColor(Color.GRAY)
-            binding.btnOneday.setBackgroundColor(Color.MAGENTA)
+            binding.btnOneday.setBackgroundResource(R.drawable.button_duration_clicked)
+            binding.btnEveryday.setBackgroundResource(R.drawable.button_duration_unclicked)
+            binding.btnEveryday.setTextColor(Color.parseColor("#dbcfc7"))
+            binding.btnOneday.setTextColor(Color.parseColor("#ff8e71"))
+
 
         }
 
@@ -181,8 +184,10 @@ class NewPomodoroFragment : Fragment() {
             viewmodel.hasDuedate.postValue(true)
 
             binding.groupDuedate.visibility = View.VISIBLE
-            binding.btnOneday.setBackgroundColor(Color.GRAY)
-            binding.btnEveryday.setBackgroundColor(Color.MAGENTA)
+            binding.btnEveryday.setBackgroundResource(R.drawable.button_duration_clicked)
+            binding.btnOneday.setBackgroundResource(R.drawable.button_duration_unclicked)
+            binding.btnOneday.setTextColor(Color.parseColor("#dbcfc7"))
+            binding.btnEveryday.setTextColor(Color.parseColor("#ff8e71"))
 
         }
 
