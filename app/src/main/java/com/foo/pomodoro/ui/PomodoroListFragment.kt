@@ -83,10 +83,12 @@ class PomodoroListFragment: Fragment() {
         binding.addTask.setOnClickListener{
 
 
+
             it.findNavController().navigate(
                 R.id.action_pomodoroListFragment_to_newPomodoroFragment,
                 null,
                 null
+
             )
         }
         return binding.root
