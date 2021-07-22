@@ -64,7 +64,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_tag"
-                android:layout_width="84dp"
+                android:layout_width="86dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="139dp"
                 android:layout_marginLeft="139dp"
