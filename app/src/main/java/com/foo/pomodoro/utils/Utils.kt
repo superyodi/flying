@@ -23,7 +23,6 @@ fun getFormattedStopWatchTime(ms: Long?): String{
         var milliseconds = ms
 
 
-
         // Convert to minutes
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
         milliseconds -= TimeUnit.MINUTES.toMillis(minutes)

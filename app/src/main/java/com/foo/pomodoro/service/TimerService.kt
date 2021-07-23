@@ -250,7 +250,7 @@ class TimerService : LifecycleService(){
         timerIndex += 1
 
         // check if index still in bound
-        if(timerIndex < timerMaxRepetitions){
+        if(timerIndex != timerMaxRepetitions){
 
             // if timerIndex odd -> post one more tomato
             if(timerIndex % 2 != 0)
