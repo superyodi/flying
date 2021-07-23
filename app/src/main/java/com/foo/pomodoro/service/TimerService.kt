@@ -76,6 +76,7 @@ class TimerService : LifecycleService(){
         val elapsedTimeInMillisEverySecond = MutableLiveData<Long>()
 
         var goalTomatoCount  = 0
+        var nowTomatoCount = 0
     }
 
 
@@ -184,9 +185,7 @@ class TimerService : LifecycleService(){
     }
 
     private fun startServiceTimer(){
-        // get wakelock
 
-//        acquireWakelock()
         isKilled = false
         resetTimer()
         currentTimerState.postValue(TimerState.RUNNING)
@@ -253,15 +252,16 @@ class TimerService : LifecycleService(){
         // check if index still in bound
         if(timerIndex < timerMaxRepetitions){
 
-            // if timerIndex odd -> post new rep
+            // if timerIndex odd -> post one more tomato
             if(timerIndex % 2 != 0)
-                currentTomatoCount.postValue(currentTomatoCount.value?.plus(1))
+                nowTomatoCount++
+                currentTomatoCount.postValue(nowTomatoCount)
 
 
             // get next workout state
-            pomodoroState = getNextPomodoroState(pomodoroState, timerIndex)
+            pomodoroState = getNextPomodoroState(pomodoroState, nowTomatoCount)
 
-            Timber.i("currentTomatoCount: $timerIndex- maxRep: $timerMaxRepetitions")
+            Timber.i("currentTomatoCount: ${nowTomatoCount}- maxRep: $timerMaxRepetitions")
 
 
             // start new timer
@@ -326,7 +326,6 @@ class TimerService : LifecycleService(){
         stopForeground(true)
     }
 
-    // 지금은 그냥 테스트
     private fun pushToForeground() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -367,6 +366,7 @@ class TimerService : LifecycleService(){
             elapsedTimeInMillisEverySecond.postValue(TIMER_STARTING_IN_TIME)
 
             goalTomatoCount = it.goalCount
+            nowTomatoCount = it.nowCount
         }
     }
     private fun updateNotificationActions(state: TimerState){
@@ -398,6 +398,7 @@ class TimerService : LifecycleService(){
         isInitialized = false
         pomodoro = null
         currentTomatoCount.postValue(0)
+        nowTomatoCount = 0
 
     }
 
