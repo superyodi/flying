@@ -61,6 +61,6 @@
         android:id="@+id/navigation_notifications"
         android:name="com.foo.pomodoro.ui.PreferenceFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_preference" />
 
 </navigation>

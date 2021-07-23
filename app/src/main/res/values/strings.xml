@@ -25,4 +25,17 @@
     <string name="title_notifications">Notifications</string>
 
 
+    <string name="prefer_pomodoro_time">뽀모도로 시간</string>
+    <string name="prefer_short_time">짧은 휴식</string>
+    <string name="prefer_long_time">긴 휴식</string>
+    <string name="prefer_long_term">긴 휴식 간격</string>
+    <string name="prefer_timer_autoskip">자동으로 뽀모도로 넘김</string>
+    <string name="prefer_rest_autostart">자동으로 휴식 시작</string>
+    <string name="prefer_timer_nonrest">휴식없이 무한 질주</string>
+    <string name="prefer_fq">F&amp;Q</string>
+    <string name="prefer_invite_friend">친구 초대</string>
+    <string name="prefer_logout">로그아웃</string>
+
+
+
 </resources>
