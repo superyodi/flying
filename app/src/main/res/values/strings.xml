@@ -2,6 +2,8 @@
     <string name="app_name">Pomodoro</string>
     <string name="tab_text_pomo">뽀모도로</string>
     <string name="tab_text_report">리포트</string>
+    <string name="tab_text_preference">설정</string>
+
     <string name="empty_pomodoro_title">제목을 입력해주세요.</string>
     <string name="empty_pomodoro_tag">태그를 선택해주세요</string>
     <string name="empty_pomodoro_count_message">목표 횟수를 입력해주세요</string>
@@ -21,8 +23,8 @@
     <string name="timer_cancel">취소</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="title_pomodoro">flying</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_report">리포트</string>
+    <string name="title_preference">설정</string>
 
 
     <string name="prefer_pomodoro_time">뽀모도로 시간</string>

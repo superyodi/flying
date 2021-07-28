@@ -52,15 +52,15 @@
 
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_report"
         android:name="com.foo.pomodoro.ui.ReportFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="@string/title_report"
+        tools:layout="@layout/fragment_report" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_preference"
         android:name="com.foo.pomodoro.ui.PreferenceFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_preference"
         tools:layout="@layout/fragment_preference" />
 
 </navigation>
