@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.foo.pomodoro.viewmodels.NewPomodoroViewModel"/>
+            type="com.yodi.flying.viewmodels.NewPomodoroViewModel"/>
 
 
     </data>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_pomodoro"
-        android:name="com.foo.pomodoro.ui.PomodoroListFragment"
+        android:name="com.yodi.flying.features.pomolist.PomodoroListFragment"
         android:label="@string/title_pomodoro"
         tools:layout="@layout/fragment_pomodoro_list">
 
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/newPomodoroFragment"
-        android:name="com.foo.pomodoro.ui.NewPomodoroFragment"
+        android:name="com.yodi.flying.features.pomodoro.NewPomodoroFragment"
         android:label="NewPomodoroFragment" >
         <action
             android:id="@+id/action_newPomodoroFragment_to_pomodoroListFragment"
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/timerFragment"
-        android:name="com.foo.pomodoro.ui.TimerFragment"
+        android:name="com.yodi.flying.features.timer.TimerFragment"
         android:label="TimerFragment">
         <argument
             android:name="pomoId"
@@ -53,13 +53,13 @@
 
     <fragment
         android:id="@+id/navigation_report"
-        android:name="com.foo.pomodoro.ui.ReportFragment"
+        android:name="report.ReportFragment"
         android:label="@string/title_report"
         tools:layout="@layout/fragment_report" />
 
     <fragment
         android:id="@+id/navigation_preference"
-        android:name="com.foo.pomodoro.ui.PreferenceFragment"
+        android:name="com.yodi.flying.features.preference.PreferenceFragment"
         android:label="@string/title_preference"
         tools:layout="@layout/fragment_preference" />
 

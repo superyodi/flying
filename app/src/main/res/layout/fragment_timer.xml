@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.foo.pomodoro.data.Pomodoro" />
+        <import type="com.yodi.flying.model.entity.Pomodoro" />
         <variable
             name="viewModel"
-            type="com.foo.pomodoro.viewmodels.TimerViewModel"/>
+            type="com.yodi.flying.viewmodels.TimerViewModel"/>
     </data>
 
 

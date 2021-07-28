@@ -27,7 +27,7 @@
 
         <variable
             name="viewModel"
-            type="com.foo.pomodoro.viewmodels.PomodoroViewModel"/>
+            type="com.yodi.flying.features.pomolist.PomodoroViewModel"/>
 
     </data>
 
