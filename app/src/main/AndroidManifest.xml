@@ -3,6 +3,7 @@
     package="com.yodi.flying" >
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.yodi.flying.MainApplication"
@@ -19,17 +20,35 @@
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
-        <activity
-            android:name="com.yodi.flying.MainActivity"
+        <activity android:name=".features.login.LogInActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name="com.yodi.flying.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Pomodoro.NoActionBar"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+
+
+        </activity>
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
+                <data android:host="oauth"
+                    android:scheme="kakao677173c40d91ddb9e19c265d231c1b04" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>

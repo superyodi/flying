@@ -5,8 +5,10 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yodi.flying.model.dao.PomodoroDao
 import com.yodi.flying.model.dao.TagDao
+import com.yodi.flying.model.dao.UserDao
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.entity.Tag
+import com.yodi.flying.model.entity.User
 import com.yodi.flying.utils.DATABASE_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -16,7 +18,7 @@ import kotlinx.coroutines.launch
  * The Room database for this app
  */
 
-@Database(entities = arrayOf(Pomodoro::class, Tag::class), version = 2, exportSchema = false)
+@Database(entities = arrayOf(Pomodoro::class, Tag::class, User::class), version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 
 abstract class AppDatabase : RoomDatabase() {
@@ -24,6 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun pomodoroDao() : PomodoroDao
     abstract fun tagDao() : TagDao
+    abstract fun userDao() : UserDao
+
 
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
@@ -41,7 +45,6 @@ abstract class AppDatabase : RoomDatabase() {
                     tagDao.insert(Tag("안드로이드"))
                     tagDao.insert(Tag("디자인"))
                     tagDao.insert(Tag("토익"))
-
 
                 }
             }

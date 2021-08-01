@@ -22,6 +22,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        // Create Kakao SDK repository
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
 

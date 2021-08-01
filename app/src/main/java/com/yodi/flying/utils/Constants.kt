@@ -5,7 +5,9 @@ package com.yodi.flying.utils
  */
 const val DATABASE_NAME = "pomodoro-db"
 
-
+// SharedPreference
+const val PREF_FILE_NAME = "com.yodi.flying.sharedprefs"
+const val PREF_USER_ID = "PREF_USER_ID"
 
 // Intent Actions for communication with timer service
 const val ACTION_START              = "ACTION_START"
@@ -30,6 +32,8 @@ const val NOTIFICATION_COMPLETE_ID  = 2
 const val ONE_SECOND                = 1000L
 const val TIMER_UPDATE_INTERVAL     = 5L    //5ms
 const val TIMER_STARTING_IN_TIME    = 100L // 100ms
+
+const val KAKAO_SDK_APP_KEY = "677173c40d91ddb9e19c265d231c1b04"
 
 
 // 임시 사용자 설정 변수

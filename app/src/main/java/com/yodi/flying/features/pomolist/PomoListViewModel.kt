@@ -60,7 +60,6 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
 class PomoListViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-
         return if (modelClass.isAssignableFrom(PomoListViewModel::class.java)) {
             PomoListViewModel(repository) as T
         } else {

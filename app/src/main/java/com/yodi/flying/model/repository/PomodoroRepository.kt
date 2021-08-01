@@ -17,14 +17,14 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getPomodoro(pomoId: Int): Pomodoro = pomodoroDao.getPomodoro(pomoId)
+    suspend fun insert(pomodoro: Pomodoro) {
+        pomodoroDao.insert(pomodoro)
+    }
 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(pomodoro: Pomodoro) {
-        pomodoroDao.insert(pomodoro)
-    }
+    suspend fun getPomodoro(pomoId: Int): Pomodoro = pomodoroDao.getPomodoro(pomoId)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
