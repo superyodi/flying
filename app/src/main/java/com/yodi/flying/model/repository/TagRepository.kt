@@ -9,9 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 class TagRepository(private val tagDao: TagDao) {
 
-
-
-    val allTags : Flow<List<Tag>> = tagDao.getTags()
+    fun getTags(userId: Long): Flow<List<Tag>> = tagDao.getTags(userId)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

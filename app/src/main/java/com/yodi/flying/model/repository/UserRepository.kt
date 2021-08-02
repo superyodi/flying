@@ -4,7 +4,8 @@ import androidx.annotation.WorkerThread
 import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.dao.UserDao
 import com.yodi.flying.model.entity.User
-import com.yodi.flying.utils.PREF_USER_ID
+import com.yodi.flying.utils.Constants.Companion.PREF_USER_ID
+
 
 class UserRepository(private val userDao : UserDao, private val preferences:
 SharedPreferenceManager) {

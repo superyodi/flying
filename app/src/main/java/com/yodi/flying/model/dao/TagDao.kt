@@ -9,8 +9,8 @@ import com.yodi.flying.model.entity.Tag
 @Dao
 interface TagDao {
 
-    @Query("SELECT * FROM tags ORDER BY id ASC")
-    fun getTags(): kotlinx.coroutines.flow.Flow<List<Tag>>
+    @Query("SELECT * FROM tags WHERE userId = :userId")
+    fun getTags(userId : Long): kotlinx.coroutines.flow.Flow<List<Tag>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(tag: Tag)

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
 
 
-    val allPomodoros : Flow<List<Pomodoro>> = pomodoroDao.getPomodoros()
+    fun getPomodoros(userId: Long): Flow<List<Pomodoro>> = pomodoroDao.getPomodoros(userId)
 
 
     @Suppress("RedundantSuspendModifier")
@@ -21,10 +21,9 @@ class PomodoroRepository(private val pomodoroDao: PomodoroDao) {
         pomodoroDao.insert(pomodoro)
     }
 
-
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getPomodoro(pomoId: Int): Pomodoro = pomodoroDao.getPomodoro(pomoId)
+    suspend fun getPomodoro(pomoId: Long, userId: Long): Pomodoro = pomodoroDao.getPomodoro(pomoId, userId)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

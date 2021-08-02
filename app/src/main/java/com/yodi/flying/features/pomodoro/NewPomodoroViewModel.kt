@@ -5,6 +5,7 @@ import com.yodi.flying.utils.Event
 import com.yodi.flying.R
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
+import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,7 +15,6 @@ class NewPomodoroViewModel(
 ) : ViewModel() {
 
     val TAG = "NewPomodoroViewModel"
-
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
@@ -46,10 +46,10 @@ class NewPomodoroViewModel(
         get() =_isDataLoaded
 
 
-    fun start(pomoId: Int) {
+    fun start(pomoId: Long) {
         _isDataLoaded.value = false
 
-        if (pomoId == -1) {
+        if (pomoId == -1L) {
             // No need to populate, it's a new task
             isNewPomo = true
             return
@@ -58,7 +58,7 @@ class NewPomodoroViewModel(
         isNewPomo = false
 
         viewModelScope.launch {
-            pomodoro.value = pomodoroRepository.getPomodoro(pomoId)
+            pomodoro.value = pomodoroRepository.getPomodoro(pomoId, Constants.USER_ID)
             _isDataLoaded.value = true
         }
 
@@ -140,7 +140,7 @@ class NewPomodoroViewModel(
         if(isNewPomo) {
             createPomodoro(
                 Pomodoro(
-                    currentTitle, currentTag, goalCountNum,
+                    Constants.USER_ID, currentTitle, currentTag, goalCountNum,
                     0, currentDescription, currentHasDuedate, currentInitDate, currentDueDate
                 )
             )

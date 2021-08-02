@@ -11,6 +11,8 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.yodi.flying.R
 
 import com.yodi.flying.features.timer.TimerFragmentArgs
+import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_CHANNEL_ID
+import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_CHANNEL_NAME
 
 
 fun provideBaseNotificationBuilder(
@@ -41,7 +43,7 @@ fun createNotificationChannel(notificationManager: NotificationManager) {
 }
 
 
-fun buildTimeFragmentPendingIntentWithId(id: Int, context: Context): PendingIntent {
+fun buildTimeFragmentPendingIntentWithId(id: Long, context: Context): PendingIntent {
 
     val arg = TimerFragmentArgs(id).toBundle()
 

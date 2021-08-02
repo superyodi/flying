@@ -32,7 +32,7 @@ class PomodoroListFragment: Fragment() {
         PomoListViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
     }
     private var isTimerRunning = false
-    var runningPomodoroId  = -1
+    private var runningPomodoroId  = -1L
 
 
 
@@ -62,9 +62,9 @@ class PomodoroListFragment: Fragment() {
 
             if(isTimerRunning) {
                 if(pomoListViewModel.runningPomodoroId != null) {
-                    Timber.i("실행되는 뽀모도로" + pomoListViewModel.runningPomodoroId.toString())
+                    Timber.i("실행되는 뽀모도로%s", pomoListViewModel.runningPomodoroId.toString())
 
-                    runningPomodoroId = pomoListViewModel.runningPomodoroId ?: -1
+                    runningPomodoroId = pomoListViewModel.runningPomodoroId ?: -1L
 
                 }
             }

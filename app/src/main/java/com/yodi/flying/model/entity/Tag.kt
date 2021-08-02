@@ -7,12 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tags")
 data class Tag(
     @PrimaryKey
-    var tagName: String = ""
-) {
-
-
-    var id: Int = 0
-
-}
-
+    val tagName: String = "",
+    val userId : Long = 0L
+)
 

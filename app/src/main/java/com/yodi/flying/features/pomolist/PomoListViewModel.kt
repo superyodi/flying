@@ -6,12 +6,13 @@ import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.TimerState
 import com.yodi.flying.service.TimerService
+import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
 
-    val allPomos : LiveData<List<Pomodoro>> = repository.allPomodoros.asLiveData()
+    val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros(Constants.USER_ID).asLiveData()
 
     var deletedPomooro : Pomodoro? = null
 
@@ -24,12 +25,10 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
 
     val isTimerRunning: LiveData<Boolean>
         get() = repository.getTimerServiceTimerState().map {
-            if(it != null){
-                it != TimerState.EXPIRED
-            }else false
+            it != TimerState.EXPIRED
         }
 
-    val runningPomodoroId : Int?
+    val runningPomodoroId : Long?
         get() = TimerService.currentPomodoro.value?.id
 
 
@@ -40,12 +39,7 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
         repository.insert(pomodoro)
     }
 
-    /**
-     * Called by the [TasksAdapter].
-     */
-    internal fun openTimer(taskId: Int) {
-        _openTimerEvent.value = Event(taskId)
-    }
+
 
     fun delete(pomodoro: Pomodoro) = viewModelScope.launch {
 

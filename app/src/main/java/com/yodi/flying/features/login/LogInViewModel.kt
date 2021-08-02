@@ -5,21 +5,21 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.UserRepository
+import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class LogInViewModel(application: Application, private val repository: UserRepository) : AndroidViewModel(application) {
 
-    private val context = application.applicationContext
-
 
     fun executeLogin(userId: Long) {
 
         val user = getUserWithId(userId)
+
+        Constants.USER_ID = userId
+
 
         if(user == null) {
             Timber.i("go to SetUpActivity")

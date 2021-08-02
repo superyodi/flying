@@ -39,5 +39,9 @@
     <string name="prefer_logout">로그아웃</string>
 
 
+    <string name="pomo_state_stopover">Stop over</string>
+    <string name="pomo_state_mealtime">Meal time</string>
+
+
 
 </resources>

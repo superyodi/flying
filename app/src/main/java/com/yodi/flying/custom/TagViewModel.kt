@@ -5,6 +5,7 @@ package com.yodi.flying.viewmodels
 import androidx.lifecycle.*
 import com.yodi.flying.model.entity.Tag
 import com.yodi.flying.model.repository.TagRepository
+import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
 
 
@@ -13,10 +14,10 @@ class TagViewModel(
 ) : ViewModel() {
 
     val TAG = "TagViewModel"
-    val allTags : LiveData<List<Tag>> = tagRepository.allTags.asLiveData()
+    val allTags : LiveData<List<Tag>> = tagRepository.getTags(Constants.USER_ID).asLiveData()
 
     fun addTag(title: String) {
-        if (title.isNullOrEmpty()) return
+        if (title.isEmpty()) return
 
         viewModelScope.launch {
             tagRepository.insert(Tag(title))

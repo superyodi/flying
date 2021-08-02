@@ -7,7 +7,8 @@ import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.repository.TagRepository
 import com.yodi.flying.model.repository.UserRepository
-import com.yodi.flying.utils.KAKAO_SDK_APP_KEY
+import com.yodi.flying.utils.Constants.Companion.KAKAO_SDK_APP_KEY
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

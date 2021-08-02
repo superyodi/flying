@@ -8,6 +8,13 @@ import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.PomodoroState.Companion.SHORT_BREAK
 import com.yodi.flying.service.TimerService
+import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
+import com.yodi.flying.utils.Constants.Companion.ACTION_PAUSE
+import com.yodi.flying.utils.Constants.Companion.ACTION_RESUME
+import com.yodi.flying.utils.Constants.Companion.LONG_BREAK_TIME
+import com.yodi.flying.utils.Constants.Companion.RUNNING_TIME
+import com.yodi.flying.utils.Constants.Companion.SHORT_BREAK_TIME
+import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
 
 
 fun provideMainActivityPendingIntent(
@@ -16,7 +23,7 @@ fun provideMainActivityPendingIntent(
     app,
     0,
     Intent(app, MainActivity::class.java).also {
-        it.action = ACTION_SHOW_MAIN_ACTIVITY
+        it.action = Constants.ACTION_SHOW_MAIN_ACTIVITY
     },
     PendingIntent.FLAG_UPDATE_CURRENT
 )

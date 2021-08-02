@@ -6,14 +6,14 @@ import com.yodi.flying.model.entity.Pomodoro
 @Dao
 interface PomodoroDao {
 
-    @Query("SELECT * FROM pomodoros ORDER BY id ASC")
-    fun getPomodoros(): kotlinx.coroutines.flow.Flow<List<Pomodoro>>
+    @Query("SELECT * FROM pomodoros WHERE userId = :userId ORDER BY id ASC")
+    fun getPomodoros(userId : Long): kotlinx.coroutines.flow.Flow<List<Pomodoro>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(pomodoro: Pomodoro)
 
-    @Query("SELECT * FROM pomodoros WHERE id = :pomodoroId")
-    suspend fun getPomodoro(pomodoroId: Int): Pomodoro
+    @Query("SELECT * FROM pomodoros WHERE userId = :userId AND id = :pomodoroId")
+    suspend fun getPomodoro(pomodoroId: Long, userId: Long): Pomodoro
 
     @Query("DELETE FROM pomodoros")
     suspend fun deleteAll()

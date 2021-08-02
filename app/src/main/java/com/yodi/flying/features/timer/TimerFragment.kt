@@ -20,8 +20,13 @@ import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.model.TimerState
 import com.yodi.flying.databinding.FragmentTimerBinding
 import com.yodi.flying.service.TimerService
-import com.yodi.flying.features.timer.TimerFragmentArgs
-import com.yodi.flying.utils.*
+import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
+import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL_AND_RESET
+import com.yodi.flying.utils.Constants.Companion.ACTION_INITIALIZE_DATA
+import com.yodi.flying.utils.Constants.Companion.ACTION_PAUSE
+import com.yodi.flying.utils.Constants.Companion.ACTION_RESUME
+import com.yodi.flying.utils.Constants.Companion.ACTION_START
+import com.yodi.flying.utils.Constants.Companion.EXTRA_POMODORO_ID
 import com.yodi.flying.viewmodels.TimerViewModel
 import com.yodi.flying.viewmodels.TimerViewModelFactory
 import timber.log.Timber
@@ -29,7 +34,6 @@ import timber.log.Timber
 
 class TimerFragment : Fragment(){
 
-    private val TAG = "TimerFragment"
     private val args: TimerFragmentArgs by navArgs()
 
     private var bound: Boolean = false
@@ -108,15 +112,14 @@ class TimerFragment : Fragment(){
         }
 
         // UI Setting according to timerState
-        timerViewmodel.timerState.observe(::getLifecycle) { it ->
+        timerViewmodel.timerState.observe(::getLifecycle) {
 
-            when(it) {
+            when (it) {
                 TimerState.RUNNING -> {
                     binding.stopLayout.visibility = View.GONE
                     binding.btnStop.visibility = View.VISIBLE
                 }
-
-                TimerState.EXPIRED , TimerState.PAUSED-> {
+                TimerState.EXPIRED, TimerState.PAUSED -> {
                     binding.stopLayout.visibility = View.VISIBLE
                     binding.btnStop.visibility = View.GONE
                 }
@@ -137,12 +140,12 @@ class TimerFragment : Fragment(){
                 }
 
                 PomodoroState.SHORT_BREAK -> {
-                    binding.timerState.text = "Meal time"
+                    binding.timerState.text = R.string.pomo_state_mealtime.toString()
 
                 }
 
                 PomodoroState.LONG_BREAK -> {
-                    binding.timerState.text = "Stop over"
+                    binding.timerState.text = R.string.pomo_state_stopover.toString()
                 }
             }
         }

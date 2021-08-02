@@ -19,7 +19,7 @@ import com.yodi.flying.features.pomolist.PomodoroListFragmentDirections
 import com.yodi.flying.features.pomolist.PomodoroViewModel
 
 
-class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
+class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Long) :
     ListAdapter<Pomodoro, PomodoroAdapter.ViewHolder>(
         PomodoroDiffCallback()
     ) {
@@ -47,7 +47,7 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
     inner class ViewHolder(
         private val binding: ListItemPomodoroBinding,
         private val isTimerRunning: Boolean,
-        private val runningPomodoroId: Int
+        private val runningPomodoroId: Long
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -72,7 +72,7 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
 
         }
         private fun navigateToTimer(
-            pomoId: Int,
+            pomoId: Long,
             view: View
         ) {
             val direction =
@@ -82,7 +82,7 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Int) :
         }
 
         private fun navigateToPomoDetail(
-            pomoId: Int,
+            pomoId: Long,
             view: View
         ) {
             val direction =

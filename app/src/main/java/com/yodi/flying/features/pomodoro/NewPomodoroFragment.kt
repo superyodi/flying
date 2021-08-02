@@ -51,7 +51,7 @@ class NewPomodoroFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
 
-        if(args.pomoId == -1) {
+        if(args.pomoId == -1L) {
             isNewPomodoro = true
         }
 
@@ -145,7 +145,7 @@ class NewPomodoroFragment : Fragment() {
             activity?.supportFragmentManager?.let { fragmentManager ->
 
                 tagPickerDialog.setOnButtonClickedListener { it ->
-                    if(!it.isNullOrEmpty()) {
+                    if(it.isNotEmpty()) {
                         viewmodel.tag.value = it
                     }
                 }
@@ -205,7 +205,7 @@ class NewPomodoroFragment : Fragment() {
             // TODO("goal count 입력받는 dialog 보여줌 ")
             viewmodel.pomodoroUpdatedEvent.observe(::getLifecycle) { it ->
                 it.getContentIfNotHandled()?.let {
-                    view.findNavController().navigate(com.yodi.flying.R.id.action_newPomodoroFragment_to_pomodoroListFragment)
+                    view.findNavController().navigate(R.id.action_newPomodoroFragment_to_pomodoroListFragment)
                 }
             }
 

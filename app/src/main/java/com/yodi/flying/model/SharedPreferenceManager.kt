@@ -1,7 +1,7 @@
 package com.yodi.flying.model
 
 import android.content.Context
-import com.yodi.flying.utils.PREF_FILE_NAME
+import com.yodi.flying.utils.Constants.Companion.PREF_FILE_NAME
 
 
 class SharedPreferenceManager(context: Context) {

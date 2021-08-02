@@ -6,6 +6,7 @@ import com.yodi.flying.model.PomodoroState
 
 @Entity(tableName = "pomodoros")
 data class Pomodoro(
+    var userId: Long = 0L,
     var title: String = "",
     var tag: String = "",
     var goalCount: Int = 0,
@@ -17,15 +18,15 @@ data class Pomodoro(
 
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Long = 0L
     var state = PomodoroState.NONE
     var leftTime = 0L
 
 
     constructor(
-        title: String, tag: String,
+        userId: Long, title: String, tag: String,
         goalCount: Int, nowCount: Int, description: String, hasDuedate: Boolean, initDate: String
-    ) : this(title, tag, goalCount, nowCount, description, hasDuedate, initDate, null)
+    ) : this(userId, title, tag, goalCount, nowCount, description, hasDuedate, initDate, null)
 
 
     val isEmpty

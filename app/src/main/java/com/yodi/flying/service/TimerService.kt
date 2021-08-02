@@ -20,11 +20,22 @@ import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.TimerState
 
 import com.yodi.flying.utils.*
+import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
+import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL_AND_RESET
+import com.yodi.flying.utils.Constants.Companion.ACTION_INITIALIZE_DATA
+import com.yodi.flying.utils.Constants.Companion.ACTION_PAUSE
+import com.yodi.flying.utils.Constants.Companion.ACTION_RESUME
+import com.yodi.flying.utils.Constants.Companion.ACTION_START
+import com.yodi.flying.utils.Constants.Companion.EXTRA_POMODORO_ID
+import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_ID
+import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
+import com.yodi.flying.utils.Constants.Companion.TIMER_UPDATE_INTERVAL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 class TimerService : LifecycleService(){
 
@@ -337,15 +348,15 @@ class TimerService : LifecycleService(){
     private fun initializeData(intent: Intent) {
         if (!isInitialized) {
             intent.extras?.let {
-                val id = it.getInt(EXTRA_POMODORO_ID)
-                if (id != -1) {
+                val id = it.getLong(EXTRA_POMODORO_ID)
+                if (id != -1L) {
                     // id is valid
                     currentNotificationBuilder
                         .setContentIntent(buildTimeFragmentPendingIntentWithId(id, this))
 
                     // launch coroutine, fetch workout from db & audiostate from data store
                     serviceScope.launch {
-                        pomodoro = pomodoroRepository.getPomodoro(id)
+                        pomodoro = pomodoroRepository.getPomodoro(id, Constants.USER_ID)
                         isInitialized = true
                         postInitData()
                     }
@@ -404,14 +415,14 @@ class TimerService : LifecycleService(){
 
     private fun setupObservers(){
         // observe timerState and update notification actions
-        currentTimerState.observe(this, Observer {
+        currentTimerState.observe(this, {
             Timber.i("currentTimerState changed - ${it.stateName}")
             if(!isKilled && !isBound)
                 updateNotificationActions(it)
         })
 
         // Observe timeInMillis and update notification
-        elapsedTimeInMillisEverySecond.observe(this, Observer {
+        elapsedTimeInMillisEverySecond.observe(this, {
             if (!isKilled && !isBound) {
                 // Only do something if timer is running and service in foreground
                 val notification = currentNotificationBuilder

@@ -36,8 +36,8 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="pomoId"
-            app:argType="integer"
-            android:defaultValue="-1"/>
+            android:defaultValue="-1L"
+            app:argType="long"/>
 
     </fragment>
 
@@ -47,13 +47,13 @@
         android:label="TimerFragment">
         <argument
             android:name="pomoId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
 
 
     <fragment
         android:id="@+id/navigation_report"
-        android:name="report.ReportFragment"
+        android:name="com.yodi.flying.features.report.ReportFragment"
         android:label="@string/title_report"
         tools:layout="@layout/fragment_report" />
 
