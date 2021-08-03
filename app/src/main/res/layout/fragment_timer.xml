@@ -8,7 +8,7 @@
         <import type="com.yodi.flying.model.entity.Pomodoro" />
         <variable
             name="viewModel"
-            type="com.yodi.flying.viewmodels.TimerViewModel"/>
+            type="com.yodi.flying.features.timer.TimerViewModel"/>
     </data>
 
 
