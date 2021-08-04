@@ -1,6 +1,7 @@
 package com.yodi.flying.features.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivityLoginBinding
-import com.yodi.flying.viewmodels.PomoListViewModel
-import com.yodi.flying.viewmodels.PomoListViewModelFactory
+import com.yodi.flying.features.setup.SetupActivity
 import timber.log.Timber
 
 
@@ -20,7 +20,7 @@ class LogInActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityLoginBinding
     private val logInViewModel: LogInViewModel by viewModels {
-        LogInViewModelFactory(application ,(application as MainApplication).userRepository)
+        LogInViewModelFactory((application as MainApplication).userRepository)
     }
 
 
@@ -33,9 +33,11 @@ class LogInActivity : AppCompatActivity(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         binding.btnStartWithKakao.setOnClickListener{
-            val userId = getKakaoId(this)
-            logInViewModel.executeLogin(userId)
+//            val userId = getKakaoId(this)
+//            logInViewModel.executeLogin(userId)
 
+            // for test
+            navigateToSetup()
         }
 
     }
@@ -62,7 +64,10 @@ class LogInActivity : AppCompatActivity(){
         UserApiClient.instance.me { user, error ->
             user?.let {
                 userID = user.id
-                Timber.i("카카오 아이: ${user.id}")
+                Timber.i("카카오 아이디: ${user.id}")
+
+                // test
+                navigateToSetup()
             }
             error?.let {
                 Timber.i("정보를 가져올 수 없습니다. ")
@@ -70,6 +75,11 @@ class LogInActivity : AppCompatActivity(){
         }
 
         return userID
+    }
+
+    fun navigateToSetup() {
+        val intent = Intent(this, SetupActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupTimber() {

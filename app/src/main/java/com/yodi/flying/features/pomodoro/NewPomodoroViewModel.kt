@@ -1,7 +1,6 @@
-package com.yodi.flying.viewmodels
-
+package com.yodi.flying.features.pomodoro
 import androidx.lifecycle.*
-import com.yodi.flying.utils.Event
+import com.yodi.flying.mvvm.Event
 import com.yodi.flying.R
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository

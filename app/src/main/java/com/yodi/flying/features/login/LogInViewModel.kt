@@ -1,7 +1,5 @@
 package com.yodi.flying.features.login
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -11,7 +9,7 @@ import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class LogInViewModel(application: Application, private val repository: UserRepository) : AndroidViewModel(application) {
+class LogInViewModel(private val userRepository: UserRepository) : ViewModel() {
 
 
     fun executeLogin(userId: Long) {
@@ -25,7 +23,7 @@ class LogInViewModel(application: Application, private val repository: UserRepos
             Timber.i("go to SetUpActivity")
         }
         else {
-            repository.setUserIdToPreferences(userId)
+            userRepository.setUserIdToPreferences(userId)
             Timber.i("go to MainActivity")
         }
 
@@ -34,7 +32,7 @@ class LogInViewModel(application: Application, private val repository: UserRepos
     private fun getUserWithId(userId: Long) : User? {
         var user : User? = null
         viewModelScope.launch {
-            user = repository.getUser(userId)
+            user = userRepository.getUser(userId)
         }
         return user
     }
@@ -47,10 +45,10 @@ class LogInViewModel(application: Application, private val repository: UserRepos
 
 
 
-class LogInViewModelFactory(val application: Application, val repository: UserRepository) : ViewModelProvider.Factory {
+class LogInViewModelFactory(val repository: UserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(LogInViewModel::class.java)) {
-            LogInViewModel(application, repository) as T
+            LogInViewModel(repository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }

@@ -10,6 +10,7 @@
             name="viewModel"
             type="com.yodi.flying.features.setup.SetupViewModel"/>
 
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +63,7 @@
             android:layout_marginTop="56dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stage1"
-            app:srcCompat="@drawable/ic_setup_nickname" />
+            app:imageResource="@{viewModel.iconResource}" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -107,20 +108,19 @@
             <EditText
                 android:id="@+id/content_stage1"
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:ems="10"
-
+                android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="@{viewModel.userNickname}"
+                android:cursorVisible="true"
+                android:ems="8"
+                android:text="@={viewModel.userNickname}"
                 android:textColor="@color/flying_orange"
+                android:textColorHighlight="@color/flying_orange"
                 android:textCursorDrawable="@color/flying_orange"
                 android:textSize="28sp"
                 android:visibility="gone"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
             <com.google.android.material.chip.ChipGroup
@@ -164,13 +164,14 @@
 
         </FrameLayout>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_before"
             android:layout_width="48dp"
             android:layout_height="44dp"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_bright_gray_rectangle"
+            android:onClick="@{viewModel::onPrevButtonClicked}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setup_stage_layout"
@@ -185,6 +186,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_orange_rectangle"
             android:text="다음"
+            android:onClick="@{viewModel::onNextButtonClicked}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setup_stage_layout" />

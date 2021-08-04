@@ -10,14 +10,11 @@
     <string name="empty_duedate_message">작업 완료 날짜를 선택해주세요</string>
     <string name="empty_user_nickname">닉네임을 입력해주세요.</string>
 
-    <string name="wrong_user_nickname_length">2글자 이상, 16글자 이하의 닉네임을 입력해주세요.</string>
+    <string name="wrong_user_nickname_length">2글자 이상, 8글자 이하로 입력해주세요.</string>
     <string name="wrong_pomodoro_goal_count">1이상의 숫자를 입력해주세요</string>
     <string name="notification_timer_name">타이머</string>
 
-    <string name="setup_title_1">닉네임을 만들어주세요</string>
-    <string name="setup_sub_title_1">2글자 이상으로 부탁해요 :)</string>
-    <string name="setup_sub_title_2">없다면 넘어가도 괜찮아요</string>
-    <string name="setup_sub_title_3">제작자들의 목표 집중시간은 8시간이랍니다</string>
+
 
     <string name="btn_has_duedate">매일매일</string>
     <string name="btn_has_not_duedate">오늘 하루만</string>

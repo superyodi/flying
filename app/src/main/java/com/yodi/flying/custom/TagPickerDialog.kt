@@ -11,8 +11,6 @@ import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.model.entity.Tag
 import com.yodi.flying.databinding.DialogTagPickerBinding
-import com.yodi.flying.viewmodels.TagViewModel
-import com.yodi.flying.viewmodels.TagViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -20,7 +18,6 @@ import com.google.android.material.chip.ChipGroup
 
 class TagPickerDialog: BottomSheetDialogFragment() {
 
-    private val TAG = "TagPickerDialog"
     private lateinit var binding : DialogTagPickerBinding
     private val viewmodel: TagViewModel by viewModels {
         TagViewModelFactory((activity?.application as MainApplication).tagRepository)

@@ -27,19 +27,15 @@ import com.yodi.flying.utils.Constants.Companion.ACTION_PAUSE
 import com.yodi.flying.utils.Constants.Companion.ACTION_RESUME
 import com.yodi.flying.utils.Constants.Companion.ACTION_START
 import com.yodi.flying.utils.Constants.Companion.EXTRA_POMODORO_ID
-import com.yodi.flying.viewmodels.TimerViewModel
-import com.yodi.flying.viewmodels.TimerViewModelFactory
+
 import timber.log.Timber
 
 
 class TimerFragment : Fragment(){
 
     private val args: TimerFragmentArgs by navArgs()
-
     private var bound: Boolean = false
-
     private lateinit var binding : FragmentTimerBinding
-
 
     private val timerViewmodel: TimerViewModel by viewModels {
         TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository)

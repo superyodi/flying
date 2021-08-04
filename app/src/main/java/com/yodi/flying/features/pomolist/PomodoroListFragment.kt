@@ -17,7 +17,6 @@ import com.yodi.flying.adapters.PomodoroAdapter
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.TimerState
 import com.yodi.flying.databinding.FragmentPomodoroListBinding
-import com.yodi.flying.viewmodels.*
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 

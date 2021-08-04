@@ -1,5 +1,5 @@
 
-package com.yodi.flying.viewmodels
+package com.yodi.flying.custom
 
 
 import androidx.lifecycle.*

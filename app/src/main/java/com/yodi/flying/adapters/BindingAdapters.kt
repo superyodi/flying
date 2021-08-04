@@ -1,6 +1,9 @@
 package com.yodi.flying.adapters
 
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
 
@@ -12,5 +15,4 @@ fun bindIsGone(view: View, isGone: Boolean) {
         View.VISIBLE
     }
 }
-
 
