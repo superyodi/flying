@@ -24,6 +24,14 @@
         <item name="android:progressDrawable">@drawable/progress_circle_nonclickable</item>
     </style>
 
+    <style name="CustomFilterChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_colors</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/chip_text_colors</item>
+        <item name="android:textColor">@color/chip_text_colors</item>
+        <item name="checkedIconVisible">false</item>
+    </style>
+
 
 
 

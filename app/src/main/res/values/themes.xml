@@ -10,10 +10,13 @@
         <item name="colorSecondaryVariant">@color/flying_bright_gray</item>
         <item name="colorOnSecondary">@color/black</item>
 
+        <item name="colorAccent">@color/flying_orange</item>
+
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialogTheme</item>
-        <item name="colorAccent">@color/flying_orange</item>
+        <item name="chipStyle">@style/CustomFilterChipStyle</item>
+
 
     </style>
 

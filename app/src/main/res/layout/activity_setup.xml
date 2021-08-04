@@ -126,8 +126,7 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/content_stage2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:layout_height="wrap_content">
 
                 <!-- Chips can be declared here, or added dynamically. -->
 
