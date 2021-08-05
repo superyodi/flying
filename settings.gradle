@@ -1,2 +1,3 @@
+include ':ruler-picker'
 include ':app'
 rootProject.name = "Pomodoro"
