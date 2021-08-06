@@ -1,25 +1,25 @@
 package com.yodi.flying.features.setup
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.yodi.flying.R
 import com.yodi.flying.model.entity.Tag
+import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.TagRepository
 import com.yodi.flying.model.repository.UserRepository
 import com.yodi.flying.mvvm.Event
 import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.utils.Constants
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SetupViewModel(private val userRepository: UserRepository, private val tagRepository: TagRepository) : ViewModel() {
 
     val prevButtonClicked : SingleLiveEvent<Void> = SingleLiveEvent()
     val needCheckedTags : SingleLiveEvent<Void> = SingleLiveEvent()
+    val needUserGoalTime : SingleLiveEvent<Void> = SingleLiveEvent()
     val navigateToHome : SingleLiveEvent<Void> = SingleLiveEvent()
-    val userGoalTime = MutableLiveData<Long>()
+    var userGoalTime : Int = 0
     val userNickname = MutableLiveData<String>()
     val titleText =  MutableLiveData<String>()
     val subTitleText =  MutableLiveData<String>()
@@ -47,11 +47,15 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
         when(currentStageState.value) {
             Constants.SETUP_STAGE_1 -> validateUserNickname()
             Constants.SETUP_STAGE_2 -> {
-                // List<Tag> 받아오기
-                needCheckedTags.call()
+                needCheckedTags.call() // List<Tag> 받아오기
                 currentStageState.value = Constants.SETUP_STAGE_3
             }
-            Constants.SETUP_STAGE_3 -> currentStageState.value = Constants.SETUP_STAGE_DONE
+            Constants.SETUP_STAGE_3 -> {
+                needUserGoalTime.call()
+                saveUserData()
+                navigateToHome.call()
+                currentStageState.value = Constants.SETUP_STAGE_DONE
+            }
             else -> return
 
         }
@@ -105,7 +109,7 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
             }
             Constants.SETUP_STAGE_3 -> {
                 val nickname = userNickname.value ?: ""
-                titleText.value = "${nickname}님의\n목표 집중시간을 알려주세요"
+                titleText.value = "${nickname}님의\n하루 목표 집중시간을 알려주세요"
                 subTitleText.value = Constants.SETUP_SUB_TITLE_3
                 iconResource.value = R.drawable.ic_setup_time
             }
@@ -114,10 +118,36 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
 
     }
 
+    private fun saveUserData() {
+        val id = Constants.USER_ID
+        Timber.d("saveUserData(): userId: $id")
 
-    private fun createNewUser() {
+        userRepository.setUserIdToPreferences(id)
 
+        // create user
+        createNewUser(
+            User(
+            id = id,
+            nickname = userNickname.value ?: ""
+        ))
+        // create tag
+        insertTags(id)
+    }
 
+    private fun createNewUser(user : User) {
+        viewModelScope.launch {
+            userRepository.insert(user)
+        }
+
+    }
+
+    private fun insertTags(userId: Long) {
+        for(tag in checkedTags)
+            viewModelScope.launch {
+                tagRepository.insert(
+                    Tag(tag, userId)
+                )
+            }
     }
 }
 

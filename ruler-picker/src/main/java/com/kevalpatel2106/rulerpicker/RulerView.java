@@ -379,7 +379,7 @@ final class RulerView extends View {
     private void drawValueText(@NonNull final Canvas canvas,
                                final int value) {
 
-        canvas.drawText(String.valueOf(value + mMinValue),
+        canvas.drawText(String.valueOf((value + mMinValue)/2),
                 mIndicatorInterval * (value+1), //extra 1 for spacing which we artificially added in case the labels may wanna get drawn
                 mLongIndicatorHeight + mTextPaint.getTextSize(),
                 mTextPaint);

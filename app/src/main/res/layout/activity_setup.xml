@@ -116,7 +116,7 @@
                 android:textColor="@color/flying_orange"
                 android:textColorHighlight="@color/flying_orange"
                 android:textCursorDrawable="@color/flying_orange"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 android:visibility="gone"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,19 +145,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/text_view_user_goal_time"
                     android:textColor="@color/flying_orange"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    tools:text="3h 20m" />
+                    android:layout_marginBottom="16dp"/>
 
-                <SeekBar
-                    android:id="@+id/seekBar"
-                    style="@style/Widget.AppCompat.SeekBar"
+                <com.kevalpatel2106.rulerpicker.RulerValuePicker
+                    android:id="@+id/ruler_picker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:max="48"
-                    android:progress="3" />
+                    android:layout_height="80dp"
+                    android:background="@color/flying_orange"
+                    app:indicator_color="@color/flying_white"
+                    app:indicator_interval="80dp"
+                    app:indicator_width="2dp"
+                    app:long_height_height_ratio="50%"
+                    app:long_indicator_step="2"
+                    app:max_value="48"
+                    app:min_value="0"
+                    app:notch_color="@color/flying_white"
+                    app:ruler_text_color="@color/flying_white"
+                    app:ruler_text_size="6sp"
+                    app:short_height_height_ratio="30%" />
+
             </LinearLayout>
 
 

@@ -1,19 +1,19 @@
 package com.yodi.flying.features.setup
 
-import android.graphics.drawable.Drawable
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.kevalpatel2106.rulerpicker.RulerValuePickerListener
+import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivitySetupBinding
-import com.yodi.flying.model.entity.Tag
 import com.yodi.flying.utils.Constants
 import timber.log.Timber
 
@@ -23,7 +23,8 @@ class SetupActivity : AppCompatActivity() {
     private val setupViewmodel: SetupViewModel by viewModels {
         SetupViewModelFactory(
             (application as MainApplication).userRepository,
-            (application as MainApplication).tagRepository)
+            (application as MainApplication).tagRepository
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +34,11 @@ class SetupActivity : AppCompatActivity() {
         binding.viewModel = setupViewmodel
         binding.lifecycleOwner = this@SetupActivity
 
+
         observeViewModel()
         setTagChips()
         setupTimber()
+        setProgressListener()
 
     }
 
@@ -62,7 +65,6 @@ class SetupActivity : AppCompatActivity() {
         setupViewmodel.prevButtonClicked.observe(::getLifecycle) {
             super.onBackPressed()
         }
-
         setupViewmodel.needCheckedTags.observe(::getLifecycle) {
             var chekedTags = mutableListOf<String>()
 
@@ -70,12 +72,17 @@ class SetupActivity : AppCompatActivity() {
 
                 for (chipId in group.checkedChipIds) {
                     val chip = findViewById<Chip>(chipId)
-                    Timber.d(chip.text.toString())
                     chekedTags.add(chip.text.toString())
                 }
                 setupViewmodel.checkedTags = chekedTags
 
             }
+        }
+        setupViewmodel.needUserGoalTime.observe(::getLifecycle) {
+            setupViewmodel.userGoalTime = binding.rulerPicker.currentValue
+        }
+        setupViewmodel.navigateToHome.observe(::getLifecycle) {
+            navigateToHome()
         }
 
     }
@@ -115,7 +122,6 @@ class SetupActivity : AppCompatActivity() {
                 binding.contentStage1.visibility = View.GONE
                 binding.contentStage2.visibility = View.GONE
                 binding.contentStage3.visibility = View.VISIBLE
-
             }
 
         }
@@ -127,7 +133,6 @@ class SetupActivity : AppCompatActivity() {
         val defaultTags = setupViewmodel.getDefaultTags()
 
         for(tag in defaultTags) {
-            Timber.d(tag)
             val chip = Chip(this)
                 .apply {
                     this.text = tag
@@ -137,8 +142,58 @@ class SetupActivity : AppCompatActivity() {
             chipGroup.addView(chip)
         }
 
+    }
+
+    private fun setProgressListener(){
+        binding.rulerPicker.setValuePickerListener(object : RulerValuePickerListener {
+            override fun onValueChange(selectedValue: Int) {
+                when {
+                    selectedValue == 0 -> {
+                        binding.textViewUserGoalTime.text = "00m"
+                    }
+                    selectedValue == 1 -> {
+                        binding.textViewUserGoalTime.text = "30m"
+                    }
+                    selectedValue % 2 == 0 -> binding.textViewUserGoalTime.text =
+                        "${selectedValue / 2}h 00m"
+                    else -> binding.textViewUserGoalTime.text = "${selectedValue / 2}h 30m"
+                }
+            }
+            override fun onIntermediateValueChange(selectedValue: Int) {
+                /*
+                e.g)
+                selectedValue = 3 --> 1h 30m
+                selectedValue = 6 --> 3h 00m
+                 */
+                when {
+                    selectedValue == 0 -> {
+                        binding.textViewUserGoalTime.text = "00m"
+                    }
+                    selectedValue == 1 -> {
+                        binding.textViewUserGoalTime.text = "30m"
+                    }
+                    selectedValue % 2 == 0 -> binding.textViewUserGoalTime.text =
+                        "${selectedValue / 2}h 00m"
+                    else -> binding.textViewUserGoalTime.text = "${selectedValue / 2}h 30m"
+                }
+            }
+        })
+
 
     }
+
+    private fun navigateToHome() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+
+
+    }
+
+
+
+
 }
 
 

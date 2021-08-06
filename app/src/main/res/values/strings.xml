@@ -10,9 +10,13 @@
     <string name="empty_duedate_message">작업 완료 날짜를 선택해주세요</string>
     <string name="empty_user_nickname">닉네임을 입력해주세요.</string>
 
+    <string name="kakao_login_fail">"정보를 가져올 수 없습니다."</string>
+
     <string name="wrong_user_nickname_length">2글자 이상, 8글자 이하로 입력해주세요.</string>
     <string name="wrong_pomodoro_goal_count">1이상의 숫자를 입력해주세요</string>
     <string name="notification_timer_name">타이머</string>
+
+    <string name="data_save_fail_message">데이터를 저장할 수 없습니다.</string>
 
 
 
