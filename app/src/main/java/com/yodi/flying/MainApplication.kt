@@ -20,9 +20,9 @@ class MainApplication : Application() {
 
     val sharedPreferences by lazy { SharedPreferenceManager(applicationContext)}
 
-    val pomodoroRepository by lazy { PomodoroRepository(database.pomodoroDao()) }
+    val pomodoroRepository by lazy { PomodoroRepository(database.pomodoroDao(), sharedPreferences) }
 
-    val tagRepository by lazy { TagRepository(database.tagDao()) }
+    val tagRepository by lazy { TagRepository(database.tagDao(), sharedPreferences)  }
 
     val userRepository by lazy { UserRepository(database.userDao(), sharedPreferences)}
 

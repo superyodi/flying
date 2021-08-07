@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.yodi.flying.features.setup.SetupViewModel"/>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/stage1"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/status_rectangle"
+            app:layout_constraintEnd_toStartOf="@+id/stage2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/stage2"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/status_rectangle"
+            app:layout_constraintEnd_toStartOf="@+id/stage3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/stage1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <View
+            android:id="@+id/stage3"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/status_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/stage2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/stage_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stage1"
+            app:imageResource="@{viewModel.iconResource}" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="22dp"
+            android:lineSpacingExtra="8sp"
+            android:text="@{viewModel.titleText}"
+            android:textColor="#404040"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stage_icon" />
+
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.subTitleText}"
+            android:textColor="@color/text_gray_light"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <FrameLayout
+            android:id="@+id/setup_stage_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+
+            <EditText
+                android:id="@+id/content_stage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:cursorVisible="true"
+                android:ems="8"
+                android:text="@={viewModel.userNickname}"
+                android:textColor="@color/flying_orange"
+                android:textColorHighlight="@color/flying_orange"
+                android:textCursorDrawable="@color/flying_orange"
+                android:textSize="22sp"
+                android:visibility="gone"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/content_stage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Chips can be declared here, or added dynamically. -->
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+
+            <LinearLayout
+                android:id="@+id/content_stage3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_view_user_goal_time"
+                    android:textColor="@color/flying_orange"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.kevalpatel2106.rulerpicker.RulerValuePicker
+                    android:id="@+id/ruler_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/flying_orange"
+                    app:indicator_color="@color/flying_white"
+                    app:indicator_interval="80dp"
+                    app:indicator_width="2dp"
+                    app:long_height_height_ratio="50%"
+                    app:long_indicator_step="2"
+                    app:max_value="48"
+                    app:min_value="0"
+                    app:notch_color="@color/flying_white"
+                    app:ruler_text_color="@color/flying_white"
+                    app:ruler_text_size="6sp"
+                    app:short_height_height_ratio="30%" />
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/btn_before"
+            android:layout_width="48dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_bright_gray_rectangle"
+            android:onClick="@{viewModel::onPrevButtonClicked}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setup_stage_layout"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/ic_navigate_before" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="198dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_orange_rectangle"
+            android:text="다음"
+            android:onClick="@{viewModel::onNextButtonClicked}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setup_stage_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

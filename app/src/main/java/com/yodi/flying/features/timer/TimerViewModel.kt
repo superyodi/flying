@@ -1,4 +1,4 @@
-package com.yodi.flying.viewmodels
+package com.yodi.flying.features.timer
 
 import androidx.lifecycle.*
 import com.yodi.flying.model.entity.Pomodoro
@@ -19,24 +19,14 @@ class TimerViewModel(
 
     val pomodoro : LiveData<Pomodoro?>
         get() = TimerService.currentPomodoro
-
-
     val pomodoroState : LiveData<Int>
         get()  = pomodoroRepository.getTimerServicePomodoroState()
-
-
     val timerGoalCount : Int?
         get() = pomodoro.value?.goalCount
-
-
     val timerNowCount : Int?
        get() = pomodoro.value?.nowCount
-
-
     val timerState: LiveData<TimerState>
         get() = pomodoroRepository.getTimerServiceTimerState()
-
-
     val timeString: LiveData<String>
         get() = pomodoroRepository.getTimerServiceElapsedTimeMillisESeconds().map {
             if(pomodoro.value != null){

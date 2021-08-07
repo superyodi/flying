@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.yodi.flying.model.PomodoroState
 
+
 @Entity(tableName = "pomodoros")
 data class Pomodoro(
     var userId: Long = 0L,

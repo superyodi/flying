@@ -1,18 +1,21 @@
 package com.yodi.flying.features.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.Constants
 import com.kakao.sdk.user.UserApiClient
+import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivityLoginBinding
-import com.yodi.flying.viewmodels.PomoListViewModel
-import com.yodi.flying.viewmodels.PomoListViewModelFactory
+import com.yodi.flying.features.setup.SetupActivity
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 
@@ -20,56 +23,100 @@ class LogInActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityLoginBinding
     private val logInViewModel: LogInViewModel by viewModels {
-        LogInViewModelFactory(application ,(application as MainApplication).userRepository)
+        LogInViewModelFactory((application as MainApplication).userRepository)
     }
-
-
+    private var userId = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupTimber()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         binding.btnStartWithKakao.setOnClickListener{
-            val userId = getKakaoId(this)
-            logInViewModel.executeLogin(userId)
+            loginKakaoTalk()
+
+            Timber.d("getKakaoId(): $userId")
 
         }
 
+        setupTimber()
+        observeViewModel()
+
+
+    }
+    private fun observeViewModel() {
+        logInViewModel.navigateToSetup.observe(::getLifecycle) {
+            navigateToSetup()
+        }
+        logInViewModel.navigateToHome.observe(::getLifecycle) {
+            navigateToHome()
+        }
     }
 
-    private fun getKakaoId(context : Context) : Long {
 
-        var userID = 0L
+    // DI 라이브러리 추가 후 login repository로 이동할 예정
 
+
+    private fun loginKakaoTalk() {
+        val isKakaoTalkLoginAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(this)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if(error != null) {
                 Timber.e("로그인 실패, $error")
             }
             else if (token != null) {
                 Timber.i("로그인 성공 ${token.accessToken}")
+                loadUserId()
             }
         }
 
-        if(UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context, callback = callback) // 카카오앱으로 로그인
+        if(isKakaoTalkLoginAvailable) {
+            UserApiClient.instance.loginWithKakaoTalk(
+                this,
+                callback = callback
+            )
         }
         else {
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback) // 카카오 계정으로 로그인
+            UserApiClient.instance.loginWithKakaoAccount(
+                this,
+                callback = callback
+            )
         }
+
+    }
+
+    private fun loadUserId()  {
         UserApiClient.instance.me { user, error ->
             user?.let {
-                userID = user.id
-                Timber.i("카카오 아이: ${user.id}")
+                Timber.i("카카오 아이디: ${user.id}")
+                userId = user.id
+                logInViewModel.executeLogin(userId)
             }
             error?.let {
                 Timber.i("정보를 가져올 수 없습니다. ")
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.kakao_login_fail),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
+    }
 
-        return userID
+
+    private fun navigateToSetup() {
+        val intent = Intent(this, SetupActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra(com.yodi.flying.utils.Constants.USER_ID_EXTRA, userId)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToHome() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun setupTimber() {

@@ -1,7 +1,7 @@
-package com.yodi.flying.viewmodels
+package com.yodi.flying.features.pomolist
 
 import androidx.lifecycle.*
-import com.yodi.flying.utils.Event
+import com.yodi.flying.mvvm.Event
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.TimerState
@@ -12,7 +12,7 @@ import timber.log.Timber
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
 
-    val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros(Constants.USER_ID).asLiveData()
+    val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros().asLiveData()
 
     var deletedPomooro : Pomodoro? = null
 

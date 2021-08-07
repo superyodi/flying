@@ -57,6 +57,7 @@ android {
 }
 
 dependencies {
+    implementation project(':ruler-picker')
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.activity:activity-ktx:$rootProject.activityVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
@@ -67,8 +68,8 @@ dependencies {
     // Room components
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
@@ -115,5 +116,16 @@ dependencies {
 
     // KaKao Login
     implementation "com.kakao.sdk:v2-user:2.5.2"
+
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
+    implementation 'com.xw.repo:bubbleseekbar:3.16'
+
+
+
+
+
+
+
 
 }

@@ -24,11 +24,9 @@ import com.yodi.flying.R
 import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
-import com.yodi.flying.features.pomodoro.NewPomodoroFragmentArgs
 import com.yodi.flying.utils.convertDateToString
-import com.yodi.flying.viewmodels.NewPomodoroViewModel
-import com.yodi.flying.viewmodels.NewPomodoroViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import com.yodi.flying.utils.Constants
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,6 +52,8 @@ class NewPomodoroFragment : Fragment() {
         if(args.pomoId == -1L) {
             isNewPomodoro = true
         }
+
+        Timber.d("user id: ${(activity?.application as MainApplication).sharedPreferences.getLong(Constants.PREF_USER_ID)}")
 
     }
 
@@ -172,8 +172,8 @@ class NewPomodoroFragment : Fragment() {
             viewmodel.hasDuedate.postValue(false)
 
             binding.groupDuedate.visibility = View.GONE
-            binding.btnOneday.setBackgroundResource(R.drawable.button_duration_clicked)
-            binding.btnEveryday.setBackgroundResource(R.drawable.button_duration_unclicked)
+            binding.btnOneday.setBackgroundResource(R.drawable.chip_bright_orange_clicked)
+            binding.btnEveryday.setBackgroundResource(R.drawable.chip_bright_orange_unclicked)
             binding.btnEveryday.setTextColor(Color.parseColor("#dbcfc7"))
             binding.btnOneday.setTextColor(Color.parseColor("#ff8e71"))
 
@@ -185,8 +185,8 @@ class NewPomodoroFragment : Fragment() {
             viewmodel.hasDuedate.postValue(true)
 
             binding.groupDuedate.visibility = View.VISIBLE
-            binding.btnEveryday.setBackgroundResource(R.drawable.button_duration_clicked)
-            binding.btnOneday.setBackgroundResource(R.drawable.button_duration_unclicked)
+            binding.btnEveryday.setBackgroundResource(R.drawable.chip_bright_orange_clicked)
+            binding.btnOneday.setBackgroundResource(R.drawable.chip_bright_orange_unclicked)
             binding.btnOneday.setTextColor(Color.parseColor("#dbcfc7"))
             binding.btnEveryday.setTextColor(Color.parseColor("#ff8e71"))
 
@@ -208,8 +208,6 @@ class NewPomodoroFragment : Fragment() {
                     view.findNavController().navigate(R.id.action_newPomodoroFragment_to_pomodoroListFragment)
                 }
             }
-
-
         }
 
         viewmodel.snackbarMessage.observe(::getLifecycle) {

@@ -12,7 +12,7 @@ interface TagDao {
     @Query("SELECT * FROM tags WHERE userId = :userId")
     fun getTags(userId : Long): kotlinx.coroutines.flow.Flow<List<Tag>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(tag: Tag)
 
     @Query("DELETE FROM tags")
