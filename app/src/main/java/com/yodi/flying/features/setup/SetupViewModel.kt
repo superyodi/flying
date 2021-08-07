@@ -31,7 +31,12 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
     var checkedTags  = mutableListOf<String>()
+    private var userId: Long = -1L
 
+    fun start(userId: Long) {
+        this.userId = userId
+
+    }
 
     private fun goToNextStage() {
         when(currentStageState.value) {
@@ -41,6 +46,10 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
             else -> return
 
         }
+    }
+
+    private fun setUserIdToPreferences() {
+        userRepository.setUserIdToPreferences(userId)
     }
 
     fun onNextButtonClicked(view: View) {
@@ -119,19 +128,19 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     }
 
     private fun saveUserData() {
-        val id = Constants.USER_ID
-        Timber.d("saveUserData(): userId: $id")
+        setUserIdToPreferences()
+        Timber.d("saveUserData(): userId: $userId")
 
-        userRepository.setUserIdToPreferences(id)
+        userRepository.setUserIdToPreferences(userId)
 
         // create user
         createNewUser(
             User(
-            id = id,
+            id = userId,
             nickname = userNickname.value ?: ""
         ))
         // create tag
-        insertTags(id)
+        insertTags(userId)
     }
 
     private fun createNewUser(user : User) {

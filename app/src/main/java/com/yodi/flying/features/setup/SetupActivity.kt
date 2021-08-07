@@ -3,6 +3,7 @@ package com.yodi.flying.features.setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,7 +15,10 @@ import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivitySetupBinding
+import com.yodi.flying.features.login.LogInActivity
 import com.yodi.flying.utils.Constants
+import com.yodi.flying.utils.convertRulerValueToString
+import okhttp3.internal.Util
 import timber.log.Timber
 
 class SetupActivity : AppCompatActivity() {
@@ -33,6 +37,9 @@ class SetupActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setup)
         binding.viewModel = setupViewmodel
         binding.lifecycleOwner = this@SetupActivity
+
+        val userId = intent.getLongExtra(Constants.USER_ID_EXTRA, -1L)
+        setupViewmodel.start(userId)
 
 
         observeViewModel()
@@ -84,7 +91,6 @@ class SetupActivity : AppCompatActivity() {
         setupViewmodel.navigateToHome.observe(::getLifecycle) {
             navigateToHome()
         }
-
     }
 
     private fun setupTimber() {
@@ -123,9 +129,7 @@ class SetupActivity : AppCompatActivity() {
                 binding.contentStage2.visibility = View.GONE
                 binding.contentStage3.visibility = View.VISIBLE
             }
-
         }
-
     }
 
     private fun setTagChips() {
@@ -141,45 +145,17 @@ class SetupActivity : AppCompatActivity() {
                 }
             chipGroup.addView(chip)
         }
-
     }
 
     private fun setProgressListener(){
         binding.rulerPicker.setValuePickerListener(object : RulerValuePickerListener {
             override fun onValueChange(selectedValue: Int) {
-                when {
-                    selectedValue == 0 -> {
-                        binding.textViewUserGoalTime.text = "00m"
-                    }
-                    selectedValue == 1 -> {
-                        binding.textViewUserGoalTime.text = "30m"
-                    }
-                    selectedValue % 2 == 0 -> binding.textViewUserGoalTime.text =
-                        "${selectedValue / 2}h 00m"
-                    else -> binding.textViewUserGoalTime.text = "${selectedValue / 2}h 30m"
-                }
+                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue)
             }
             override fun onIntermediateValueChange(selectedValue: Int) {
-                /*
-                e.g)
-                selectedValue = 3 --> 1h 30m
-                selectedValue = 6 --> 3h 00m
-                 */
-                when {
-                    selectedValue == 0 -> {
-                        binding.textViewUserGoalTime.text = "00m"
-                    }
-                    selectedValue == 1 -> {
-                        binding.textViewUserGoalTime.text = "30m"
-                    }
-                    selectedValue % 2 == 0 -> binding.textViewUserGoalTime.text =
-                        "${selectedValue / 2}h 00m"
-                    else -> binding.textViewUserGoalTime.text = "${selectedValue / 2}h 30m"
-                }
+                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue)
             }
         })
-
-
     }
 
     private fun navigateToHome() {
@@ -190,7 +166,6 @@ class SetupActivity : AppCompatActivity() {
 
 
     }
-
 
 
 

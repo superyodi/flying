@@ -78,6 +78,18 @@ fun convertDateToLong(date: String?): Long {
     }
     return 0L
 }
+/*
+e.g)
+selectedValue = 3 --> 1h 30m
+selectedValue = 6 --> 3h 00m
+ */
+fun convertRulerValueToString(value : Int) = when {
+        value == 0 -> "00m"
+        value == 1 -> "30m"
+        value % 2 == 0 -> "${value / 2}h 00m"
+        else -> "${value / 2}h 30m"
+    }
+
 
 
 

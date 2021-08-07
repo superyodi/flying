@@ -12,7 +12,7 @@ import timber.log.Timber
 
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
 
-    val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros(Constants.USER_ID).asLiveData()
+    val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros().asLiveData()
 
     var deletedPomooro : Pomodoro? = null
 

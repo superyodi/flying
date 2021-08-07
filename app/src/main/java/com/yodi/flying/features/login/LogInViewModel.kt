@@ -16,7 +16,6 @@ class LogInViewModel(private val userRepository: UserRepository) : ViewModel() {
     val navigateToSetup : SingleLiveEvent<Void> = SingleLiveEvent()
 
     fun executeLogin(userId: Long) {
-
         Timber.d("executeLogin(), userId: $userId")
 
         val user = getUserWithId(userId)
@@ -26,10 +25,8 @@ class LogInViewModel(private val userRepository: UserRepository) : ViewModel() {
             navigateToSetup.call()
         }
         else {
-            userRepository.setUserIdToPreferences(userId)
             Timber.i("go to MainActivity")
             userRepository.setUserIdToPreferences(userId)
-            Constants.USER_ID = userId
             navigateToHome.call()
         }
     }

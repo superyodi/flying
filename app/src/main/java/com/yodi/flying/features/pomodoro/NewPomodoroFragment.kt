@@ -26,6 +26,7 @@ import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
 import com.yodi.flying.utils.convertDateToString
 import com.google.android.material.snackbar.Snackbar
+import com.yodi.flying.utils.Constants
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,6 +52,8 @@ class NewPomodoroFragment : Fragment() {
         if(args.pomoId == -1L) {
             isNewPomodoro = true
         }
+
+        Timber.d("user id: ${(activity?.application as MainApplication).sharedPreferences.getLong(Constants.PREF_USER_ID)}")
 
     }
 

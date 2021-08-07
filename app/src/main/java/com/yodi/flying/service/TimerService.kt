@@ -356,7 +356,7 @@ class TimerService : LifecycleService(){
 
                     // launch coroutine, fetch workout from db & audiostate from data store
                     serviceScope.launch {
-                        pomodoro = pomodoroRepository.getPomodoro(id, Constants.USER_ID)
+                        pomodoro = pomodoroRepository.getPomodoro(id)
                         isInitialized = true
                         postInitData()
                     }

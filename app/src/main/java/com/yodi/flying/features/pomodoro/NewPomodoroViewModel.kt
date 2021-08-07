@@ -6,6 +6,7 @@ import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,7 +14,6 @@ class NewPomodoroViewModel(
     private val pomodoroRepository: PomodoroRepository
 ) : ViewModel() {
 
-    val TAG = "NewPomodoroViewModel"
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
@@ -57,7 +57,7 @@ class NewPomodoroViewModel(
         isNewPomo = false
 
         viewModelScope.launch {
-            pomodoro.value = pomodoroRepository.getPomodoro(pomoId, Constants.USER_ID)
+            pomodoro.value = pomodoroRepository.getPomodoro(pomoId)
             _isDataLoaded.value = true
         }
 
@@ -137,9 +137,11 @@ class NewPomodoroViewModel(
         }
 
         if(isNewPomo) {
+            val userId = pomodoroRepository.userId
+            Timber.d("user id: $userId")
             createPomodoro(
                 Pomodoro(
-                    Constants.USER_ID, currentTitle, currentTag, goalCountNum,
+                    userId, currentTitle, currentTag, goalCountNum,
                     0, currentDescription, currentHasDuedate, currentInitDate, currentDueDate
                 )
             )

@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.Constants
 import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
-import com.yodi.flying.custom.WaitingDialog
 import com.yodi.flying.databinding.ActivityLoginBinding
 import com.yodi.flying.features.setup.SetupActivity
 import kotlinx.coroutines.*
@@ -34,10 +34,10 @@ class LogInActivity : AppCompatActivity(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         binding.btnStartWithKakao.setOnClickListener{
+            loginKakaoTalk()
 
-            getKakaoId(this)
             Timber.d("getKakaoId(): $userId")
-            logInViewModel.executeLogin(userId)
+
         }
 
         setupTimber()
@@ -55,54 +55,59 @@ class LogInActivity : AppCompatActivity(){
     }
 
 
-    private fun getKakaoId(context : Context) : Long {
+    // DI 라이브러리 추가 후 login repository로 이동할 예정
 
 
-
+    private fun loginKakaoTalk() {
+        val isKakaoTalkLoginAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(this)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if(error != null) {
                 Timber.e("로그인 실패, $error")
             }
             else if (token != null) {
                 Timber.i("로그인 성공 ${token.accessToken}")
-                UserApiClient.instance.me { user, error ->
-                    user?.let {
-                        Timber.i("카카오 아이디: ${user.id}")
-                        userId = user.id
-
-                    }
-                    error?.let {
-                        Timber.i("정보를 가져올 수 없습니다. ")
-
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.kakao_login_fail),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                loadUserId()
             }
         }
 
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+        if(isKakaoTalkLoginAvailable) {
             UserApiClient.instance.loginWithKakaoTalk(
-                context,
+                this,
                 callback = callback
-            ) // 카카오앱으로 로그인
+            )
         }
         else {
             UserApiClient.instance.loginWithKakaoAccount(
-                context,
+                this,
                 callback = callback
-            ) // 카카오 계정으로 로그인
+            )
         }
 
-        return userId
     }
+
+    private fun loadUserId()  {
+        UserApiClient.instance.me { user, error ->
+            user?.let {
+                Timber.i("카카오 아이디: ${user.id}")
+                userId = user.id
+                logInViewModel.executeLogin(userId)
+            }
+            error?.let {
+                Timber.i("정보를 가져올 수 없습니다. ")
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.kakao_login_fail),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
 
     private fun navigateToSetup() {
         val intent = Intent(this, SetupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra(com.yodi.flying.utils.Constants.USER_ID_EXTRA, userId)
         startActivity(intent)
         finish()
     }

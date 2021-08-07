@@ -13,8 +13,7 @@ class TagViewModel(
     private val tagRepository: TagRepository
 ) : ViewModel() {
 
-    val TAG = "TagViewModel"
-    val allTags : LiveData<List<Tag>> = tagRepository.getTags(Constants.USER_ID).asLiveData()
+    val allTags : LiveData<List<Tag>> = tagRepository.getTags().asLiveData()
 
     fun addTag(title: String) {
         if (title.isEmpty()) return

@@ -13,6 +13,9 @@ class Constants {
         const val PREF_FILE_NAME = "com.yodi.flying.sharedprefs"
         const val PREF_USER_ID = "PREF_USER_ID"
 
+        // Intent extra
+        const val USER_ID_EXTRA = "USER_ID_EXTRA"
+
         // Intent Actions for communication with timer service
         const val ACTION_START = "ACTION_START"
         const val ACTION_RESUME = "ACTION_RESUME"
@@ -63,8 +66,6 @@ class Constants {
         val LONG_BREAK_COUNT = 4
 
 
-        // User Id
-        var USER_ID = 0L
 
     }
 
