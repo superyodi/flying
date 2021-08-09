@@ -1,6 +1,5 @@
 package com.yodi.flying.features.login
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,14 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.user.Constants
 import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivityLoginBinding
 import com.yodi.flying.features.setup.SetupActivity
-import kotlinx.coroutines.*
 import timber.log.Timber
 
 
@@ -107,7 +104,7 @@ class LogInActivity : AppCompatActivity(){
     private fun navigateToSetup() {
         val intent = Intent(this, SetupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra(com.yodi.flying.utils.Constants.USER_ID_EXTRA, userId)
+        intent.putExtra(com.yodi.flying.utils.Constants.EXTRA_USER_ID, userId)
         startActivity(intent)
         finish()
     }

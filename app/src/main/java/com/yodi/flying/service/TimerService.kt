@@ -19,7 +19,6 @@ import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.TimerState
 
-import com.yodi.flying.utils.*
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL_AND_RESET
 import com.yodi.flying.utils.Constants.Companion.ACTION_INITIALIZE_DATA
@@ -30,6 +29,7 @@ import com.yodi.flying.utils.Constants.Companion.EXTRA_POMODORO_ID
 import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_ID
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
 import com.yodi.flying.utils.Constants.Companion.TIMER_UPDATE_INTERVAL
+import com.yodi.flying.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -90,8 +90,6 @@ class TimerService : LifecycleService(){
         var nowTomatoCount = 0
     }
 
-
-
     override fun onCreate() {
         super.onCreate()
 
@@ -117,7 +115,6 @@ class TimerService : LifecycleService(){
                 ACTION_START -> {
                     /*This is called when Start-Button is pressed, starting timer here and setting*/
                     Timber.i("ACTION_START")
-
                     startServiceTimer()
                 }
 
@@ -248,7 +245,6 @@ class TimerService : LifecycleService(){
         elapsedTimeInMillis.postValue(millisUntilFinished)
         if(millisUntilFinished <= lastSecondTimestamp - 1000L){
             lastSecondTimestamp -= 1000L
-            //Timber.i("onTick - lastSecondTimestamp: $lastSecondTimestamp")
             elapsedTimeInMillisEverySecond.postValue(lastSecondTimestamp)
         }
     }
@@ -349,6 +345,7 @@ class TimerService : LifecycleService(){
         if (!isInitialized) {
             intent.extras?.let {
                 val id = it.getLong(EXTRA_POMODORO_ID)
+                Timber.d("EXTRA_POMODORO_ID: $id")
                 if (id != -1L) {
                     // id is valid
                     currentNotificationBuilder
@@ -422,7 +419,7 @@ class TimerService : LifecycleService(){
         })
 
         // Observe timeInMillis and update notification
-        elapsedTimeInMillisEverySecond.observe(this, {
+        elapsedTimeInMillisEverySecond.observe(this, Observer {
             if (!isKilled && !isBound) {
                 // Only do something if timer is running and service in foreground
                 val notification = currentNotificationBuilder
@@ -431,9 +428,6 @@ class TimerService : LifecycleService(){
             }
         })
     }
-
-
-
 
 
 }
