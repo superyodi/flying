@@ -8,11 +8,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
+import com.yodi.flying.MainActivity
 import com.yodi.flying.R
 
 import com.yodi.flying.features.timer.TimerFragmentArgs
 import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_CHANNEL_ID
 import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_CHANNEL_NAME
+import timber.log.Timber
 
 
 fun provideBaseNotificationBuilder(
@@ -47,10 +49,13 @@ fun buildTimeFragmentPendingIntentWithId(id: Long, context: Context): PendingInt
 
     val arg = TimerFragmentArgs(id).toBundle()
 
+    Timber.d("buildTimeFragmentPendingIntentWithId 실행됨 ")
+
     return NavDeepLinkBuilder(context)
         .setGraph(R.navigation.nav_pomodoro)
         .setDestination(R.id.timerFragment)
         .setArguments(arg)
+        .setComponentName(MainActivity::class.java)
         .createPendingIntent()
 }
 

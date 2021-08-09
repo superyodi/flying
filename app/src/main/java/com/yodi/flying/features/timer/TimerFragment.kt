@@ -63,7 +63,7 @@ class TimerFragment : Fragment(){
     override fun onStart() {
         super.onStart()
 
-        Timber.i("onStop")
+        Timber.i("onStart")
         Timber.i("timer state - time: ${timerViewmodel.timerState.value}, bound: ${bound}")
         Intent(context, TimerService::class.java).also { intent ->
             context?.bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
@@ -124,7 +124,7 @@ class TimerFragment : Fragment(){
 
         // UI Setting according to pomodoroState
         timerViewmodel.pomodoroState.observe(::getLifecycle) {
-            Timber.i("pomodoro state - time: ${it}")
+            Timber.i("pomodoro state : ${it}")
 
             when(it) {
                 PomodoroState.NONE, PomodoroState.FLYING, PomodoroState.FINISHED -> {
@@ -136,12 +136,12 @@ class TimerFragment : Fragment(){
                 }
 
                 PomodoroState.SHORT_BREAK -> {
-                    binding.timerState.text = R.string.pomo_state_mealtime.toString()
+                    binding.timerState.text =  getString(R.string.pomo_state_mealtime)
 
                 }
 
                 PomodoroState.LONG_BREAK -> {
-                    binding.timerState.text = R.string.pomo_state_stopover.toString()
+                    binding.timerState.text = getString(R.string.pomo_state_stopover)
                 }
             }
         }

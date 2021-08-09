@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
 
+
+
         val toolbar = findViewById<Toolbar>(R.id.tool_bar)
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -66,6 +68,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupTimber()
+
+        Timber.d("home 호출 ")
     }
 
     fun setToolBarTitle(title: String) {

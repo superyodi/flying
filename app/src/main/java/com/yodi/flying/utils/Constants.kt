@@ -14,7 +14,8 @@ class Constants {
         const val PREF_USER_ID = "PREF_USER_ID"
 
         // Intent extra
-        const val USER_ID_EXTRA = "USER_ID_EXTRA"
+        const val EXTRA_USER_ID = "EXTRA_USER_ID"
+        const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
 
         // Intent Actions for communication with timer service
         const val ACTION_START = "ACTION_START"
@@ -28,7 +29,7 @@ class Constants {
         const val ACTION_SOUND = "ACTION_SOUND"
         const val ACTION_SHOW_MAIN_ACTIVITY = "ACTION_SHOW_MAIN_ACTIVITY"
 
-        const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
+
 
         const val NOTIFICATION_CHANNEL_ID = "timer_channel"
         const val NOTIFICATION_CHANNEL_NAME = "타이머"

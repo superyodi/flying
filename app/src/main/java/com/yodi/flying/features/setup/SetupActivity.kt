@@ -3,7 +3,6 @@ package com.yodi.flying.features.setup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,10 +14,8 @@ import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivitySetupBinding
-import com.yodi.flying.features.login.LogInActivity
 import com.yodi.flying.utils.Constants
 import com.yodi.flying.utils.convertRulerValueToString
-import okhttp3.internal.Util
 import timber.log.Timber
 
 class SetupActivity : AppCompatActivity() {
@@ -38,7 +35,7 @@ class SetupActivity : AppCompatActivity() {
         binding.viewModel = setupViewmodel
         binding.lifecycleOwner = this@SetupActivity
 
-        val userId = intent.getLongExtra(Constants.USER_ID_EXTRA, -1L)
+        val userId = intent.getLongExtra(Constants.EXTRA_USER_ID, -1L)
         setupViewmodel.start(userId)
 
 
