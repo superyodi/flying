@@ -18,15 +18,15 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
+import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.custom.TagPickerDialog
-import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
-import com.yodi.flying.utils.convertDateToString
-import com.google.android.material.snackbar.Snackbar
+import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.utils.Constants
+import com.yodi.flying.utils.convertDateToString
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -149,7 +149,7 @@ class NewPomodoroFragment : Fragment() {
                         viewmodel.tag.value = it
                     }
                 }
-                tagPickerDialog.show(fragmentManager, TAG_BOTTOM_SHEET_TAG)
+                tagPickerDialog.show(fragmentManager, Constants.TAG_PICKER)
             }
         }
         binding.enddateLayout.setOnClickListener{
@@ -162,7 +162,7 @@ class NewPomodoroFragment : Fragment() {
                 .applyTheme(theme)
                 .build()
 
-            activity?.supportFragmentManager?.let { view -> datePicker.show(view, DATE_PICKER_TAG) }
+            activity?.supportFragmentManager?.let { view -> datePicker.show(view, Constants.DATE_PICKER) }
 
             datePicker.setDayPickCallback(singleDayPickCallback)
         }
@@ -237,10 +237,7 @@ class NewPomodoroFragment : Fragment() {
 
 
 
-    companion object {
-        const val DATE_PICKER_TAG = "prime date picker bottomSheet"
-        const val TAG_BOTTOM_SHEET_TAG = "tag picker bottomSheet"
-    }
+
 
 
 

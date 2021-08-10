@@ -30,6 +30,11 @@ class Constants {
         const val ACTION_SHOW_MAIN_ACTIVITY = "ACTION_SHOW_MAIN_ACTIVITY"
 
 
+        // Dialog TAG
+        const val DATE_PICKER = "date picker bottomSheet"
+        const val TAG_PICKER = "tag picker bottomSheet"
+        const val NUMBER_PICKER = "number picker bottomSheet"
+
 
         const val NOTIFICATION_CHANNEL_ID = "timer_channel"
         const val NOTIFICATION_CHANNEL_NAME = "타이머"

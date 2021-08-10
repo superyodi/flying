@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.yodi.flying.features.preference.PreferenceViewModel"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +22,7 @@
             android:id="@+id/imageView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{viewModel::onNumberPickerClicked}"
             app:layout_constraintBottom_toBottomOf="@+id/text_short_rest_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_short_rest_time"
@@ -362,6 +370,7 @@
             android:textColor="@color/text_gray_light"
             android:textSize="16sp"
             android:textStyle="normal"
+            android:onClick="@{viewModel::onNumberPickerClicked}"
             app:layout_constraintBottom_toBottomOf="@+id/textView13"
             app:layout_constraintEnd_toStartOf="@+id/imageView7"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
@@ -394,15 +403,6 @@
             app:layout_constraintEnd_toStartOf="@+id/imageView9"
             app:layout_constraintTop_toTopOf="@+id/textView15"
             app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/text_running_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_running_time"
-            app:srcCompat="@drawable/ic_keyboard_arrow_down" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
