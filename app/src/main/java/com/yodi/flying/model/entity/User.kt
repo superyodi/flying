@@ -15,7 +15,7 @@ data class User(
     var longBreakTerm = 4
     var isAutoBreakMode = true // 자동으로 뽀모도로 넘김
     var isAutoSkipMode = true // 자동으로 휴식 시작
-    var isNonBreakMode = false // 휴식없이 무한 질주 
+    var isNonBreakMode = false // 휴식없이 무한 질주
 
 
 }
