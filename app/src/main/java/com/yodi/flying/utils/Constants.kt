@@ -16,6 +16,14 @@ class Constants {
         // Intent extra
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
         const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
+        const val EXTRA_NUMBER_PICKER_ID = "EXTRA_NUMBER_PICKER_ID"
+
+        // number picker flag
+        const val RUNNING_TIME_FLAG = "RUNNING_TIME_FLAG"
+        const val SHORT_REST_TIME_FLAG = "SHORT_REST_TIME_FLAG"
+        const val LONG_REST_TIME_FLAG = "LONG_REST_TIME_FLAG"
+        const val LONG_REST_TERM_FLAG = "LONG_REST_TERM_FLAG"
+        const val GOAL_COUNT_FLAG = "GOAL_COUNT_FLAG"
 
         // Intent Actions for communication with timer service
         const val ACTION_START = "ACTION_START"

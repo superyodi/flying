@@ -5,28 +5,67 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp" >
+        android:layout_height="wrap_content">
 
         <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/number_picker"
-            android:layout_width="193dp"
+            android:layout_width="match_parent"
             android:layout_height="203dp"
             android:layout_centerInParent="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:np_dividerColor="@color/colorPrimary"
-            app:np_height="180dp"
+            app:np_accessibilityDescriptionEnabled="true"
+            app:np_dividerColor="@color/flying_bright_gray"
+            app:np_dividerDistance="60dp"
+            app:np_dividerThickness="0dp"
+            app:np_height="200dp"
+            app:np_itemSpacing="8dp"
+            app:np_selectedTextColor="@color/flying_orange"
             app:np_max="59"
             app:np_min="0"
-            app:np_selectedTextColor="@color/colorPrimary"
-            app:np_selectedTextSize="20sp"
-            app:np_textColor="@color/colorPrimary"
-            app:np_textSize="16sp"
-            app:np_value="3"
-            app:np_width="64dp" />
+            app:np_selectedTextSize="40sp"
+            app:np_textColor="@color/flying_bright_orange"
+            app:np_textSize="20sp"
+            app:np_value="0"
+            app:np_width="80dp" />
+
+
+
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/flying_bright_gray"
+            android:paddingVertical="14dp"
+            android:text="취소"
+            android:textAlignment="center"
+            android:textColor="#514b4b"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/add_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/flying_orange"
+            android:paddingVertical="14dp"
+            android:text="확인"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cancel_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

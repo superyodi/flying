@@ -32,6 +32,8 @@ class PreferenceFragment : Fragment() {
                 lifecycleOwner = viewLifecycleOwner
             }
 
+        setViewEventListener()
+
         observeViewModel()
 
 
@@ -40,20 +42,61 @@ class PreferenceFragment : Fragment() {
 
 
     private fun observeViewModel() {
-        preferenceViewModel.needNumberPicker.observe(::getLifecycle) {
-            openNumberPickerDialog()
+
+        preferenceViewModel.longRestTermInput.observe(::getLifecycle) {
+            preferenceViewModel.longRestTerm.value = it.toInt()
         }
+        preferenceViewModel.longRestTimeInput.observe(::getLifecycle) {
+            preferenceViewModel.longRestTime.value = it.toInt()
+        }
+        preferenceViewModel.shortRestTimeInput.observe(::getLifecycle) {
+            preferenceViewModel.shortRestTime.value = it.toInt()
+        }
+        preferenceViewModel.runningTimeInput.observe(::getLifecycle) {
+            preferenceViewModel.runningTime.value = it.toInt()
+        }
+
+    }
+
+    private fun setViewEventListener() {
+
+        binding.setClickListener { view ->
+            when (view) {
+                binding.runningTimeButton -> showNumberPickerDialog(Constants.RUNNING_TIME_FLAG)
+                binding.longRestButton -> showNumberPickerDialog(Constants.LONG_REST_TIME_FLAG)
+                binding.shortRestButton -> showNumberPickerDialog(Constants.SHORT_REST_TIME_FLAG)
+                binding.longTermButton -> showNumberPickerDialog(Constants.LONG_REST_TERM_FLAG)
+
+
+            }
+        }
+
+
     }
 
 
-    private fun openNumberPickerDialog() {
-        val numberPickerDialog = NumberPickerDialog().getInstance()
+    private fun showNumberPickerDialog(flag: String) {
+        val numberPickerDialog = NumberPickerDialog().newInstance(flag)
 
         activity?.supportFragmentManager?.let { fragmentManager ->
+            numberPickerDialog?.setOnButtonClickedListener { it ->
+                setPreferenceValue(flag, it)
+            }
+            numberPickerDialog?.show(fragmentManager, Constants.NUMBER_PICKER)
+        }
 
-            numberPickerDialog.show(fragmentManager, Constants.NUMBER_PICKER)
+    }
+
+
+    private fun setPreferenceValue(flag : String, value: Int) {
+        when(flag) {
+            Constants.RUNNING_TIME_FLAG -> preferenceViewModel.runningTime.value = value
+            Constants.LONG_REST_TIME_FLAG -> preferenceViewModel.longRestTime.value = value
+            Constants.SHORT_REST_TIME_FLAG -> preferenceViewModel.shortRestTime.value = value
+            Constants.LONG_REST_TERM_FLAG -> preferenceViewModel.longRestTerm.value = value
 
         }
+
     }
 }
 
