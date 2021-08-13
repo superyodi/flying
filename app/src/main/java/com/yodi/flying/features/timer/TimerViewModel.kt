@@ -1,10 +1,13 @@
 package com.yodi.flying.features.timer
 
-import androidx.lifecycle.*
-import com.yodi.flying.model.entity.Pomodoro
-import com.yodi.flying.model.repository.PomodoroRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.model.TimerState
+import com.yodi.flying.model.entity.Pomodoro
+import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.service.TimerService
 import com.yodi.flying.utils.Constants.Companion.RUNNING_TIME
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
@@ -39,7 +42,6 @@ class TimerViewModel(
 
     val elapsedTime: LiveData<Long>
         get() = pomodoroRepository.getTimerServiceElapsedTimeMillis().map {
-            //Timber.i("elapsedTime: $it")
             if(timerState.value != TimerState.EXPIRED)
                 it
             else

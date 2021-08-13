@@ -131,8 +131,6 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
         setUserIdToPreferences()
         Timber.d("saveUserData(): userId: $userId")
 
-        userRepository.setUserIdToPreferences(userId)
-
         // create user
         createNewUser(
             User(

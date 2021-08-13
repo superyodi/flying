@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.foo.pomodoro"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -117,14 +117,16 @@ dependencies {
     // KaKao Login
     implementation "com.kakao.sdk:v2-user:2.5.2"
 
+    // Ruler Picker
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'com.xw.repo:bubbleseekbar:3.16'
 
+    // Number Sliding Picker
+    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
 
-
-
-
+    // Number Picker
+    implementation 'io.github.ShawnLin013:number-picker:2.4.13'
 
 
 

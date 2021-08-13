@@ -57,6 +57,8 @@ fun getFormattedCompletionTime(ms: Long?): String{
     return ""
 }
 
+
+
 fun convertLongToTime(time: Long?): String {
     time?.let {
         val date = Date(time)

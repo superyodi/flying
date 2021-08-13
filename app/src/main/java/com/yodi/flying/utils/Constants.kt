@@ -16,6 +16,15 @@ class Constants {
         // Intent extra
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
         const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
+        const val EXTRA_NUMBER_PICKER_ID = "EXTRA_NUMBER_PICKER_ID"
+        const val EXTRA_NUMBER_PICKER_VAL = "EXTRA_NUMBER_PICKER_VAL"
+
+        // number picker flag
+        const val RUNNING_TIME_FLAG = "RUNNING_TIME_FLAG"
+        const val SHORT_REST_TIME_FLAG = "SHORT_REST_TIME_FLAG"
+        const val LONG_REST_TIME_FLAG = "LONG_REST_TIME_FLAG"
+        const val LONG_REST_TERM_FLAG = "LONG_REST_TERM_FLAG"
+        const val GOAL_COUNT_FLAG = "GOAL_COUNT_FLAG"
 
         // Intent Actions for communication with timer service
         const val ACTION_START = "ACTION_START"
@@ -29,6 +38,11 @@ class Constants {
         const val ACTION_SOUND = "ACTION_SOUND"
         const val ACTION_SHOW_MAIN_ACTIVITY = "ACTION_SHOW_MAIN_ACTIVITY"
 
+
+        // Dialog TAG
+        const val DATE_PICKER = "date picker bottomSheet"
+        const val TAG_PICKER = "tag picker bottomSheet"
+        const val NUMBER_PICKER = "number picker bottomSheet"
 
 
         const val NOTIFICATION_CHANNEL_ID = "timer_channel"

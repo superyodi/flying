@@ -10,7 +10,7 @@
     </style>
 
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@drawable/bottomsheet_background</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
