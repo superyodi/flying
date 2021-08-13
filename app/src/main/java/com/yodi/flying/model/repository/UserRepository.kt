@@ -10,6 +10,7 @@ import com.yodi.flying.utils.Constants.Companion.PREF_USER_ID
 class UserRepository(private val userDao : UserDao, private val preferences:
 SharedPreferenceManager) {
 
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(user: User) {
@@ -18,7 +19,14 @@ SharedPreferenceManager) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getUser(userId: Long): User = userDao.getUserId(userId)
+    suspend fun getUser(userId: Long): User = userDao.getUserWithId(userId)
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun update(user: User) {
+        userDao.updateUser(user)
+    }
+
 
     fun getUserIdFromPreferences() = preferences.getLong(PREF_USER_ID)
 

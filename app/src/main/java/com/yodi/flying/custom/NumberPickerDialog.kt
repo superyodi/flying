@@ -17,6 +17,7 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
     private lateinit var binding: DialogNumberPickerBinding
     private lateinit var listener: NumberPickerDialogListener
     private var flag = "flag"
+    private var nowVal = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,7 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
 
         flag = requireArguments().getString(Constants.EXTRA_NUMBER_PICKER_ID, "EXTRA_NUMBER_PICKER_ID")
+        nowVal = requireArguments().getInt(Constants.EXTRA_NUMBER_PICKER_VAL, 0)
         Timber.d("number picker : $flag")
 
 
@@ -36,6 +38,7 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
     ): View? {
 
         binding = DialogNumberPickerBinding.inflate(inflater, container, false)
+        binding.numberPicker.value = nowVal
 
         binding.addButton.setOnClickListener {
             val selectedVal = binding.numberPicker.value
@@ -66,10 +69,11 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
 
 
 
-    fun newInstance(flag: String): NumberPickerDialog? {
+    fun newInstance(flag: String, nowVal : Int?): NumberPickerDialog? {
         val numberPickerDialog = NumberPickerDialog()
         val args = Bundle()
         args.putString(Constants.EXTRA_NUMBER_PICKER_ID, flag)
+        args.putInt(Constants.EXTRA_NUMBER_PICKER_VAL, nowVal ?: 0)
         numberPickerDialog.arguments = args
         return numberPickerDialog
     }

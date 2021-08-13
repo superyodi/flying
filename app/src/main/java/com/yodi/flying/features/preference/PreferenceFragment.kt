@@ -32,41 +32,33 @@ class PreferenceFragment : Fragment() {
                 lifecycleOwner = viewLifecycleOwner
             }
 
+        preferenceViewModel.start()
+
         setViewEventListener()
-
-        observeViewModel()
-
 
         return binding.root
     }
 
-
-    private fun observeViewModel() {
-
-        preferenceViewModel.longRestTermInput.observe(::getLifecycle) {
-            preferenceViewModel.longRestTerm.value = it.toInt()
-        }
-        preferenceViewModel.longRestTimeInput.observe(::getLifecycle) {
-            preferenceViewModel.longRestTime.value = it.toInt()
-        }
-        preferenceViewModel.shortRestTimeInput.observe(::getLifecycle) {
-            preferenceViewModel.shortRestTime.value = it.toInt()
-        }
-        preferenceViewModel.runningTimeInput.observe(::getLifecycle) {
-            preferenceViewModel.runningTime.value = it.toInt()
-        }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        preferenceViewModel.updateUserData()
     }
+
+
 
     private fun setViewEventListener() {
 
         binding.setClickListener { view ->
             when (view) {
-                binding.runningTimeButton -> showNumberPickerDialog(Constants.RUNNING_TIME_FLAG)
-                binding.longRestButton -> showNumberPickerDialog(Constants.LONG_REST_TIME_FLAG)
-                binding.shortRestButton -> showNumberPickerDialog(Constants.SHORT_REST_TIME_FLAG)
-                binding.longTermButton -> showNumberPickerDialog(Constants.LONG_REST_TERM_FLAG)
-
+                binding.runningTimeButton ->
+                    showNumberPickerDialog(Constants.RUNNING_TIME_FLAG,
+                        preferenceViewModel.runningTime.value ?: 0)
+                binding.longRestButton -> showNumberPickerDialog(Constants.LONG_REST_TIME_FLAG,
+                    preferenceViewModel.longRestTime.value)
+                binding.shortRestButton -> showNumberPickerDialog(Constants.SHORT_REST_TIME_FLAG,
+                    preferenceViewModel.shortRestTime.value)
+                binding.longTermButton -> showNumberPickerDialog(Constants.LONG_REST_TERM_FLAG,
+                    preferenceViewModel.longRestTerm.value)
 
             }
         }
@@ -75,8 +67,8 @@ class PreferenceFragment : Fragment() {
     }
 
 
-    private fun showNumberPickerDialog(flag: String) {
-        val numberPickerDialog = NumberPickerDialog().newInstance(flag)
+    private fun showNumberPickerDialog(flag: String, value: Int?) {
+        val numberPickerDialog = NumberPickerDialog().newInstance(flag, value)
 
         activity?.supportFragmentManager?.let { fragmentManager ->
             numberPickerDialog?.setOnButtonClickedListener { it ->

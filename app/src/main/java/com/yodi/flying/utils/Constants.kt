@@ -17,6 +17,7 @@ class Constants {
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
         const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
         const val EXTRA_NUMBER_PICKER_ID = "EXTRA_NUMBER_PICKER_ID"
+        const val EXTRA_NUMBER_PICKER_VAL = "EXTRA_NUMBER_PICKER_VAL"
 
         // number picker flag
         const val RUNNING_TIME_FLAG = "RUNNING_TIME_FLAG"
