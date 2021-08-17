@@ -14,19 +14,21 @@ data class Pomodoro(
     var nowCount: Int = 0,
     var description: String = "",
     var hasDuedate: Boolean = false,
-    var initDate: String = "",
-    var dueDate: String? = null
+    var initDate: Long = 0L,
+    var dueDate: Long? = null
 
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
     var state = PomodoroState.NONE
     var leftTime = 0L
+    var startedTime = 0L
+    var ticketCount : Int = 0
 
 
     constructor(
         userId: Long, title: String, tag: String,
-        goalCount: Int, nowCount: Int, description: String, hasDuedate: Boolean, initDate: String
+        goalCount: Int, nowCount: Int, description: String, hasDuedate: Boolean, initDate: Long
     ) : this(userId, title, tag, goalCount, nowCount, description, hasDuedate, initDate, null)
 
 

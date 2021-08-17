@@ -68,14 +68,33 @@ fun convertLongToTime(time: Long?): String {
     return "No time found!"
 }
 
-fun convertDateToString(date: Date?): String =
-    SimpleDateFormat("yyyy-MM-dd").format(date)
 
-fun convertDateToLong(date: String?): Long {
+// yyyyMMdd, hh:mm a, yyyy/MM/dd 등등
+fun convertDateToString(date: Date?, pattern: String): String =
+    SimpleDateFormat(pattern).format(date)
+
+// (Long) 20210817 ---> (String) 2021/08/17
+fun convertLongToString(dateLong: Long?, pattern: String) : String {
+    dateLong?.let {
+        val df = SimpleDateFormat("yyyyMMdd")
+        val date = df.parse(it.toString())
+        return convertDateToString(date, pattern)
+    }
+
+    return ""
+}
+
+fun convertStringToLong(dateString : String?, pattern: String) : Long {
+    val df = SimpleDateFormat(pattern)
+    val date = df.parse(dateString)
+    return convertDateToLong(date)
+}
+
+fun convertDateToLong(date: Date?): Long {
     date?.let {
-        val df = DateFormat.getDateTimeInstance()
-        df.parse(date)?.let {
-            return it.time
+        val df = SimpleDateFormat("yyyyMMdd")
+        df.format(date)?.let {
+            return it.toLong()
         }
     }
     return 0L
@@ -85,7 +104,7 @@ e.g)
 selectedValue = 3 --> 1h 30m
 selectedValue = 6 --> 3h 00m
  */
-fun convertRulerValueToString(value : Int) = when {
+fun convertRulerValueToString(value: Int) = when {
         value == 0 -> "00m"
         value == 1 -> "30m"
         value % 2 == 0 -> "${value / 2}h 00m"

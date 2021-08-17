@@ -26,7 +26,8 @@ import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.utils.Constants
-import com.yodi.flying.utils.convertDateToString
+import com.yodi.flying.utils.convertDateToDateString
+
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,7 +41,7 @@ class NewPomodoroFragment : Fragment() {
 
 
     private var isNewPomodoro = false
-    private var dueDate : String = ""
+    private var dueDate : Int? = null
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
         NewPomodoroViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
@@ -110,8 +111,8 @@ class NewPomodoroFragment : Fragment() {
 
     private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
 
-        dueDate = convertDateToString(singleDay.getTime())
-        Toast.makeText(activity, dueDate, Toast.LENGTH_SHORT).show()
+        dueDate = convertDateToDateString(singleDay.getTime()).toInt()
+        Toast.makeText(activity, dueDate!!, Toast.LENGTH_SHORT).show()
 
         binding.dueDate.text = singleDay.shortDateString
     }

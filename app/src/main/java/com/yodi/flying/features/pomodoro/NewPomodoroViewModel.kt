@@ -1,13 +1,14 @@
 package com.yodi.flying.features.pomodoro
 import androidx.lifecycle.*
-import com.yodi.flying.mvvm.Event
 import com.yodi.flying.R
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
-import com.yodi.flying.utils.Constants
+import com.yodi.flying.mvvm.Event
+import com.yodi.flying.utils.convertDateToString
+import com.yodi.flying.utils.convertLongToString
+import com.yodi.flying.utils.convertStringToLong
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
 class NewPomodoroViewModel(
@@ -15,6 +16,7 @@ class NewPomodoroViewModel(
 ) : ViewModel() {
 
 
+    private val datePattern = "yyyy/MM/dd"
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
@@ -81,10 +83,8 @@ class NewPomodoroViewModel(
                 goalCount.value = it.goalCount.toString()
                 hasDuedate.value = it.hasDuedate
                 tag.value = it.tag
-                initDate.value = it.initDate.replace('-','/')
-                dueDate.value = it.dueDate?:""
-                    .replace('-','/')
-
+                initDate.value = convertLongToString(it.initDate, datePattern)
+                dueDate.value = convertLongToString(it.dueDate, datePattern)
                 hasMemo = !(description.value.isNullOrEmpty())
             }
         }
@@ -94,14 +94,14 @@ class NewPomodoroViewModel(
 
     fun savePomodoro() {
         val currentTitle = title.value
-        var currentDueDate= dueDate.value
         val currentGoalCount = goalCount.value
         val currentDescription = description.value ?: ""
         val currentTag = tag.value
         val currentHasDuedate = hasDuedate.value ?: false
-        val currentInitDate = initDate.value ?: "0000/00/00"
-            .replace('/','-')
+        val currentInitDate = convertStringToLong(initDate.value, datePattern)
+        var currentDueDate : Long? = convertStringToLong(dueDate.value, datePattern)
 
+        if(currentDueDate == 0L) currentDueDate = null
 
 
         // check data validation
@@ -132,34 +132,32 @@ class NewPomodoroViewModel(
             return
         }
 
-        if (!currentHasDuedate && !(currentDueDate.isNullOrEmpty())) {
-            currentDueDate = ""
-        }
 
-        if(isNewPomo) {
+
+        if (isNewPomo) {
             val userId = pomodoroRepository.userId
             Timber.d("user id: $userId")
+
             createPomodoro(
                 Pomodoro(
                     userId, currentTitle, currentTag, goalCountNum,
-                    0, currentDescription, currentHasDuedate, currentInitDate, currentDueDate
+                    0, currentDescription, currentHasDuedate,
+                    currentInitDate ,
+                    currentDueDate
                 )
             )
-        }
-        else {
+        } else {
             viewModelScope.launch {
-                pomodoro.value.let {
-                    if (it != null) {
-                        it.title = currentTitle
-                        it.description = currentDescription
-                        it.goalCount = currentGoalCount.toInt()
-                        it.hasDuedate = currentHasDuedate
-                        it.dueDate = currentDueDate
-                        it.tag = currentTag
+                pomodoro.value?.apply {
+                    title = currentTitle
+                    description = currentDescription
+                    goalCount = currentGoalCount.toInt()
+                    hasDuedate = currentHasDuedate
+                    dueDate = currentDueDate
+                    tag = currentTag
 
-                        pomodoroRepository.update(it)
-                        _pomodoroUpdated.value = Event(Unit)
-                    }
+                    pomodoroRepository.update(this)
+                    _pomodoroUpdated.value = Event(Unit)
                 }
             }
         }
@@ -174,7 +172,8 @@ class NewPomodoroViewModel(
     }
 
 
-    fun setStartDateText() : String = SimpleDateFormat("yyyy/MM/dd").format(Date(System.currentTimeMillis()))
+    private fun setStartDateText() : String = convertDateToString(Date(), datePattern)
+
 
 
  }
