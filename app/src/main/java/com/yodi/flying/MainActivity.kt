@@ -27,12 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.tool_bar)
         setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.ic_resource_return)
-            it.setDisplayHomeAsUpEnabled(true)
-
-
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_resource_return)
+            setDisplayHomeAsUpEnabled(true)
         }
         toolbar.visibility = View.GONE
 
@@ -58,6 +56,16 @@ class MainActivity : AppCompatActivity() {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.GONE
 
+                }
+                R.id.ticketListFragment -> {
+                    navView.visibility = View.GONE
+                    toolbar.visibility = View.VISIBLE
+                    toolbar.setBackgroundColor(Color.parseColor("#f7f7f7"))
+                    toolbar.setTitleTextColor(Color.parseColor("#222222"))
+
+                    supportActionBar?.apply {
+                        setHomeAsUpIndicator(R.drawable.ic_resource_return_black)
+                    }
 
                 }
                 else -> {

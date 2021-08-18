@@ -10,12 +10,6 @@ interface PomodoroDao {
     @Query("SELECT * FROM pomodoros WHERE userId = :userId ORDER BY id ASC")
     fun getPomodoros(userId : Long): kotlinx.coroutines.flow.Flow<List<Pomodoro>>
 
-    @Query("SELECT title, nowCount  FROM pomodoros WHERE userId = :userId AND nowCount > 0 ORDER BY id ASC")
-    suspend fun getExcutedPomodoros(userId : Long): List<PomodoroMini>
-
-    @Query("SELECT title, ticketCount  FROM pomodoros WHERE userId = :userId AND startedTime > :cityTime ORDER BY id ASC")
-    suspend fun getPomodorosWithCity(userId: Long, cityTime : Long) : List<PomodoroMini>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(pomodoro: Pomodoro)
 
