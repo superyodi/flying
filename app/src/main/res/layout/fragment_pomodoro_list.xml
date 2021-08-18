@@ -19,9 +19,9 @@ xmlns:tools="http://schemas.android.com/tools">
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="9dp"
             android:background="@drawable/ticket_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,11 +31,9 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginEnd="26dp"
                 android:layout_marginBottom="25dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/tokyo_round"
@@ -47,38 +45,48 @@ xmlns:tools="http://schemas.android.com/tools">
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="65dp"
-            android:background="@color/white"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/shape_round_rectangle_8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-            <TextView
-                android:id="@+id/empty_pomos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="70dp"
-                android:text="작업을 추가해주세요 "
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                app:isGone="@{hasPomodoros}" />
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="65dp"
+                android:paddingTop="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pomodoro_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                app:isGone="@{!hasPomodoros}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item_pomodoro" />
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/empty_pomos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="70dp"
+                    android:text="작업을 추가해주세요 "
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    app:isGone="@{hasPomodoros}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pomodoro_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:isGone="@{!hasPomodoros}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_item_pomodoro" />
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/add_task"
@@ -92,18 +100,17 @@ xmlns:tools="http://schemas.android.com/tools">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/textview_addpomo"
                 android:gravity="center"
+                android:paddingVertical="8dp"
                 android:text="새로운 작업을 추가해주세요"
-                android:textSize="14sp"
                 android:textColor="@color/text_gray_light"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

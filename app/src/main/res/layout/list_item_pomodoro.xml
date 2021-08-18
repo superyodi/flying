@@ -15,8 +15,7 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -35,14 +34,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
         android:layout_marginBottom="26dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_pomodoro_informs"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="24dp"
             android:onClick="@{clickListener}"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,22 +50,35 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/pomodoro_title"
-                android:layout_width="0dp"
+                android:id="@+id/pomodoro_has_duedate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.pomoTitle}"
+                android:text="@{viewModel.pomoHasDuedateText}"
+                android:textColor="@color/flying_gray"
+                android:textSize="10sp"
                 android:textStyle="normal"
-                android:textSize="15sp"
-                android:textColor="@color/text_black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/pomodoro_tag"
+                android:id="@+id/pomodoro_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@{viewModel.pomoTitle}"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pomodoro_has_duedate" />
+
+            <TextView
+                android:id="@+id/pomodoro_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
                 android:layout_marginTop="8dp"
                 android:background="#fff4f2"
+                android:gravity="center"
                 android:text="@{viewModel.pomoTag}"
                 android:textColor="#ff8e71"
                 android:textSize="12sp"
@@ -87,15 +99,15 @@
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/CircularDeterminateProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:indeterminateOnly="false"
+                android:max="@{viewModel.pomoGoalCount}"
                 android:onClick="@{clickListener}"
-                android:progress="@{viewModel.pomoNowCount}"
-                android:max="@{viewModel.pomoGoalCount}" />
+                android:progress="@{viewModel.pomoNowCount}" />
 
             <ProgressBar
                 android:id="@+id/invalid_progressBar"
@@ -106,9 +118,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:indeterminateOnly="false"
+                android:max="@{viewModel.pomoGoalCount}"
                 android:onClick="@{clickListener}"
                 android:progress="@{viewModel.pomoNowCount}"
-                android:max="@{viewModel.pomoGoalCount}"
                 android:visibility="gone" />
 
 

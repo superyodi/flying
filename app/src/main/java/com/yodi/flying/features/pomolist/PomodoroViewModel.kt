@@ -19,10 +19,14 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
         get() = pomodoro.goalCount
     val pomoNowCount
         get() = pomodoro.nowCount
-    val pomoHasDuedate
-        get() = pomodoro.hasDuedate
-
+    val pomoHasDuedateText
+        get() = run {
+            if(pomodoro.hasDuedate) "매일매일"
+            else "오늘 하루만"
+        }
     val progressText = "$pomoNowCount/$pomoGoalCount"
+
+
 
 
 }

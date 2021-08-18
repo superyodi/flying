@@ -10,14 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.adapters.ItemSwipeHeplerCallback
 import com.yodi.flying.adapters.PomodoroAdapter
-import com.yodi.flying.model.entity.Pomodoro
-import com.yodi.flying.model.TimerState
 import com.yodi.flying.databinding.FragmentPomodoroListBinding
-import com.google.android.material.snackbar.Snackbar
+import com.yodi.flying.model.TimerState
+import com.yodi.flying.model.entity.Pomodoro
 import timber.log.Timber
 
 
@@ -77,8 +77,6 @@ class PomodoroListFragment: Fragment() {
         }
 
         binding.addTask.setOnClickListener{
-
-
             it.findNavController().navigate(
                 R.id.action_pomodoroListFragment_to_newPomodoroFragment,
                 null,
@@ -96,8 +94,6 @@ class PomodoroListFragment: Fragment() {
         }
 
     }
-
-
 
     private fun setItemSwipeListener() {
         val itemSwipeHeplerCallback: ItemSwipeHeplerCallback = object : ItemSwipeHeplerCallback() {
