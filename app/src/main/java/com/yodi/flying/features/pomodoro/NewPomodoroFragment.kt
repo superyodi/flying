@@ -26,7 +26,8 @@ import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.utils.Constants
-import com.yodi.flying.utils.convertDateToDateString
+import com.yodi.flying.utils.convertDateToLong
+
 
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -41,7 +42,7 @@ class NewPomodoroFragment : Fragment() {
 
 
     private var isNewPomodoro = false
-    private var dueDate : Int? = null
+    private var dueDate : Long? = null
 
     private val viewmodel: NewPomodoroViewModel by viewModels {
         NewPomodoroViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
@@ -53,6 +54,8 @@ class NewPomodoroFragment : Fragment() {
         if(args.pomoId == -1L) {
             isNewPomodoro = true
         }
+
+        if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
 
         Timber.d("user id: ${(activity?.application as MainApplication).sharedPreferences.getLong(Constants.PREF_USER_ID)}")
 
@@ -94,12 +97,6 @@ class NewPomodoroFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
-
-    }
 
     private fun getDefaultTheme(): ThemeFactory {
         return object : LightThemeFactory() {
@@ -111,8 +108,8 @@ class NewPomodoroFragment : Fragment() {
 
     private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
 
-        dueDate = convertDateToDateString(singleDay.getTime()).toInt()
-        Toast.makeText(activity, dueDate!!, Toast.LENGTH_SHORT).show()
+        dueDate = convertDateToLong(singleDay.getTime())
+        Toast.makeText(activity, "$dueDate", Toast.LENGTH_SHORT).show()
 
         binding.dueDate.text = singleDay.shortDateString
     }

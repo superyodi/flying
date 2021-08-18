@@ -69,9 +69,13 @@ fun convertLongToTime(time: Long?): String {
 }
 
 
-// yyyyMMdd, hh:mm a, yyyy/MM/dd 등등
-fun convertDateToString(date: Date?, pattern: String): String =
+// yyyyMMdd, yyyy/MM/dd 등
+fun convertDateToString(date: Date, pattern: String): String =
     SimpleDateFormat(pattern).format(date)
+
+fun convertDateToString(date: Date?, pattern: String, locale: Locale): String =
+    SimpleDateFormat(pattern, locale).format(date)
+
 
 // (Long) 20210817 ---> (String) 2021/08/17
 fun convertLongToString(dateLong: Long?, pattern: String) : String {
@@ -84,13 +88,17 @@ fun convertLongToString(dateLong: Long?, pattern: String) : String {
     return ""
 }
 
-fun convertStringToLong(dateString : String?, pattern: String) : Long {
-    val df = SimpleDateFormat(pattern)
-    val date = df.parse(dateString)
-    return convertDateToLong(date)
+fun convertStringToLong(dateString : String?, pattern: String) : Long? {
+    dateString?.let {
+        val df = SimpleDateFormat(pattern)
+        val date = df.parse(dateString)
+        return convertDateToLong(date)
+    }
+    return null
+
 }
 
-fun convertDateToLong(date: Date?): Long {
+fun convertDateToLong(date: Date): Long {
     date?.let {
         val df = SimpleDateFormat("yyyyMMdd")
         df.format(date)?.let {

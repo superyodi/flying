@@ -101,7 +101,7 @@ class NewPomodoroViewModel(
         val currentInitDate = convertStringToLong(initDate.value, datePattern)
         var currentDueDate : Long? = convertStringToLong(dueDate.value, datePattern)
 
-        if(currentDueDate == 0L) currentDueDate = null
+
 
 
         // check data validation
@@ -142,7 +142,7 @@ class NewPomodoroViewModel(
                 Pomodoro(
                     userId, currentTitle, currentTag, goalCountNum,
                     0, currentDescription, currentHasDuedate,
-                    currentInitDate ,
+                    currentInitDate!! ,
                     currentDueDate
                 )
             )

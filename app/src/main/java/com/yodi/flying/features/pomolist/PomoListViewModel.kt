@@ -1,10 +1,12 @@
 package com.yodi.flying.features.pomolist
 
+import android.view.View
 import androidx.lifecycle.*
 import com.yodi.flying.mvvm.Event
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.TimerState
+import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.service.TimerService
 import com.yodi.flying.utils.Constants
 import kotlinx.coroutines.launch
@@ -13,9 +15,9 @@ import timber.log.Timber
 class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel() {
 
     val allPomos : LiveData<List<Pomodoro>> = repository.getPomodoros().asLiveData()
-
     var deletedPomooro : Pomodoro? = null
 
+    val navigateToTicket : SingleLiveEvent<Void> = SingleLiveEvent()
     private val _openTimerEvent = MutableLiveData<Event<Int>>()
     val openTimerEvent : LiveData<Event<Int>>
         get() = _openTimerEvent
@@ -31,6 +33,10 @@ class PomoListViewModel(private val repository: PomodoroRepository) : ViewModel(
     val runningPomodoroId : Long?
         get() = TimerService.currentPomodoro.value?.id
 
+
+    fun onTicketButtonClicked(view: View) {
+        navigateToTicket.call()
+    }
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way

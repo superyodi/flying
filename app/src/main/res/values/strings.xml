@@ -4,6 +4,8 @@
     <string name="tab_text_report">리포트</string>
     <string name="tab_text_preference">설정</string>
 
+    <string name="toolbar_title_ticket_list">My ticket</string>
+
     <string name="empty_pomodoro_title">제목을 입력해주세요.</string>
     <string name="empty_pomodoro_tag">태그를 선택해주세요</string>
     <string name="empty_pomodoro_count_message">목표 횟수를 입력해주세요</string>
@@ -17,7 +19,6 @@
     <string name="notification_timer_name">타이머</string>
 
     <string name="data_save_fail_message">데이터를 저장할 수 없습니다.</string>
-
 
 
     <string name="btn_has_duedate">매일매일</string>
@@ -51,7 +52,6 @@
 
     <string name="pomo_state_stopover">Stop over</string>
     <string name="pomo_state_mealtime">Meal time</string>
-
 
 
 </resources>

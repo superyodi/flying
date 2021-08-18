@@ -22,13 +22,17 @@
             android:id="@+id/action_navigation_pomodoro_to_newPomodoroFragment"
             app:destination="@id/newPomodoroFragment"
             app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_navigation_pomodoro_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
 
     </fragment>
 
     <fragment
         android:id="@+id/newPomodoroFragment"
         android:name="com.yodi.flying.features.pomodoro.NewPomodoroFragment"
-        android:label="NewPomodoroFragment" >
+        android:label="NewPomodoroFragment"
+        tools:layout="@layout/fragment_new_pomodoro">
         <action
             android:id="@+id/action_newPomodoroFragment_to_pomodoroListFragment"
             app:destination="@id/navigation_pomodoro"
@@ -44,12 +48,18 @@
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.yodi.flying.features.timer.TimerFragment"
-        android:label="TimerFragment">
+        android:label="TimerFragment"
+        tools:layout="@layout/fragment_timer">
         <argument
             android:name="pomoId"
             app:argType="long" />
     </fragment>
 
+    <fragment
+        android:id="@+id/ticketListFragment"
+        android:name="com.yodi.flying.features.tickets.TicketListFragment"
+        android:label="TicketListFragment"
+        tools:layout="@layout/fragment_ticket_list"/>
 
     <fragment
         android:id="@+id/navigation_report"

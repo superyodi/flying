@@ -8,6 +8,11 @@ xmlns:tools="http://schemas.android.com/tools">
         <variable
             name="hasPomodoros"
             type="boolean" />
+
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.yodi.flying.features.pomolist.PomoListViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,20 +32,36 @@ xmlns:tools="http://schemas.android.com/tools">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cityLayout"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginEnd="26dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/tokyo_round"
                 android:scaleType="fitXY"
-                android:src="@drawable/tokyo_round"
+                android:onClick="@{viewModel::onTicketButtonClicked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    layout="@layout/item_current_ticket"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -41,8 +41,14 @@ class PomodoroListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentPomodoroListBinding.inflate(inflater, container, false)
-        binding.hasPomodoros = true
+        binding = FragmentPomodoroListBinding
+            .inflate(inflater, container, false)
+            .apply {
+                hasPomodoros = true
+                viewModel = pomoListViewModel
+                lifecycleOwner = viewLifecycleOwner
+            }
+
 
         if(pomoListViewModel.timerState.value != null && pomoListViewModel.timerState.value != TimerState.EXPIRED) {
             isTimerRunning = true
@@ -52,17 +58,28 @@ class PomodoroListFragment: Fragment() {
         adapter = PomodoroAdapter(isTimerRunning, runningPomodoroId)
         binding.pomodoroList.adapter = adapter
 
+        observeViewModel()
         setItemSwipeListener()
         subscribeUi(adapter, binding)
 
 
+        binding.addTask.setOnClickListener{
+            it.findNavController().navigate(
+                R.id.action_pomodoroListFragment_to_newPomodoroFragment,
+                null,
+                null
+            )
+        }
+        return binding.root
+    }
+
+    private fun observeViewModel() {
         pomoListViewModel.isTimerRunning.observe(::getLifecycle) {
             isTimerRunning = it
 
             if(isTimerRunning) {
                 if(pomoListViewModel.runningPomodoroId != null) {
                     Timber.i("실행되는 뽀모도로%s", pomoListViewModel.runningPomodoroId.toString())
-
                     runningPomodoroId = pomoListViewModel.runningPomodoroId ?: -1L
 
                 }
@@ -76,23 +93,17 @@ class PomodoroListFragment: Fragment() {
 
         }
 
-        binding.addTask.setOnClickListener{
-            it.findNavController().navigate(
-                R.id.action_pomodoroListFragment_to_newPomodoroFragment,
-                null,
-                null
-            )
+        pomoListViewModel.navigateToTicket.observe(::getLifecycle){
+            requireView().findNavController().
+            navigate(R.id.action_navigation_pomodoro_to_ticketListFragment)
         }
-        return binding.root
     }
-
 
     private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {
         pomoListViewModel.allPomos.observe(::getLifecycle)  { result ->
             binding.hasPomodoros = !result.isNullOrEmpty()
             adapter.submitList(result)
         }
-
     }
 
     private fun setItemSwipeListener() {
@@ -120,8 +131,8 @@ class PomodoroListFragment: Fragment() {
 
             }
         }
-        val itemTouchhelper = ItemTouchHelper(itemSwipeHeplerCallback)
-        itemTouchhelper.attachToRecyclerView(binding.pomodoroList)
+        val itemTouchHelper = ItemTouchHelper(itemSwipeHeplerCallback)
+        itemTouchHelper.attachToRecyclerView(binding.pomodoroList)
     }
 
 

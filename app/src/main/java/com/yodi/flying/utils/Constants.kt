@@ -44,6 +44,19 @@ class Constants {
         const val TAG_PICKER = "tag picker bottomSheet"
         const val NUMBER_PICKER = "number picker bottomSheet"
 
+        // City Names and Total times
+        const val JEJU = "Jeju"
+        const val TOKYO = "Tokyo"
+        const val HANOI = "Hanoi"
+        const val HAWAII = "Hawaii"
+        const val NEWYORK = "New York"
+        const val HAVANA ="Havana"
+        const val MOON = "MOON"
+
+
+
+
+
 
         const val NOTIFICATION_CHANNEL_ID = "timer_channel"
         const val NOTIFICATION_CHANNEL_NAME = "타이머"
