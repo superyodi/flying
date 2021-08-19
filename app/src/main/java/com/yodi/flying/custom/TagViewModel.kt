@@ -18,9 +18,8 @@ class TagViewModel(
     fun addTag(title: String) {
         if (title.isEmpty()) return
 
-        viewModelScope.launch {
-            tagRepository.insert(Tag(title))
-        }
+        tagRepository.insert(title)
+
     }
 }
 

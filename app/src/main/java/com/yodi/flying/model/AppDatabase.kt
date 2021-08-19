@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [Pomodoro::class, Tag::class, User::class, Report::class, Ticket::class, TagWithTime::class],
-    version = 6,
+    version = 7,
     exportSchema = false)
 @TypeConverters(Converters::class)
 

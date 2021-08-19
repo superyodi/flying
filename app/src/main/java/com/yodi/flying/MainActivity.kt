@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
 
-
-
         val toolbar = findViewById<Toolbar>(R.id.tool_bar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -43,30 +41,24 @@ class MainActivity : AppCompatActivity() {
         // set bottom view visibility depending on fragment's id
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
-
             when(destination.id) {
                 R.id.newPomodoroFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.VISIBLE
                     toolbar.setBackgroundColor(Color.parseColor("#ff6037"))
                     toolbar.setTitleTextColor(Color.parseColor("#ffffff"))
-
+                    supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_resource_return)
                 }
                 R.id.timerFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.GONE
-
                 }
                 R.id.ticketListFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.VISIBLE
                     toolbar.setBackgroundColor(Color.parseColor("#f7f7f7"))
                     toolbar.setTitleTextColor(Color.parseColor("#222222"))
-
-                    supportActionBar?.apply {
-                        setHomeAsUpIndicator(R.drawable.ic_resource_return_black)
-                    }
-
+                    supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_resource_return_black)
                 }
                 else -> {
                     navView.visibility = View.VISIBLE
@@ -98,9 +90,5 @@ class MainActivity : AppCompatActivity() {
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
     }
-
-
-
-
 
 }

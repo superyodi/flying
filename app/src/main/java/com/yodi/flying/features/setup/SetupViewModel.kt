@@ -151,9 +151,8 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     private fun insertTags(userId: Long) {
         for(tag in checkedTags)
             viewModelScope.launch {
-                tagRepository.insert(
-                    Tag(tag, userId)
-                )
+                tagRepository.insert(tag)
+
             }
     }
 }

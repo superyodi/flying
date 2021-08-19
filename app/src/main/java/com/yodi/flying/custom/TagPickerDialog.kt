@@ -26,7 +26,6 @@ class TagPickerDialog: BottomSheetDialogFragment() {
     private lateinit var listener: TagPickerDialogListener
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
@@ -45,7 +44,6 @@ class TagPickerDialog: BottomSheetDialogFragment() {
 
             val tagTitle = binding.newTag.text.toString()
             listener.onButtonClicked(tagTitle)
-
             viewmodel.addTag(tagTitle)
             dismiss()
         }
@@ -59,10 +57,7 @@ class TagPickerDialog: BottomSheetDialogFragment() {
 
 
     private fun subscribeUi() {
-
-
-        viewmodel.allTags.observe(viewLifecycleOwner)  { result ->
-
+        viewmodel.allTags.observe(::getLifecycle)  { result ->
             if (updateTagsFlag) {
                 setTag(result)
                 updateTagsFlag = false
@@ -91,9 +86,7 @@ class TagPickerDialog: BottomSheetDialogFragment() {
             chip.text = tagName
 
 
-
             chip.setOnClickListener {
-
                 binding.newTag.setText(tagName)
             }
             chipGroup.addView(chip)
