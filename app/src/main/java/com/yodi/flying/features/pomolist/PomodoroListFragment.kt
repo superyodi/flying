@@ -28,7 +28,9 @@ class PomodoroListFragment: Fragment() {
 
 
     private val pomoListViewModel: PomoListViewModel by viewModels {
-        PomoListViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
+        PomoListViewModelFactory(
+            (activity?.application as MainApplication).pomodoroRepository,
+            (activity?.application as MainApplication).ticketRepository)
     }
     private var isTimerRunning = false
     private var runningPomodoroId  = -1L

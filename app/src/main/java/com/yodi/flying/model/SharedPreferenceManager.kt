@@ -23,6 +23,22 @@ class SharedPreferenceManager(context: Context) {
         preferences.edit().putLong(key, value).apply()
     }
 
+    fun getInt(key: String) : Int {
+        return preferences.getInt(key, 0)
+    }
+
+    fun setInt(key: String, value : Int) {
+        preferences.edit().putInt(key, value).apply()
+    }
+
+    fun getBoolen(key: String) : Boolean {
+        return preferences.getBoolean(key, false)
+    }
+
+    fun setBoolean(key: String, value : Boolean) {
+        preferences.edit().putBoolean(key, value).apply()
+    }
+
 
 
 

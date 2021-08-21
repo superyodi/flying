@@ -3,6 +3,7 @@ package com.yodi.flying.features.preference
 import androidx.lifecycle.*
 import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.UserRepository
+import com.yodi.flying.utils.getFormattedStopWatchTime
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -80,9 +81,12 @@ class PreferenceViewModel(private val userRepository: UserRepository) : ViewMode
 
         }
 
-       currentUser.value?.let { userRepository.update(it) }
-    }
+       currentUser.value?.let {
+           userRepository.setUserPreference(it)
+           userRepository.update(it)
 
+       }
+    }
 
 
 

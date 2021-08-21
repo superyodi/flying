@@ -9,7 +9,6 @@ import com.yodi.flying.model.TimerState
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.service.TimerService
-import com.yodi.flying.utils.Constants.Companion.RUNNING_TIME
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
 import com.yodi.flying.utils.getFormattedStopWatchTime
 import java.util.*
@@ -20,6 +19,8 @@ class TimerViewModel(
 
     private lateinit var timerTask : Timer
 
+    private val runningTime : Long
+        get() = pomodoroRepository.runningTime
     val pomodoro : LiveData<Pomodoro?>
         get() = TimerService.currentPomodoro
     val pomodoroState : LiveData<Int>
@@ -36,7 +37,7 @@ class TimerViewModel(
                 if(pomodoroState.value != PomodoroState.NONE && timerState.value != TimerState.EXPIRED)
                     getFormattedStopWatchTime(it)
                 else
-                    getFormattedStopWatchTime(RUNNING_TIME)
+                    getFormattedStopWatchTime(runningTime)
             }else ""
         }
 
@@ -47,11 +48,6 @@ class TimerViewModel(
             else
                 TIMER_STARTING_IN_TIME
         }
-
-
-
-
-
 
 }
 

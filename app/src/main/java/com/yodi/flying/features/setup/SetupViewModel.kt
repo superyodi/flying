@@ -52,6 +52,8 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
         userRepository.setUserIdToPreferences(userId)
     }
 
+
+
     fun onNextButtonClicked(view: View) {
         when(currentStageState.value) {
             Constants.SETUP_STAGE_1 -> validateUserNickname()
@@ -144,6 +146,7 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     private fun createNewUser(user : User) {
         viewModelScope.launch {
             userRepository.insert(user)
+            userRepository.setUserPreference(user)
         }
 
     }

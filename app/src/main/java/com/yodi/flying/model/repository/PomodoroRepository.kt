@@ -17,6 +17,14 @@ SharedPreferenceManager) {
 
     val userId : Long
         get() = preferences.getLong(Constants.PREF_USER_ID)
+    val runningTime : Long
+        get() = preferences.getLong(Constants.PREF_RUNNING_TIME)
+    val shortRestTime : Long
+        get() = preferences.getLong(Constants.PREF_SHORT_REST_TIME)
+    val longRestTime : Long
+        get() = preferences.getLong(Constants.PREF_LONG_REST_TIME)
+    val longRestTerm : Int
+        get() = preferences.getInt(Constants.PREF_LONG_REST_TERM)
 
     fun getPomodoros(): Flow<List<Pomodoro>> = pomodoroDao.getPomodoros(userId)
 
@@ -45,6 +53,7 @@ SharedPreferenceManager) {
 
     // return immutable livedata from timer service
 
+    fun getTotalTime() = TimerService.currentTotalTime as LiveData<Long>
     fun getTimerServicePomodoroState() = TimerService.currentPomodoroState as LiveData<Int>
     fun getTimerServiceTimerState() = TimerService.currentTimerState as LiveData<TimerState>
     fun getTimerServiceRepetition() = TimerService.currentTomatoCount as LiveData<Int>

@@ -27,10 +27,10 @@ class LogInViewModel(private val userRepository: UserRepository) : ViewModel() {
         else {
             Timber.i("go to MainActivity")
             userRepository.setUserIdToPreferences(userId)
+            userRepository.setUserPreference(user)
             navigateToHome.call()
         }
     }
-
 
     private fun getUserWithId(userId: Long) : User? {
         var user : User? = null

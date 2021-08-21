@@ -22,8 +22,8 @@ data class Pomodoro(
     var id: Long = 0L
     var state = PomodoroState.NONE
     var leftTime = 0L
-    var startedTime = 0L
-    var ticketCount : Int = 0
+    var cityTime = 0L
+
 
 
     constructor(

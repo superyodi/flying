@@ -18,6 +18,9 @@ import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.TimerState
+import com.yodi.flying.model.entity.User
+import com.yodi.flying.model.repository.TicketRepository
+import com.yodi.flying.model.repository.UserRepository
 
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL_AND_RESET
@@ -40,10 +43,13 @@ import timber.log.Timber
 class TimerService : LifecycleService(){
 
 
-    // repository
+    // repositories
     lateinit var pomodoroRepository: PomodoroRepository
-    // current pomodoro
+    lateinit var ticketRepository: TicketRepository
+
+    // entities
     private var pomodoro: Pomodoro? = null
+
 
     // service state
     private var isInitialized = false
@@ -83,17 +89,28 @@ class TimerService : LifecycleService(){
         val currentPomodoro = MutableLiveData<Pomodoro>()
         val currentPomodoroState = MutableLiveData<Int>()
         val currentTomatoCount = MutableLiveData<Int>()
+        val currentTotalTime = MutableLiveData<Long>()
+
+
         val elapsedTimeInMillis = MutableLiveData<Long>()
         val elapsedTimeInMillisEverySecond = MutableLiveData<Long>()
 
         var goalTomatoCount  = 0
         var nowTomatoCount = 0
+
+        var LONG_BREAK_TIME :  Long = 0L
+        var RUNNING_TIME :  Long = 0L
+        var SHORT_BREAK_TIME :  Long = 0L
+        var LONG_BREAK_TERM :  Int = 0
+
     }
 
     override fun onCreate() {
         super.onCreate()
 
         pomodoroRepository = (application as MainApplication).pomodoroRepository
+
+        ticketRepository = (application as MainApplication).ticketRepository
 
         initializeNotification()
         setupObservers()
@@ -260,9 +277,12 @@ class TimerService : LifecycleService(){
         if(timerIndex != timerMaxRepetitions){
 
             // if timerIndex odd -> post one more tomato
-            if(timerIndex % 2 != 0)
+            if(timerIndex % 2 != 0) {
                 nowTomatoCount++
                 currentTomatoCount.postValue(nowTomatoCount)
+            }
+
+
 
 
             // get next workout state
@@ -376,6 +396,14 @@ class TimerService : LifecycleService(){
             goalTomatoCount = it.goalCount
             nowTomatoCount = it.nowCount
         }
+
+        RUNNING_TIME = pomodoroRepository.runningTime
+        SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
+        LONG_BREAK_TIME = pomodoroRepository.longRestTime
+        LONG_BREAK_TERM = pomodoroRepository.longRestTerm
+
+        Timber.d("러닝타임: ${getFormattedStopWatchTime(RUNNING_TIME)}")
+
     }
     private fun updateNotificationActions(state: TimerState){
         // Updates actions of current notification depending on TimerState

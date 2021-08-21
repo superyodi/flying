@@ -12,6 +12,16 @@ class Constants {
         // SharedPreference
         const val PREF_FILE_NAME = "com.yodi.flying.sharedprefs"
         const val PREF_USER_ID = "PREF_USER_ID"
+        const val PREF_RUNNING_TIME = "PREF_RUNNING_TIME"
+        const val PREF_SHORT_REST_TIME = "PREF_SHORT_REST_TIME"
+        const val PREF_LONG_REST_TIME = "PREF_LONG_REST_TIME"
+        const val PREF_LONG_REST_TERM = "PREF_LONG_REST_TERM"
+        const val PREF_IS_AUTO_BREAK_MODE = "PREF_AUTO_BREAK_MODE"
+        const val PREF_IS_AUTO_SKIP_MODE = "PREF_AUTO_SKIP_MODE"
+        const val PREF_IS_NON_BREAK_MODE = "PREF_IS_NON_BREAK_MODE"
+
+
+
 
         // Intent extra
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
@@ -82,16 +92,10 @@ class Constants {
         const val SETUP_SUB_TITLE_3 = "제작자들의 목표 집중시간은 8시간이랍니다"
 
 
-
-
-        // 임시 사용자 설정 변수
-//const val SHORT_BREAK_TIME = 300000L //5min
-        val LONG_BREAK_TIME = 900000L //15min
-
-        //const val RUNNING_TIME = 1500000L //25min
-        val RUNNING_TIME = 10000L //10sec // test
-        val SHORT_BREAK_TIME = 5000L //5sec // test
-        val LONG_BREAK_COUNT = 4
+//        const val LONG_BREAK_TIME = "LONG_BREAK_TIME" //15min
+//        const val RUNNING_TIME = "RUNNING_TIME" //10sec // test
+//        const val SHORT_BREAK_TIME = "SHORT_BREAK_TIME" //5sec // test
+//        const val LONG_BREAK_TERM = "LONG_BREAK_TERM"
 
 
 

@@ -1,9 +1,9 @@
 package com.yodi.flying.model.dao;
 
-import androidx.room.Dao;
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query;
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.MutableLiveData
+import androidx.room.*
+import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.entity.TagWithTime
 
 import com.yodi.flying.model.entity.Report;
@@ -14,17 +14,24 @@ import com.yodi.flying.model.entity.Ticket
 interface ReportDao {
 
     @Query("SELECT * FROM reports WHERE userId = :userId AND date = :date")
-    suspend fun getTodayReport(userId : Long, date: String): Report
+    suspend fun getTodayReport(userId : Long, date: Long): Report
 
     @Query("SELECT totalTime FROM reports WHERE userId = :userId AND date = :date")
-    suspend fun getTodayTotalTime(userId : Long, date: String): Long
+    suspend fun getTodayTotalTime(userId : Long, date: Long): Long
+
+    @Query("SELECT cityDepth FROM reports WHERE userId = :userId AND date = :date")
+    suspend fun getTodayCityDepth(userId : Long, date: Long): Int
+
 
     @Query("SELECT totalTime FROM reports WHERE userId = :userId AND date = :date")
-    suspend fun getTimeWithTagForWeek(userId : Long, date: String): Long
+    suspend fun getTimeWithTagForWeek(userId : Long, date: Long): Long
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTodayReport(report: Report)
+
+    @Update
+    suspend fun update(report: Report) : Int
 
 }
 

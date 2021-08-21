@@ -12,7 +12,6 @@ data class Ticket(
     val depth : Int = 0 // city 단계
 )
 {
-
     var endTime : Long = 0L
 
 }
