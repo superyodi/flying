@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit
 
 class PreferenceViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-
-
     val userNickname = MutableLiveData<String>()
     val shortRestTime = MutableLiveData<Int>()
     val longRestTime = MutableLiveData<Int>()

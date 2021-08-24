@@ -35,7 +35,10 @@ fun getFormattedStopWatchTime(ms: Long?): String{
     return ""
 }
 
-fun getFormattedCompletionTime(ms: Long?): String{
+
+
+
+fun getFormattedTotalTime(ms: Long?): String{
     ms?.let {
         var milliseconds = ms
         // Convert to hours
@@ -44,18 +47,13 @@ fun getFormattedCompletionTime(ms: Long?): String{
 
         // Convert to minutes
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-        milliseconds -= TimeUnit.MINUTES.toMillis(minutes)
 
-        // Convert to seconds
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
-
-        return (if(hours <= 0) "" else if(hours < 10) "0$hours:" else "$hours:") +
-                (if(minutes <= 0) "" else if(minutes < 10) "0$minutes:" else "$minutes:" ) +
-                "${if(seconds < 10) "0" else ""}$seconds" +
-                if(hours > 0) " h" else if(minutes > 0) " min" else "sec"
+        return (if (hours <= 0) "" else "${hours}h") +
+                (if (minutes < 10) "0${minutes}m" else "${minutes}m")
     }
-    return ""
+    return "00m"
 }
+
 
 
 

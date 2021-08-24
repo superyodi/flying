@@ -23,4 +23,6 @@ interface PomodoroDao {
     suspend fun delete(pomodoro: Pomodoro): Int
     @Update
     suspend fun updatePomodoro(pomodoro: Pomodoro): Int
+
+
 }
