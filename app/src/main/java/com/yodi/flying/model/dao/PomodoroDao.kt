@@ -24,5 +24,14 @@ interface PomodoroDao {
     @Update
     suspend fun updatePomodoro(pomodoro: Pomodoro): Int
 
+    @Query("DELETE FROM pomodoros WHERE hasDuedate = :hasDueDate")
+    suspend fun deleteLastPomodoros(hasDueDate : Boolean)
+
+    @Query("DELETE FROM pomodoros WHERE hasDuedate = :hasDueDate and dueDate < :date")
+    suspend fun deleteLastPomodoros(hasDueDate : Boolean, date : Long)
+
+    @Query("UPDATE pomodoros SET nowCount = 0, state = 0, leftTime = 0 WHERE hasDuedate = :hasDueDate and dueDate >= :date")
+    suspend fun updateHasDueDatePomodoros(hasDueDate : Boolean, date : Long)
+
 
 }

@@ -14,6 +14,7 @@ import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivitySetupBinding
+import com.yodi.flying.features.splash.SplashActivity
 import com.yodi.flying.utils.Constants
 import com.yodi.flying.utils.convertRulerValueToString
 import timber.log.Timber
@@ -86,7 +87,7 @@ class SetupActivity : AppCompatActivity() {
             setupViewmodel.userGoalTime = binding.rulerPicker.currentValue
         }
         setupViewmodel.navigateToHome.observe(::getLifecycle) {
-            navigateToHome()
+            navigateToSplash()
         }
     }
 
@@ -161,6 +162,13 @@ class SetupActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
 
+    }
+
+    private fun navigateToSplash() {
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
 
     }
 

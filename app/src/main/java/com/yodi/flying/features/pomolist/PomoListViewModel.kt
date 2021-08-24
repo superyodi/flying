@@ -60,15 +60,12 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
 
     init {
         viewModelScope.launch {
-            ticketRepository.insert()
 
             ticketRepository.getTotalTime().collect {
                 totalTime.value = it
             }
         }
     }
-
-
 
     fun onTicketButtonClicked(view: View) {
         Timber.d("총시간: ${totalTimeString.value}")

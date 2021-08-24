@@ -13,6 +13,7 @@ import com.yodi.flying.MainApplication
 import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivityLoginBinding
 import com.yodi.flying.features.setup.SetupActivity
+import com.yodi.flying.features.splash.SplashActivity
 import timber.log.Timber
 
 
@@ -115,6 +116,8 @@ class LogInActivity : AppCompatActivity(){
         startActivity(intent)
         finish()
     }
+
+
 
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())

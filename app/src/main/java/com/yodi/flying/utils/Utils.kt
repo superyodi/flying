@@ -49,9 +49,9 @@ fun getFormattedTotalTime(ms: Long?): String{
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
 
         return (if (hours <= 0) "" else "${hours}h") +
-                (if (minutes < 10) "0${minutes}m" else "${minutes}m")
+                (if (minutes < 10) "${minutes}m" else "${minutes}m")
     }
-    return "00m"
+    return "0m"
 }
 
 
@@ -99,6 +99,17 @@ fun convertStringToLong(dateString : String?, pattern: String) : Long? {
 fun convertDateToLong(date: Date): Long {
     date?.let {
         val df = SimpleDateFormat("yyyyMMdd")
+        df.format(date)?.let {
+            return it.toLong()
+        }
+    }
+    return 0L
+}
+
+
+fun convertDateTimeToLong(date: Date): Long {
+    date?.let {
+        val df = SimpleDateFormat("yyyyMMddHH")
         df.format(date)?.let {
             return it.toLong()
         }

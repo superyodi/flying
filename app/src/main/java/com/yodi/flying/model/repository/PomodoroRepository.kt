@@ -51,6 +51,21 @@ SharedPreferenceManager) {
         pomodoroDao.updatePomodoro(pomodoro)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteLastPomodoros(date : Long) {
+
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateTodayPomodoros(date : Long) {
+        pomodoroDao.deleteLastPomodoros(false)
+        pomodoroDao.deleteLastPomodoros(true, date)
+        pomodoroDao.updateHasDueDatePomodoros(true, date)
+
+    }
+
     // return immutable livedata from timer service
 
     fun getTotalTime() = TimerService.currentTotalTime as LiveData<Long>

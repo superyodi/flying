@@ -32,7 +32,7 @@ class TimerViewModel(
     val timerState: LiveData<TimerState>
         get() = pomodoroRepository.getTimerServiceTimerState()
     val timeString: LiveData<String>
-        get() = pomodoroRepository.getTotalTime().map {
+        get() = pomodoroRepository.getTimerServiceElapsedTimeMillisESeconds().map {
             if(pomodoro.value != null){
                 if(pomodoroState.value != PomodoroState.NONE && timerState.value != TimerState.EXPIRED)
                     getFormattedStopWatchTime(it)

@@ -12,6 +12,7 @@ class Constants {
         // SharedPreference
         const val PREF_FILE_NAME = "com.yodi.flying.sharedprefs"
         const val PREF_USER_ID = "PREF_USER_ID"
+        const val PREF_TODAY_DATE = "PREF_TODAY_DATE"
         const val PREF_RUNNING_TIME = "PREF_RUNNING_TIME"
         const val PREF_SHORT_REST_TIME = "PREF_SHORT_REST_TIME"
         const val PREF_LONG_REST_TIME = "PREF_LONG_REST_TIME"

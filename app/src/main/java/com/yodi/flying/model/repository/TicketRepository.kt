@@ -23,14 +23,14 @@ class TicketRepository(
     val userId : Long
         get() = preferences.getLong(Constants.PREF_USER_ID)
 
-    private val today : Long
-        get() = convertDateToLong(Date())
+    val todayDate : Long
+        get() = preferences.getLong(Constants.PREF_TODAY_DATE)
     private val refreshIntervalMs : Long = 5000
 
 
     suspend fun getTotalTime(): Flow<Long> = flow {
         while (true) {
-            val latestTotalTime = reportDao.getTodayTotalTime(userId, today)
+            val latestTotalTime = reportDao.getTodayTotalTime(userId, todayDate)
 
             emit(latestTotalTime)
             kotlinx.coroutines.delay(refreshIntervalMs)
@@ -38,16 +38,19 @@ class TicketRepository(
     }
 
     suspend fun insert()  {
-        val report = Report(userId, today)
+        val report = Report(userId, todayDate)
         reportDao.insertTodayReport(report)
     }
 
+    suspend fun updateTodayTotalTime(runningTime : Long) {
+        reportDao.updateTotalTime(userId, todayDate, runningTime)
+    }
 
 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getTodayCityDepth(): Int = reportDao. getTodayCityDepth(userId, today)
+    suspend fun getTodayCityDepth(): Int = reportDao. getTodayCityDepth(userId, todayDate)
 
 
 

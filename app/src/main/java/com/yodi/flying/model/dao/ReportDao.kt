@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 interface ReportDao {
 
     @Query("SELECT * FROM reports WHERE userId = :userId AND date = :date")
-    suspend fun getTodayReport(userId : Long, date: Long): Report
+    suspend fun getReport(userId : Long, date: Long): Report
 
     @Query("SELECT totalTime FROM reports WHERE userId = :userId AND date = :date")
     suspend fun getTodayTotalTime(userId : Long, date: Long): Long
@@ -32,6 +32,11 @@ interface ReportDao {
 
     @Update
     suspend fun update(report: Report) : Int
+
+    @Query("UPDATE reports SET totalTime = totalTime + :runningTime WHERE userId = :userId AND date = :date")
+    suspend fun updateTotalTime(userId : Long, date: Long, runningTime : Long) : Int
+
+
 
 
 
