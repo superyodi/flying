@@ -283,8 +283,6 @@ class TimerService : LifecycleService(){
             }
 
 
-
-
             // get next workout state
             pomodoroState = getNextPomodoroState(pomodoroState, nowTomatoCount)
 
@@ -309,6 +307,10 @@ class TimerService : LifecycleService(){
 
                     pomodoroRepository.update(it)
                 }
+            }
+            // update total time
+            if(timerIndex % 2 != 0) {
+                ticketRepository.updateTodayTotalTime(RUNNING_TIME)
             }
         }
 
