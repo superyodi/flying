@@ -8,6 +8,9 @@ import com.yodi.flying.model.dao.PomodoroDao
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.service.TimerService
 import com.yodi.flying.utils.Constants
+import com.yodi.flying.utils.Constants.Companion.PREF_IS_AUTO_BREAK_MODE
+import com.yodi.flying.utils.Constants.Companion.PREF_IS_AUTO_SKIP_MODE
+import com.yodi.flying.utils.Constants.Companion.PREF_IS_NON_BREAK_MODE
 import kotlinx.coroutines.flow.Flow
 
 
@@ -25,6 +28,14 @@ SharedPreferenceManager) {
         get() = preferences.getLong(Constants.PREF_LONG_REST_TIME)
     val longRestTerm : Int
         get() = preferences.getInt(Constants.PREF_LONG_REST_TERM)
+    val isAutoBreakMode : Boolean
+        get() = preferences.getBoolen(PREF_IS_AUTO_BREAK_MODE)
+    val isAutoSkipMode : Boolean
+        get() = preferences.getBoolen(PREF_IS_AUTO_SKIP_MODE)
+    val isNoneBreakMode : Boolean
+        get() = preferences.getBoolen(PREF_IS_NON_BREAK_MODE)
+
+
 
     fun getPomodoros(): Flow<List<Pomodoro>> = pomodoroDao.getPomodoros(userId)
 

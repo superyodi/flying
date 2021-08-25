@@ -93,10 +93,10 @@ class Constants {
         const val SETUP_SUB_TITLE_3 = "제작자들의 목표 집중시간은 8시간이랍니다"
 
 
-//        const val LONG_BREAK_TIME = "LONG_BREAK_TIME" //15min
-//        const val RUNNING_TIME = "RUNNING_TIME" //10sec // test
-//        const val SHORT_BREAK_TIME = "SHORT_BREAK_TIME" //5sec // test
-//        const val LONG_BREAK_TERM = "LONG_BREAK_TERM"
+        const val TEST_LONG_BREAK_TIME = 15000L //15min
+        const val TEST_RUNNING_TIME = 10000L //10sec // test
+        const val TEST_SHORT_BREAK_TIME = 5000L //5sec // test
+        const val TEST_LONG_BREAK_TERM = 4
 
 
 

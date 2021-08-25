@@ -20,12 +20,13 @@ class SplashViewModel (
 
     fun initTodayData() {
         val todayDate = convertDateToLong(Date())
+
         if(todayDate == reportRepository.todayDate) return
+
         val todayTime = convertDateTimeToLong(Date())
 
-
         // 새벽 5시 전일때 어제 날짜가 저장되어있다면 return
-        if(todayTime < (todayDate * 10L + 5L)) {
+        if(todayTime < (todayDate * 100L + 5L)) {
             val calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_YEAR, -1)
             val yesterday = convertDateToLong(calendar.time)

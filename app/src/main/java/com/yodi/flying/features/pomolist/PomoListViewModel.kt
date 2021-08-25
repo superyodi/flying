@@ -41,7 +41,7 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
 
     val isTimerRunning: LiveData<Boolean>
         get() = pomodoroRepository.getTimerServiceTimerState().map {
-            it != TimerState.EXPIRED
+            it != TimerState.EXPIRED && it != TimerState.DONE
         }
     val runningPomodoroId : Long?
         get() = TimerService.currentPomodoro.value?.id

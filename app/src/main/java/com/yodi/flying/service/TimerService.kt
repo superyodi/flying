@@ -16,7 +16,10 @@ import com.yodi.flying.R
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.PomodoroState
+import com.yodi.flying.model.PomodoroState.Companion.FLYING
+import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
+import com.yodi.flying.model.PomodoroState.Companion.SHORT_BREAK
 import com.yodi.flying.model.TimerState
 import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.TicketRepository
@@ -33,6 +36,10 @@ import com.yodi.flying.utils.Constants.Companion.NOTIFICATION_ID
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
 import com.yodi.flying.utils.Constants.Companion.TIMER_UPDATE_INTERVAL
 import com.yodi.flying.utils.*
+import com.yodi.flying.utils.Constants.Companion.TEST_LONG_BREAK_TERM
+import com.yodi.flying.utils.Constants.Companion.TEST_LONG_BREAK_TIME
+import com.yodi.flying.utils.Constants.Companion.TEST_RUNNING_TIME
+import com.yodi.flying.utils.Constants.Companion.TEST_SHORT_BREAK_TIME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -61,7 +68,6 @@ class TimerService : LifecycleService(){
     private var timer: CountDownTimer? = null
     private var millisToCompletion = 0L
     private var lastSecondTimestamp = 0L
-    private var timerIndex = 0
     private var timerMaxRepetitions = 0
 
 
@@ -102,6 +108,9 @@ class TimerService : LifecycleService(){
         var RUNNING_TIME :  Long = 0L
         var SHORT_BREAK_TIME :  Long = 0L
         var LONG_BREAK_TERM :  Int = 0
+        var IS_AUTO_BREAK_MODE  = false
+        var IS_AUTO_SKIP_MODE = false
+        var IS_NON_BREAK_MODE = false
 
     }
 
@@ -116,6 +125,7 @@ class TimerService : LifecycleService(){
         setupObservers()
 
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -212,10 +222,12 @@ class TimerService : LifecycleService(){
     private fun startServiceTimer(){
 
         isKilled = false
-        resetTimer()
+        if(currentTimerState.value != TimerState.DONE) {
+            resetTimer()
+        }
+
         currentTimerState.postValue(TimerState.RUNNING)
         startTimer()
-
     }
 
     private fun startTimer(wasPaused: Boolean = false){
@@ -224,17 +236,13 @@ class TimerService : LifecycleService(){
             // set pomodoro state
             if(pomodoroState == PomodoroState.NONE) {
                 pomodoroState = PomodoroState.FLYING
-            }
-            currentPomodoroState.postValue(pomodoroState)
-
-            if(currentPomodoroState.value == PomodoroState.NONE) {
-                currentPomodoroState.postValue(PomodoroState.FLYING)
+                currentPomodoroState.postValue(pomodoroState)
             }
 
 
             // time to count down
             val time = getTimeFromPomodoroState(wasPaused, pomodoroState, millisToCompletion)
-            Timber.i("Starting timer - time: $time - pomodoroState: ${pomodoroState}")
+            Timber.i("Starting timer - time: $time - pomodoroState: $pomodoroState")
 
             // post start values
             elapsedTimeInMillisEverySecond.postValue(time)
@@ -267,64 +275,60 @@ class TimerService : LifecycleService(){
     }
 
     private fun onTimerFinish(){
+        Timber.i("함수 호출 ")
 
-        Timber.i("onTimerFinish - timerIndex: $timerIndex - maxRep: $timerMaxRepetitions")
-
-        // increase timerIndex
-        timerIndex += 1
-
-        // check if index still in bound
-        if(timerIndex != timerMaxRepetitions){
-
-            // if timerIndex odd -> post one more tomato
-            if(timerIndex % 2 != 0) {
-                nowTomatoCount++
-                currentTomatoCount.postValue(nowTomatoCount)
-            }
-
-
-            // get next workout state
-            pomodoroState = getNextPomodoroState(pomodoroState, nowTomatoCount)
-
-            Timber.i("currentTomatoCount: ${nowTomatoCount}- maxRep: $timerMaxRepetitions")
-
-
-            // start new timer
-            startTimer()
-
-        }else{
-            // finished all repetitions, cancel timer
-            cancelTimer()
+        if(pomodoroState == FLYING) {
+            nowTomatoCount++
+            currentTomatoCount.postValue(nowTomatoCount)
         }
+
+        Timber.i("nowTomatoCount: ${nowTomatoCount}- goalTomatoCount: $goalTomatoCount")
+        Timber.i("지금 상태: $pomodoroState")
+
 
         // update currentPomodoro
         serviceScope.launch {
-            // 현재 pomodoro state, tomato count update
-            currentPomodoro.value.let {
-                if (it != null) {
-                    it.state = pomodoroState
-                    it.nowCount = currentTomatoCount.value ?: it.nowCount
-
-                    pomodoroRepository.update(it)
-                }
-            }
-            // update total time
-            if(timerIndex % 2 != 0) {
+            Timber.i("Coroutine Scope 시작 ")
+            // Running time 후, update total time
+            if(pomodoroState == FLYING) {
                 ticketRepository.updateTodayTotalTime(RUNNING_TIME)
             }
+
+            // get next workout state
+            pomodoroState = if(pomodoroState == FLYING && IS_NON_BREAK_MODE) {
+                FLYING
+            } else {
+                getNextPomodoroState(pomodoroState, nowTomatoCount, LONG_BREAK_TERM)
+            }
+
+            Timber.d("다음 뽀모도로: $pomodoroState")
+
+            // 현재 pomodoro state, tomato count update
+            currentPomodoro.value?.let {
+                it.state = pomodoroState
+                it.nowCount = currentTomatoCount.value ?: nowTomatoCount
+                pomodoroRepository.update(it)
+            }
+            currentPomodoroState.postValue(pomodoroState)
+            currentTomatoCount.postValue(nowTomatoCount)
+
+            executeNextTimer()
+            Timber.i("Coroutine Scope 종료  ")
         }
 
 
+
+        Timber.i("함수 종료 ")
+
     }
 
-    private fun cancelServiceTimer(){
+
+    private fun cancelServiceTimer() {
         cancelTimer()
         currentTimerState.postValue(TimerState.EXPIRED)
         isKilled = true
         stopForeground(true)
     }
-
-
 
     private fun pauseTimer(){
         currentTimerState.postValue(TimerState.PAUSED)
@@ -336,6 +340,11 @@ class TimerService : LifecycleService(){
         startTimer(wasPaused = true)
     }
 
+    private fun stopTimer() {
+        currentTimerState.postValue(TimerState.DONE)
+        updateUI()
+        timer?.cancel()
+    }
 
     private fun cancelTimer(){
         timer?.cancel()
@@ -343,8 +352,6 @@ class TimerService : LifecycleService(){
     }
 
     private fun resetTimer(){
-        timerIndex = 0
-        timerMaxRepetitions = pomodoro?.goalCount?.times(2) ?: 0
         pomodoroState = NONE
         postInitData()
     }
@@ -361,6 +368,9 @@ class TimerService : LifecycleService(){
             createNotificationChannel(notificationManager)
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
         currentTimerState.value?.let { updateNotificationActions(it) }
+        elapsedTimeInMillisEverySecond.postValue(elapsedTimeInMillis.value)
+
+
     }
 
     private fun initializeData(intent: Intent) {
@@ -385,6 +395,14 @@ class TimerService : LifecycleService(){
         }
     }
 
+    private fun updateUI() {
+        pomodoro?.let {
+            elapsedTimeInMillisEverySecond.value =
+                getTimeFromPomodoroState(false, it.state, 0L)
+        }
+
+    }
+
     private fun postInitData(){
         /*Post current data to MutableLiveData*/
         pomodoro?.let {
@@ -399,10 +417,21 @@ class TimerService : LifecycleService(){
             nowTomatoCount = it.nowCount
         }
 
+        /*
         RUNNING_TIME = pomodoroRepository.runningTime
         SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
         LONG_BREAK_TIME = pomodoroRepository.longRestTime
         LONG_BREAK_TERM = pomodoroRepository.longRestTerm
+
+         */
+        IS_AUTO_BREAK_MODE = pomodoroRepository.isAutoBreakMode
+        IS_AUTO_SKIP_MODE = pomodoroRepository.isAutoSkipMode
+        IS_NON_BREAK_MODE = pomodoroRepository.isNoneBreakMode
+
+        RUNNING_TIME = TEST_RUNNING_TIME
+        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
+        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
+        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
 
         Timber.d("러닝타임: ${getFormattedStopWatchTime(RUNNING_TIME)}")
 
@@ -452,11 +481,31 @@ class TimerService : LifecycleService(){
         elapsedTimeInMillisEverySecond.observe(this, Observer {
             if (!isKilled && !isBound) {
                 // Only do something if timer is running and service in foreground
+                    Timber.d("noti 타이머 세팅 ")
                 val notification = currentNotificationBuilder
                     .setContentText(getFormattedStopWatchTime(it))
                 notificationManager.notify(NOTIFICATION_ID, notification.build())
             }
         })
+    }
+
+    private fun executeNextTimer() {
+        if(nowTomatoCount == goalTomatoCount) {
+            Timber.i("알람 ")
+//            TODO("notification 기능")
+            cancelTimer()
+        }
+        else {
+            Timber.d("다음 뽀모도로: $pomodoroState")
+            // start new timer
+            if(IS_AUTO_SKIP_MODE)
+                startTimer()
+            else if(IS_AUTO_BREAK_MODE && (pomodoroState in arrayOf(SHORT_BREAK, LONG_BREAK)) )
+                startTimer()
+            else
+                stopTimer()
+        }
+
     }
 
 

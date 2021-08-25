@@ -86,8 +86,9 @@ class TimerFragment : Fragment(){
     override fun onDestroy() {
         super.onDestroy()
 
-        if(timerViewmodel.timerState.value == TimerState.EXPIRED) sendCommandToService(
-            ACTION_CANCEL_AND_RESET)
+        if(timerViewmodel.timerState.value == TimerState.EXPIRED
+            || timerViewmodel.timerState.value == TimerState.DONE)
+            sendCommandToService(ACTION_CANCEL_AND_RESET)
     }
 
     override fun onCreateView(
@@ -115,7 +116,7 @@ class TimerFragment : Fragment(){
                     binding.stopLayout.visibility = View.GONE
                     binding.btnStop.visibility = View.VISIBLE
                 }
-                TimerState.EXPIRED, TimerState.PAUSED -> {
+                TimerState.EXPIRED, TimerState.PAUSED, TimerState.DONE -> {
                     binding.stopLayout.visibility = View.VISIBLE
                     binding.btnStop.visibility = View.GONE
                 }
@@ -137,7 +138,6 @@ class TimerFragment : Fragment(){
 
                 PomodoroState.SHORT_BREAK -> {
                     binding.timerState.text =  getString(R.string.pomo_state_mealtime)
-
                 }
 
                 PomodoroState.LONG_BREAK -> {
@@ -149,7 +149,7 @@ class TimerFragment : Fragment(){
 
         binding.btnStart.setOnClickListener {
             when(timerViewmodel.timerState.value) {
-                TimerState.EXPIRED -> sendCommandToService(ACTION_START)
+                TimerState.EXPIRED, TimerState.DONE -> sendCommandToService(ACTION_START)
                 TimerState.PAUSED -> sendCommandToService(ACTION_RESUME)
             }
 

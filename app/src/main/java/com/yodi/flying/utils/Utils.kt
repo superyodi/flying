@@ -131,11 +131,11 @@ fun convertRulerValueToString(value: Int) = when {
 
 
 
-fun getNextPomodoroState(state: Int, nowCount: Int) = when(state){
+fun getNextPomodoroState(state: Int, nowCount: Int, longBreakTerm : Int) = when(state){
     NONE -> FLYING
     FLYING ->
         // long break 주기가 4일 경우
-        if (nowCount > 1 && nowCount % 4 == 0) LONG_BREAK else SHORT_BREAK
+        if (nowCount > 1 && nowCount % longBreakTerm == 0) LONG_BREAK else SHORT_BREAK
     SHORT_BREAK -> FLYING
     LONG_BREAK -> FLYING
     else -> NONE

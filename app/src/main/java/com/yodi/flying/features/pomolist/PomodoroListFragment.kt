@@ -53,7 +53,9 @@ class PomodoroListFragment: Fragment() {
 
 
 
-        if(pomoListViewModel.timerState.value != null && pomoListViewModel.timerState.value != TimerState.EXPIRED) {
+        if(pomoListViewModel.timerState.value != null
+            && pomoListViewModel.timerState.value != TimerState.EXPIRED
+            && pomoListViewModel.timerState.value != TimerState.DONE) {
             isTimerRunning = true
         }
 
@@ -87,7 +89,7 @@ class PomodoroListFragment: Fragment() {
 
                 }
             }
-            Timber.i("isTimerRunning: ${isTimerRunning}")
+            Timber.i("isTimerRunning: $isTimerRunning")
 
 
             adapter = PomodoroAdapter(isTimerRunning, runningPomodoroId)
