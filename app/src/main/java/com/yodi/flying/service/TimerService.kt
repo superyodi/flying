@@ -481,7 +481,6 @@ class TimerService : LifecycleService(){
         elapsedTimeInMillisEverySecond.observe(this, Observer {
             if (!isKilled && !isBound) {
                 // Only do something if timer is running and service in foreground
-                    Timber.d("noti 타이머 세팅 ")
                 val notification = currentNotificationBuilder
                     .setContentText(getFormattedStopWatchTime(it))
                 notificationManager.notify(NOTIFICATION_ID, notification.build())

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -56,6 +57,8 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Long) 
 
             binding.setClickListener { view ->
                 when(view) {
+                    binding.invalidProgressBar ->
+                        Toast.makeText(view.context, "다른 타이머가 실행중입니다. ", Toast.LENGTH_SHORT).show()
 
                     binding.progressBar ->
                         binding.viewModel?.let {
