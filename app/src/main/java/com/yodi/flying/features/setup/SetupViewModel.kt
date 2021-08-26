@@ -157,6 +157,7 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
                 tagRepository.insert(tag)
 
             }
+
     }
 }
 

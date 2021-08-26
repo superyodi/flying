@@ -102,6 +102,10 @@ class PomodoroListFragment: Fragment() {
             requireView().findNavController().
             navigate(R.id.action_navigation_pomodoro_to_ticketListFragment)
         }
+
+        pomoListViewModel.currentCity.observe(::getLifecycle) {
+            pomoListViewModel.setTicketBackgroundResource(it)
+        }
     }
 
     private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {

@@ -2,6 +2,7 @@ package com.yodi.flying.features.pomolist
 
 import android.view.View
 import androidx.lifecycle.*
+import com.yodi.flying.R
 import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.mvvm.Event
 import com.yodi.flying.model.entity.Pomodoro
@@ -10,9 +11,7 @@ import com.yodi.flying.model.TimerState
 import com.yodi.flying.model.repository.TicketRepository
 import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.service.TimerService
-import com.yodi.flying.utils.convertDateToString
-import com.yodi.flying.utils.getFormattedStopWatchTime
-import com.yodi.flying.utils.getFormattedTotalTime
+import com.yodi.flying.utils.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -52,10 +51,12 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     }
     val todayDate = convertDateToString(Date(), "MM/dd yyyy")
 
+    val currentCity = totalTime.map {
+        getCityFromTotalTime(it)
+    }
 
-    val titleText =  MutableLiveData<String>()
-    val subTitleText =  MutableLiveData<String>()
-    val iconResource = MutableLiveData<Int>()
+
+    val ticketBackgroundResource = MutableLiveData<Int>()
 
 
     init {
@@ -87,6 +88,19 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         deletedPomooro = pomodoro
         pomodoroRepository.delete(pomodoro)
 
+    }
+    fun setTicketBackgroundResource(city: String) {
+        when (city) {
+            Constants.JEJU -> ticketBackgroundResource.value = R.drawable.jeju_1
+            Constants.TOKYO -> ticketBackgroundResource.value = R.drawable.tokyo_2
+            Constants.HANOI -> ticketBackgroundResource.value = R.drawable.hanoi_3
+            Constants.HAWAII -> ticketBackgroundResource.value = R.drawable.hawai_4
+            Constants.NEWYORK -> ticketBackgroundResource.value = R.drawable.newyork_5
+            Constants.HAVANA -> ticketBackgroundResource.value = R.drawable.havanna_6
+            Constants.MOON -> ticketBackgroundResource.value = R.drawable.moon_7
+            else -> ticketBackgroundResource.value = R.drawable.ticket_background
+
+        }
     }
 
 }
