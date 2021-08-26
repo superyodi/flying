@@ -29,6 +29,7 @@ import com.yodi.flying.utils.Constants.Companion.ACTION_START
 import com.yodi.flying.utils.Constants.Companion.EXTRA_POMODORO_ID
 
 import timber.log.Timber
+import kotlin.concurrent.timer
 
 
 class TimerFragment : Fragment(){
@@ -106,6 +107,10 @@ class TimerFragment : Fragment(){
         ).apply {
             viewModel = timerViewmodel
             lifecycleOwner = viewLifecycleOwner
+        }
+
+        timerViewmodel.currentCity.observe(::getLifecycle) {
+            timerViewmodel.setTimerBackgroundResource(it)
         }
 
         // UI Setting according to timerState

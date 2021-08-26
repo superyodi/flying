@@ -21,9 +21,7 @@ import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.PomodoroState.Companion.SHORT_BREAK
 import com.yodi.flying.model.TimerState
-import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.TicketRepository
-import com.yodi.flying.model.repository.UserRepository
 
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL
 import com.yodi.flying.utils.Constants.Companion.ACTION_CANCEL_AND_RESET
@@ -56,6 +54,7 @@ class TimerService : LifecycleService(){
 
     // entities
     private var pomodoro: Pomodoro? = null
+    private var totalTime : Long = 0L
 
 
     // service state
@@ -118,7 +117,6 @@ class TimerService : LifecycleService(){
         super.onCreate()
 
         pomodoroRepository = (application as MainApplication).pomodoroRepository
-
         ticketRepository = (application as MainApplication).ticketRepository
 
         initializeNotification()
@@ -386,6 +384,8 @@ class TimerService : LifecycleService(){
                     // launch coroutine, fetch workout from db & audiostate from data store
                     serviceScope.launch {
                         pomodoro = pomodoroRepository.getPomodoro(id)
+                        totalTime = ticketRepository.getTotalTime()
+
                         isInitialized = true
                         postInitData()
                     }
@@ -405,6 +405,7 @@ class TimerService : LifecycleService(){
 
     private fun postInitData(){
         /*Post current data to MutableLiveData*/
+
         pomodoro?.let {
             currentTimerState.postValue(TimerState.EXPIRED)
             currentPomodoro.postValue(it)
@@ -417,6 +418,8 @@ class TimerService : LifecycleService(){
             nowTomatoCount = it.nowCount
         }
 
+        currentTotalTime.postValue(totalTime)
+
         /*
         RUNNING_TIME = pomodoroRepository.runningTime
         SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
@@ -428,6 +431,7 @@ class TimerService : LifecycleService(){
         IS_AUTO_SKIP_MODE = pomodoroRepository.isAutoSkipMode
         IS_NON_BREAK_MODE = pomodoroRepository.isNoneBreakMode
 
+        // test code
         RUNNING_TIME = TEST_RUNNING_TIME
         SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
         LONG_BREAK_TIME = TEST_LONG_BREAK_TIME

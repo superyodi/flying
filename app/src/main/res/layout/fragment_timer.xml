@@ -14,8 +14,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/test_img">
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/cityBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:imageResource="@{viewModel.timerBackgroundResource}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView9"
@@ -167,10 +177,7 @@
                 android:layout_height="52dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/transparent_circle"
-                android:text="Start"
-                android:textColor="@color/white"
-                android:textSize="12sp"
+                android:background="@drawable/ic_start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnInit"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -179,10 +186,7 @@
                 android:id="@+id/btnInit"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:background="@drawable/transparent_circle"
-                android:text="Init"
-                android:textColor="@color/white"
-                android:textSize="12sp"
+                android:background="@drawable/ic_reset"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -192,10 +196,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_marginTop="72dp"
-            android:background="@drawable/transparent_circle"
-            android:text="Stop"
-            android:textColor="@color/white"
-            android:textSize="12sp"
+            android:background="@drawable/ic_stop"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -43,7 +43,6 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_marginEnd="26dp"
                 android:layout_marginBottom="20dp"
 
-                android:scaleType="fitXY"
                 android:onClick="@{viewModel::onTicketButtonClicked}"
                 app:backgroundResource="@{viewModel.ticketBackgroundResource}"
                 app:layout_constraintBottom_toBottomOf="parent"

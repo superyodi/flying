@@ -23,12 +23,12 @@ class TicketRepository(
     val userId : Long
         get() = preferences.getLong(Constants.PREF_USER_ID)
 
-    val todayDate : Long
+    private val todayDate : Long
         get() = preferences.getLong(Constants.PREF_TODAY_DATE)
-    private val refreshIntervalMs : Long = 5000
+    private val refreshIntervalMs : Long = 500 //5000
 
 
-    suspend fun getTotalTime(): Flow<Long> = flow {
+    suspend fun getTotalTimeFlow(): Flow<Long> = flow {
         while (true) {
             val latestTotalTime = reportDao.getTodayTotalTime(userId, todayDate)
 
@@ -37,6 +37,9 @@ class TicketRepository(
         }
     }
 
+    suspend fun getTotalTime() = reportDao.getTodayTotalTime(userId, todayDate)
+
+
     suspend fun insert()  {
         val report = Report(userId, todayDate)
         reportDao.insertTodayReport(report)
@@ -44,6 +47,10 @@ class TicketRepository(
 
     suspend fun updateTodayTotalTime(runningTime : Long) {
         reportDao.updateTotalTime(userId, todayDate, runningTime)
+    }
+
+    suspend fun resetTotalTime() {
+        reportDao.resetTotalTime(userId, todayDate)
     }
 
 

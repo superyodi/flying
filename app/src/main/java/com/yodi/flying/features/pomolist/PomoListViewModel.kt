@@ -3,7 +3,6 @@ package com.yodi.flying.features.pomolist
 import android.view.View
 import androidx.lifecycle.*
 import com.yodi.flying.R
-import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.mvvm.Event
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
@@ -12,13 +11,11 @@ import com.yodi.flying.model.repository.TicketRepository
 import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.service.TimerService
 import com.yodi.flying.utils.*
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
@@ -55,22 +52,49 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         getCityFromTotalTime(it)
     }
 
-
     val ticketBackgroundResource = MutableLiveData<Int>()
 
 
     init {
         viewModelScope.launch {
 
-            ticketRepository.getTotalTime().collect {
+            ticketRepository.getTotalTimeFlow().collect {
                 totalTime.value = it
             }
+
+//            insertTestData()
         }
     }
 
+    private fun insertTestData() = viewModelScope.launch {
+        ticketRepository.updateTodayTotalTime(
+            TimeUnit.HOURS.toMillis(2.toLong())
+        )
+
+        Timber.d("hour to long: ${TimeUnit.HOURS.toMillis(2.toLong())}")
+    }
+
+    private fun resetTestData() = viewModelScope.launch {
+        ticketRepository.resetTotalTime()
+
+    }
+
+
+
+//    fun onTicketButtonClicked(view: View) {
+//
+//        Timber.d("총시간: ${totalTimeString.value}")
+//        insertTestData()
+//        navigateToTicket.call()
+//    }
+
+    // test code
     fun onTicketButtonClicked(view: View) {
-        Timber.d("총시간: ${totalTimeString.value}")
-        navigateToTicket.call()
+         // insertTestData()
+
+        if (currentCity.value == Constants.MOON) resetTestData()
+        else insertTestData()
+
     }
 
     /**
@@ -79,7 +103,6 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     fun insert(pomodoro: Pomodoro) = viewModelScope.launch {
         pomodoroRepository.insert(pomodoro)
     }
-
 
 
     fun delete(pomodoro: Pomodoro) = viewModelScope.launch {
