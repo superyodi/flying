@@ -26,7 +26,6 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
 
     val navigateToTicket : SingleLiveEvent<Void> = SingleLiveEvent()
 
-
     private val _openTimerEvent = MutableLiveData<Event<Int>>()
     val openTimerEvent : LiveData<Event<Int>>
         get() = _openTimerEvent
@@ -51,7 +50,6 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         }
         else "Left by " + getFormattedTotalTime(goalTime- it)
     }
-
 
     val totalTimeString = totalTime.map {
         getFormattedTotalTime(it)

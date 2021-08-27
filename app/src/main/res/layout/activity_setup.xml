@@ -143,9 +143,10 @@
 
 
                 <TextView
+                    android:id="@+id/text_view_user_goal_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_view_user_goal_time"
+                    android:layout_gravity="center"
                     android:textColor="@color/flying_orange"
                     android:textSize="28sp"
                     android:textStyle="bold"
