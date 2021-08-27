@@ -1,5 +1,6 @@
 package com.yodi.flying.utils
 
+import android.telecom.ConnectionService
 import com.yodi.flying.model.PomodoroState.Companion.FLYING
 import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
@@ -139,6 +140,19 @@ fun getNextPomodoroState(state: Int, nowCount: Int, longBreakTerm : Int) = when(
     SHORT_BREAK -> FLYING
     LONG_BREAK -> FLYING
     else -> NONE
+}
+
+fun getNextCity(currentCity : String) : String {
+    return when (currentCity) {
+        Constants.JEJU -> Constants.TOKYO
+        Constants.TOKYO -> Constants.HANOI
+        Constants.HANOI -> Constants.HAWAII
+        Constants.HAWAII -> Constants.NEWYORK
+        Constants.NEWYORK -> Constants.HAVANA
+        Constants.HAVANA -> Constants.MOON
+        Constants.MOON -> Constants.MOON
+        else -> Constants.JEJU
+    }
 }
 
 fun getCityFromTotalTime(

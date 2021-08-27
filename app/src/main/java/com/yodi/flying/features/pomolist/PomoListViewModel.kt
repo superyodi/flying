@@ -27,6 +27,7 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     val navigateToTicket : SingleLiveEvent<Void> = SingleLiveEvent()
 
 
+
     private val _openTimerEvent = MutableLiveData<Event<Int>>()
     val openTimerEvent : LiveData<Event<Int>>
         get() = _openTimerEvent
@@ -65,12 +66,34 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     }
 
 
-    fun onTicketButtonClicked(view: View) {
+//    fun onTicketButtonClicked(view: View) {
+//
+//        navigateToTicket.call()
+//    }
 
-        navigateToTicket.call()
+
+    // test code
+    fun onTicketButtonClicked(view: View) {
+        // insertTestData()
+
+        if (currentCity.value == Constants.MOON) resetTestData()
+        else insertTestData()
+
     }
 
 
+    private fun insertTestData() = viewModelScope.launch {
+        ticketRepository.updateTodayTotalTime(
+            TimeUnit.HOURS.toMillis(2.toLong())
+        )
+
+        Timber.d("hour to long: ${TimeUnit.HOURS.toMillis(2.toLong())}")
+    }
+
+    private fun resetTestData() = viewModelScope.launch {
+        ticketRepository.resetTotalTime()
+
+    }
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way

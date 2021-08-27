@@ -49,6 +49,20 @@ xmlns:tools="http://schemas.android.com/tools">
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/ticket_rectangle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/textView24"
                     android:layout_width="wrap_content"
@@ -93,6 +107,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:textColor="@color/text_white"
                     android:textSize="12sp"
                     android:textStyle="normal"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
                     app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
@@ -139,7 +154,7 @@ xmlns:tools="http://schemas.android.com/tools">
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="8dp"
-                        android:text="Tokyo"
+                        android:text="@{viewModel.currentCity}"
                         android:textColor="@color/text_white"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -154,7 +169,7 @@ xmlns:tools="http://schemas.android.com/tools">
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:text="Hanoi"
+                        android:text="@{viewModel.nextCity}"
                         android:textColor="@color/text_white"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -162,28 +177,39 @@ xmlns:tools="http://schemas.android.com/tools">
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/textView33"
+                    <ImageView
+                        android:id="@+id/imageView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="28dp"
-                        android:layout_marginBottom="49dp"
-                        android:letterSpacing="-0.01"
-                        android:shadowColor="#80000000"
-                        android:shadowDy="2"
-                        android:shadowRadius="4"
-                        android:text="Left by 3h 30m"
-                        android:textColor="#fefefe"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView32"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+                        app:layout_constraintTop_toTopOf="@+id/textView31"
+                        app:srcCompat="@drawable/arrow_right_ticket" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="49dp"
+                    android:letterSpacing="-0.01"
+                    android:shadowColor="#80000000"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
+                    android:text="Left by 3h 30m"
+                    android:textColor="#fefefe"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
