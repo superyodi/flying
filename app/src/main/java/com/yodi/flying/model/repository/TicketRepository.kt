@@ -25,6 +25,7 @@ class TicketRepository(
 
     private val todayDate : Long
         get() = preferences.getLong(Constants.PREF_TODAY_DATE)
+
     private val refreshIntervalMs : Long = 500 //5000
 
 
@@ -37,10 +38,9 @@ class TicketRepository(
         }
     }
 
+    fun getUserGoalTime() = preferences.getLong(Constants.PREF_USER_GOAL_TIME)
+
     suspend fun getTotalTime() = reportDao.getTodayTotalTime(userId, todayDate)
-
-
-
     suspend fun insert()  {
         val report = Report(userId, todayDate)
         reportDao.insertTodayReport(report)
@@ -53,7 +53,6 @@ class TicketRepository(
     suspend fun resetTotalTime() {
         reportDao.resetTotalTime(userId, todayDate)
     }
-
 
 
     @Suppress("RedundantSuspendModifier")

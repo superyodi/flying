@@ -6,7 +6,6 @@ class PomodoroViewModel (pomodoro: Pomodoro)  {
 
     private val pomodoro = pomodoro
 
-
     val pomoId
         get() = pomodoro.id
     val pomoTitle

@@ -40,15 +40,12 @@ class SplashActivity : AppCompatActivity() {
         setupTimber()
 
         val userId = splashViewModel.getUserId()
-
         if(userId == -1L || userId == 0L)
             navigateToLogIn()
         else {
             splashViewModel.initTodayData()
             navigateToHome()
         }
-
-
 
         binding.imageView.setOnClickListener {
             Timber.d("눌렀다!")

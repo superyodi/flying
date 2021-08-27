@@ -48,12 +48,11 @@ SharedPreferenceManager) {
             preferences.setLong(PREF_RUNNING_TIME, it.runningTime)
             preferences.setLong(PREF_SHORT_REST_TIME, it.shortBreakTime)
             preferences.setLong(PREF_LONG_REST_TIME, it.longBreakTime)
-//            preferences.setLong(PREF_USER_GOAL_TIME, it.)
+            preferences.setLong(PREF_USER_GOAL_TIME, it.goalTime)
             preferences.setInt(PREF_LONG_REST_TERM, it.longBreakTerm)
             preferences.setBoolean(PREF_IS_AUTO_BREAK_MODE, it.isAutoBreakMode)
             preferences.setBoolean(PREF_IS_AUTO_SKIP_MODE, it.isAutoSkipMode)
             preferences.setBoolean(PREF_IS_NON_BREAK_MODE, it.isNonBreakMode)
-
         }
     }
 

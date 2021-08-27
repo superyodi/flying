@@ -39,9 +39,7 @@ class LogInViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
         return user
     }
-
 }
-
 
 
 class LogInViewModelFactory(val repository: UserRepository) : ViewModelProvider.Factory {

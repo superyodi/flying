@@ -53,7 +53,6 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     }
 
 
-
     fun onNextButtonClicked(view: View) {
         when(currentStageState.value) {
             Constants.SETUP_STAGE_1 -> validateUserNickname()
@@ -68,7 +67,6 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
                 currentStageState.value = Constants.SETUP_STAGE_DONE
             }
             else -> return
-
         }
     }
 
@@ -126,7 +124,6 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
             }
             else -> return
         }
-
     }
 
     private fun saveUserData() {
@@ -150,19 +147,15 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
             userRepository.insert(user)
             userRepository.setUserPreference(user)
         }
-
     }
-
     private fun insertTags(userId: Long) {
         for(tag in checkedTags)
             viewModelScope.launch {
                 tagRepository.insert(tag)
 
             }
-
     }
 }
-
 
 
 class SetupViewModelFactory(private val userRepository: UserRepository, private val tagRepository: TagRepository) : ViewModelProvider.Factory {
