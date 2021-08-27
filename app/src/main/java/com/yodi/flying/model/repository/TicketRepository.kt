@@ -40,6 +40,7 @@ class TicketRepository(
     suspend fun getTotalTime() = reportDao.getTodayTotalTime(userId, todayDate)
 
 
+
     suspend fun insert()  {
         val report = Report(userId, todayDate)
         reportDao.insertTodayReport(report)

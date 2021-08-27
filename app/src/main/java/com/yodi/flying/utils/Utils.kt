@@ -5,6 +5,7 @@ import com.yodi.flying.model.PomodoroState.Companion.FLYING
 import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
 import com.yodi.flying.model.PomodoroState.Companion.SHORT_BREAK
+import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,8 +50,8 @@ fun getFormattedTotalTime(ms: Long?): String{
         // Convert to minutes
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
 
-        return (if (hours <= 0) "" else "${hours}h") +
-                (if (minutes < 10) "${minutes}m" else "${minutes}m")
+        return (if (hours <= 0) "" else "${hours}h ") +
+                (if (minutes < 10) "0${minutes}m" else "${minutes}m")
     }
     return "0m"
 }
@@ -119,15 +120,26 @@ fun convertDateTimeToLong(date: Date): Long {
 }
 /*
 e.g)
+if intervalStep == 2
 selectedValue = 3 --> 1h 30m
 selectedValue = 6 --> 3h 00m
  */
-fun convertRulerValueToString(value: Int) = when {
+fun convertRulerValueToString(value: Int, intervalStep : Int) = when {
         value == 0 -> "00m"
-        value == 1 -> "30m"
-        value % 2 == 0 -> "${value / 2}h 00m"
-        else -> "${value / 2}h 30m"
+        value in 0 until intervalStep -> "${60/intervalStep*(value % intervalStep)}m"
+        value % intervalStep == 0 -> "${value / intervalStep}h 00m"
+        else -> "${value / intervalStep}h ${60/intervalStep*(value % intervalStep)}m"
     }
+
+fun convertRulerValueToLong(value: Int, intervalStep : Int) : Long {
+    if (intervalStep == 0)
+        return TimeUnit.HOURS.toMillis(value.toLong())
+    val hour = value / intervalStep
+    val minute = (60 / intervalStep) * (value % intervalStep)
+    Timber.i("$hour : $minute")
+    return TimeUnit.HOURS.toMillis(hour.toLong()) + TimeUnit.MINUTES.toMillis(minute.toLong())
+
+}
 
 
 

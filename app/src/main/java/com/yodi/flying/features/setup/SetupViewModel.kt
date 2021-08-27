@@ -19,7 +19,7 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
     val needCheckedTags : SingleLiveEvent<Void> = SingleLiveEvent()
     val needUserGoalTime : SingleLiveEvent<Void> = SingleLiveEvent()
     val navigateToHome : SingleLiveEvent<Void> = SingleLiveEvent()
-    var userGoalTime : Int = 0
+    var userGoalTime : Long = 0
     val userNickname = MutableLiveData<String>()
     val titleText =  MutableLiveData<String>()
     val subTitleText =  MutableLiveData<String>()
@@ -137,7 +137,9 @@ class SetupViewModel(private val userRepository: UserRepository, private val tag
         createNewUser(
             User(
             id = userId,
-            nickname = userNickname.value ?: ""
+            nickname = userNickname.value ?: "" ,
+            goalTime = userGoalTime
+
         ))
         // create tag
         insertTags(userId)

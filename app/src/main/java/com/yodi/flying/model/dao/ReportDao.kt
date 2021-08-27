@@ -27,6 +27,8 @@ interface ReportDao {
     @Query("SELECT totalTime FROM reports WHERE userId = :userId AND date = :date")
     suspend fun getTimeWithTagForWeek(userId : Long, date: Long): Long
 
+
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTodayReport(report: Report)
 

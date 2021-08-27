@@ -16,8 +16,11 @@ import com.yodi.flying.R
 import com.yodi.flying.databinding.ActivitySetupBinding
 import com.yodi.flying.features.splash.SplashActivity
 import com.yodi.flying.utils.Constants
+import com.yodi.flying.utils.convertLongToString
+import com.yodi.flying.utils.convertRulerValueToLong
 import com.yodi.flying.utils.convertRulerValueToString
 import timber.log.Timber
+
 
 class SetupActivity : AppCompatActivity() {
 
@@ -84,10 +87,14 @@ class SetupActivity : AppCompatActivity() {
             }
         }
         setupViewmodel.needUserGoalTime.observe(::getLifecycle) {
-            setupViewmodel.userGoalTime = binding.rulerPicker.currentValue
+            binding.rulerPicker.run {
+                setupViewmodel.userGoalTime = convertRulerValueToLong(this.currentValue, this.longIndicatorStep)
+            }
+
         }
         setupViewmodel.navigateToHome.observe(::getLifecycle) {
             navigateToSplash()
+
         }
     }
 
@@ -147,11 +154,12 @@ class SetupActivity : AppCompatActivity() {
 
     private fun setProgressListener(){
         binding.rulerPicker.setValuePickerListener(object : RulerValuePickerListener {
+            val intervalStep = binding.rulerPicker.longIndicatorStep
             override fun onValueChange(selectedValue: Int) {
-                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue)
+                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue, intervalStep )
             }
             override fun onIntermediateValueChange(selectedValue: Int) {
-                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue)
+                binding.textViewUserGoalTime.text = convertRulerValueToString(selectedValue, intervalStep)
             }
         })
     }

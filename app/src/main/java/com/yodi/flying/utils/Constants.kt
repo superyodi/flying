@@ -17,6 +17,7 @@ class Constants {
         const val PREF_SHORT_REST_TIME = "PREF_SHORT_REST_TIME"
         const val PREF_LONG_REST_TIME = "PREF_LONG_REST_TIME"
         const val PREF_LONG_REST_TERM = "PREF_LONG_REST_TERM"
+        const val PREF_USER_GOAL_TIME = "PREF_USER_GOAL_TIME"
         const val PREF_IS_AUTO_BREAK_MODE = "PREF_AUTO_BREAK_MODE"
         const val PREF_IS_AUTO_SKIP_MODE = "PREF_AUTO_SKIP_MODE"
         const val PREF_IS_NON_BREAK_MODE = "PREF_IS_NON_BREAK_MODE"

@@ -52,6 +52,11 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         getCityFromTotalTime(it)
     }
 
+    val nextCity = currentCity.map {
+        if( it == Constants.MOON) "?"
+        else getNextCity(it)
+    }
+
     val ticketBackgroundResource = MutableLiveData<Int>()
 
 

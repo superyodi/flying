@@ -12,6 +12,7 @@ import com.yodi.flying.utils.Constants.Companion.PREF_LONG_REST_TERM
 import com.yodi.flying.utils.Constants.Companion.PREF_LONG_REST_TIME
 import com.yodi.flying.utils.Constants.Companion.PREF_RUNNING_TIME
 import com.yodi.flying.utils.Constants.Companion.PREF_SHORT_REST_TIME
+import com.yodi.flying.utils.Constants.Companion.PREF_USER_GOAL_TIME
 import com.yodi.flying.utils.Constants.Companion.PREF_USER_ID
 import com.yodi.flying.utils.getFormattedStopWatchTime
 import timber.log.Timber
@@ -47,10 +48,12 @@ SharedPreferenceManager) {
             preferences.setLong(PREF_RUNNING_TIME, it.runningTime)
             preferences.setLong(PREF_SHORT_REST_TIME, it.shortBreakTime)
             preferences.setLong(PREF_LONG_REST_TIME, it.longBreakTime)
+//            preferences.setLong(PREF_USER_GOAL_TIME, it.)
             preferences.setInt(PREF_LONG_REST_TERM, it.longBreakTerm)
             preferences.setBoolean(PREF_IS_AUTO_BREAK_MODE, it.isAutoBreakMode)
             preferences.setBoolean(PREF_IS_AUTO_SKIP_MODE, it.isAutoSkipMode)
             preferences.setBoolean(PREF_IS_NON_BREAK_MODE, it.isNonBreakMode)
+
         }
     }
 

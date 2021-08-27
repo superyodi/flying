@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey
     val id: Long = 0L,
-    var nickname : String = ""
+    var nickname : String = "",
+    var goalTime : Long = 0L
 )
 
 {

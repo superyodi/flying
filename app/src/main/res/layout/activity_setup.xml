@@ -154,19 +154,20 @@
                 <com.kevalpatel2106.rulerpicker.RulerValuePicker
                     android:id="@+id/ruler_picker"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="@color/flying_orange"
-                    app:indicator_color="@color/flying_white"
-                    app:indicator_interval="80dp"
+                    android:layout_height="180dp"
+                    android:background="@color/flying_white"
+                    app:indicator_color="@color/flying_gray"
+                    app:indicator_interval="40dp"
                     app:indicator_width="2dp"
-                    app:long_height_height_ratio="50%"
-                    app:long_indicator_step="2"
-                    app:max_value="48"
+                    app:long_height_height_ratio="20%"
+                    app:long_indicator_step="4"
+                    app:max_value="96"
+                    app:notch_color="@color/flying_gray"
                     app:min_value="0"
-                    app:notch_color="@color/flying_white"
-                    app:ruler_text_color="@color/flying_white"
+                    app:ruler_text_color="@color/flying_gray"
                     app:ruler_text_size="6sp"
-                    app:short_height_height_ratio="30%" />
+                    app:short_height_height_ratio="10%"/>
+
 
             </LinearLayout>
 
