@@ -17,8 +17,15 @@
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialogTheme</item>
         <item name="chipStyle">@style/CustomFilterChipStyle</item>
 
+        <item name="android:actionButtonStyle">@style/CustomActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/CustomActionButtonStyle</item>
+
 
     </style>
+
+
+
+
 
     <style name="Theme.Pomodoro" parent="Base.Theme.Pomodoro"/>
 
@@ -27,8 +34,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Pomodoro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="Theme.Pomodoro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Pomodoro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

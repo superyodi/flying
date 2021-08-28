@@ -74,6 +74,4 @@
         tools:layout="@layout/fragment_preference" />
 
 
-
-
 </navigation>

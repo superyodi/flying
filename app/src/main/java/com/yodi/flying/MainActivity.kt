@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_resource_return)
+
             setDisplayHomeAsUpEnabled(true)
         }
         toolbar.visibility = View.GONE
