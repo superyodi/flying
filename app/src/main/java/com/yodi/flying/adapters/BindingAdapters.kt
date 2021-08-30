@@ -26,3 +26,4 @@ fun setBackgroundResource(view: View, @DrawableRes resId : Int) {
     view.setBackgroundResource(resId)
 
 }
+
