@@ -38,8 +38,6 @@ fun getFormattedStopWatchTime(ms: Long?): String{
 }
 
 
-
-
 fun getFormattedTotalTime(ms: Long?): String{
     ms?.let {
         var milliseconds = ms
@@ -83,6 +81,16 @@ fun convertLongToString(dateLong: Long?, pattern: String) : String {
         val df = SimpleDateFormat("yyyyMMdd")
         val date = df.parse(it.toString())
         return convertDateToString(date, pattern)
+    }
+
+    return ""
+}
+// (long) 202108301807 ---> (String) 06:17PM
+fun convertLongToString(dateLong: Long?, pattern: String, locale: Locale) : String {
+    dateLong?.let {
+        val df = SimpleDateFormat("yyyyMMdd")
+        val date = df.parse(it.toString())
+        return convertDateToString(date, pattern, locale)
     }
 
     return ""

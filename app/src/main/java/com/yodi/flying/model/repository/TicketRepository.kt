@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.dao.ReportDao
 import com.yodi.flying.model.dao.TicketDao
+import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.entity.Report
+import com.yodi.flying.model.entity.Ticket
 import com.yodi.flying.model.entity.User
 import com.yodi.flying.utils.Constants
 import com.yodi.flying.utils.convertDateToLong
@@ -28,6 +30,7 @@ class TicketRepository(
 
     private val refreshIntervalMs : Long = 500 //5000
 
+    fun getTickets(): Flow<List<Ticket>> = ticketDao.getTickets(userId, todayDate)
 
     suspend fun getTotalTimeFlow(): Flow<Long> = flow {
         while (true) {

@@ -3,8 +3,10 @@ package com.yodi.flying.model.repository
 import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.dao.ReportDao
 import com.yodi.flying.model.dao.TicketDao
+import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.entity.Report
 import com.yodi.flying.utils.Constants
+import kotlinx.coroutines.flow.Flow
 
 class ReportRepository (private val reportDao: ReportDao,
                         private val preferences: SharedPreferenceManager) {
@@ -14,6 +16,8 @@ class ReportRepository (private val reportDao: ReportDao,
 
     val todayDate : Long
         get() = preferences.getLong(Constants.PREF_TODAY_DATE)
+
+
 
     fun setTodayDateToPreferences(date : Long) = preferences.setLong(Constants.PREF_TODAY_DATE, date)
 

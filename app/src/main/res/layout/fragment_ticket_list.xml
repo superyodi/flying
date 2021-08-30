@@ -3,6 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.yodi.flying.features.tickets.TicketListViewModel"/>
+    </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,10 +18,11 @@
         android:background="@color/flying_bright_gray">
 
 
-        <include
-            layout="@layout/item_ticket"
+        <androidx.recyclerview.widget.RecyclerView
+            android:paddingBottom="24dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            tools:listitem="@layout/list_item_ticket"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

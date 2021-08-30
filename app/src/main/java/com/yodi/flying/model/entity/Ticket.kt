@@ -13,5 +13,4 @@ data class Ticket(
 )
 {
     var endTime : Long = 0L
-
 }
