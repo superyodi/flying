@@ -38,6 +38,9 @@ interface ReportDao {
     @Query("UPDATE reports SET totalTime = totalTime + :runningTime WHERE userId = :userId AND date = :date")
     suspend fun updateTotalTime(userId : Long, date: Long, runningTime : Long) : Int
 
+    @Query("UPDATE reports SET cityDepth = cityDepth + 1 WHERE userId = :userId AND date = :date")
+    suspend fun updateTodayCityDepth(userId : Long, date: Long) : Int
+
     @Query("UPDATE reports SET totalTime = 0 WHERE userId = :userId AND date = :date")
     suspend fun resetTotalTime(userId : Long, date: Long) : Int
 

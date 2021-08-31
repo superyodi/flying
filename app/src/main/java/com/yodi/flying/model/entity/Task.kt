@@ -10,11 +10,13 @@ data class Task(
     val userId : Long = 0L,
     val date :Long = 0L,
     val cityTime : Long = 0L,
-    val title : String = "",
-    val pomoId : Long = 0L
-    // 실행 도중 pomodoro의 title이 바뀔 수 있으므로 처음 실행될때의 title을 기준으로 하지만 pomoId로 뽀모도로 구분
-
-){
-    var count : Int = 0
+    val pomoId : Long = 0L,
+    var count : Int = 0,
     var totalTime : Long = 0L
+)
+{
+    constructor(
+        userId: Long, date: Long, cityTime: Long, pomoId: Long
+    ) : this(userId, date, cityTime, pomoId, 0, 0L)
+
 }

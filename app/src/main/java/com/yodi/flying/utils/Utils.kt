@@ -126,6 +126,8 @@ fun convertDateTimeToLong(date: Date): Long {
     }
     return 0L
 }
+
+
 /*
 e.g)
 if intervalStep == 2

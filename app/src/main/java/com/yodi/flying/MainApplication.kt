@@ -18,7 +18,7 @@ class MainApplication : Application() {
     val pomodoroRepository by lazy { PomodoroRepository(database.pomodoroDao(), sharedPreferences) }
     val tagRepository by lazy { TagRepository(database.tagDao(), sharedPreferences)  }
     val userRepository by lazy { UserRepository(database.userDao(), sharedPreferences)  }
-    val ticketRepository by lazy { TicketRepository(database.ticketDao(), database.reportDao(),sharedPreferences) }
+    val ticketRepository by lazy { TicketRepository(database.ticketDao(), database.reportDao(), database.taskDao() ,sharedPreferences) }
     val reportRepository by lazy { ReportRepository(database.reportDao(), sharedPreferences)}
 
 
