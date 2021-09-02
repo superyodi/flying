@@ -39,6 +39,7 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
 
         binding = DialogNumberPickerBinding.inflate(inflater, container, false)
         binding.numberPicker.value = nowVal
+        setNumberRange(flag)
 
         binding.addButton.setOnClickListener {
             val selectedVal = binding.numberPicker.value
@@ -56,7 +57,13 @@ class NumberPickerDialog: BottomSheetDialogFragment() {
 
 
     private fun setNumberRange(flag: String) {
+        when (flag) {
+            Constants.GOAL_COUNT_FLAG -> {
 
+                binding.numberPicker.minValue = 1
+                binding.numberPicker.maxValue = 50
+            }
+        }
 
     }
 

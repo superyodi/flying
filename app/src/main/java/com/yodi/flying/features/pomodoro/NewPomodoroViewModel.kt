@@ -34,8 +34,8 @@ class NewPomodoroViewModel(
     val initDate = MutableLiveData<String>()
     val dueDate= MutableLiveData<String>()
     val hasDuedate = MutableLiveData<Boolean>()
-    val goalCount = MutableLiveData<String>()
 
+    var goalCount = 5
     var hasMemo = false
 
 
@@ -76,17 +76,17 @@ class NewPomodoroViewModel(
     // 불러온 데이터 binding
     fun setEditPomoData() {
 
-        pomodoro.value.let{
-            if (it != null) {
-                title.value = it.title
-                description.value = it.description
-                goalCount.value = it.goalCount.toString()
-                hasDuedate.value = it.hasDuedate
-                tag.value = it.tag
-                initDate.value = convertLongToString(it.initDate, datePattern)
-                dueDate.value = convertLongToString(it.dueDate, datePattern)
-                hasMemo = !(description.value.isNullOrEmpty())
-            }
+        pomodoro.value?.let{
+
+            title.value = it.title
+            description.value = it.description
+            goalCount = it.goalCount
+            hasDuedate.value = it.hasDuedate
+            tag.value = it.tag
+            initDate.value = convertLongToString(it.initDate, datePattern)
+            dueDate.value = convertLongToString(it.dueDate, datePattern)
+            hasMemo = !(description.value.isNullOrEmpty())
+
         }
 
 
@@ -95,14 +95,14 @@ class NewPomodoroViewModel(
     fun savePomodoro() {
 
         val currentTitle = title.value
-        val currentGoalCount = goalCount.value
+        val currentGoalCount = goalCount
         val currentDescription = description.value ?: ""
         val currentTag = tag.value
         val currentHasDuedate = hasDuedate.value ?: false
         val currentInitDate = convertStringToLong(initDate.value, datePattern)
         var currentDueDate : Long? = convertStringToLong(dueDate.value, datePattern)
 
-        
+
         // check data validation
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_title)
@@ -114,24 +114,11 @@ class NewPomodoroViewModel(
             return
         }
 
-        if (currentGoalCount.isNullOrEmpty()) {
-            _snackbarText.value = Event(R.string.empty_pomodoro_count_message)
-            return
-        }
-
-        val goalCountNum = currentGoalCount.toInt()
-
-        if (goalCountNum < 1) {
-            _snackbarText.value = Event(R.string.wrong_pomodoro_goal_count)
-            return
-        }
 
         if (currentHasDuedate && currentDueDate == null) {
             _snackbarText.value = Event(R.string.empty_duedate_message)
             return
         }
-
-
 
         if (isNewPomo) {
             val userId = pomodoroRepository.userId
@@ -139,7 +126,7 @@ class NewPomodoroViewModel(
 
             createPomodoro(
                 Pomodoro(
-                    userId, currentTitle, currentTag, goalCountNum,
+                    userId, currentTitle, currentTag, currentGoalCount,
                     0, currentDescription, currentHasDuedate,
                     currentInitDate!! ,
                     currentDueDate

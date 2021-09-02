@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
+import com.yodi.flying.custom.NumberPickerDialog
 import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
 import com.yodi.flying.model.repository.PomodoroRepository
@@ -57,7 +59,7 @@ class NewPomodoroFragment : Fragment() {
 
         if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
 
-        Timber.d("user id: ${(activity?.application as MainApplication).sharedPreferences.getLong(Constants.PREF_USER_ID)}")
+
 
     }
 
@@ -92,8 +94,6 @@ class NewPomodoroFragment : Fragment() {
         }
 
         setPomodoroEventListener()
-
-
         return binding.root
     }
 
@@ -128,9 +128,12 @@ class NewPomodoroFragment : Fragment() {
 
         if(viewmodel.hasDuedate.value == true) {
             binding.groupDuedate.visibility = View.VISIBLE
+            binding.btnEveryday.isChecked = true
+
         }
         else {
             binding.groupDuedate.visibility = View.GONE
+            binding.btnOneday.isChecked = true
         }
 
     }
@@ -168,26 +171,13 @@ class NewPomodoroFragment : Fragment() {
         binding.btnOneday.setOnClickListener {
 
             viewmodel.hasDuedate.postValue(false)
-
             binding.groupDuedate.visibility = View.GONE
-            binding.btnOneday.setBackgroundResource(R.drawable.chip_bright_orange_clicked)
-            binding.btnEveryday.setBackgroundResource(R.drawable.chip_bright_orange_unclicked)
-            binding.btnEveryday.setTextColor(Color.parseColor("#dbcfc7"))
-            binding.btnOneday.setTextColor(Color.parseColor("#ff8e71"))
-
-
         }
 
         binding.btnEveryday.setOnClickListener {
 
             viewmodel.hasDuedate.postValue(true)
-
             binding.groupDuedate.visibility = View.VISIBLE
-            binding.btnEveryday.setBackgroundResource(R.drawable.chip_bright_orange_clicked)
-            binding.btnOneday.setBackgroundResource(R.drawable.chip_bright_orange_unclicked)
-            binding.btnOneday.setTextColor(Color.parseColor("#dbcfc7"))
-            binding.btnEveryday.setTextColor(Color.parseColor("#ff8e71"))
-
         }
 
         binding.btnAddMemo.setOnClickListener {
@@ -197,30 +187,45 @@ class NewPomodoroFragment : Fragment() {
 
         }
 
-        binding.addPomodoro.setOnClickListener { view ->
-            viewmodel.savePomodoro()
-
-            // TODO("goal count 입력받는 dialog 보여줌 ")
-            viewmodel.pomodoroUpdatedEvent.observe(::getLifecycle) { it ->
-                it.getContentIfNotHandled()?.let {
-                    view.findNavController().navigate(R.id.action_newPomodoroFragment_to_pomodoroListFragment)
-                }
-            }
+        binding.addPomodoro.setOnClickListener {
+            showNumberPickerDialog(viewmodel.goalCount)
         }
 
+        viewmodel.pomodoroUpdatedEvent.observe(::getLifecycle) { it ->
+
+            val msg = if(isNewPomodoro) "새 뽀모도로가 생성되었습니다." else "뽀모도로가 수정되었습니다."
+            Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
+            it.getContentIfNotHandled()?.let {
+                findNavController().navigate(R.id.action_newPomodoroFragment_to_pomodoroListFragment)
+            }
+        }
         viewmodel.snackbarMessage.observe(::getLifecycle) {
             it.getContentIfNotHandled()?.let { msg ->
 
                 val message = getString(msg)
                 val snackBar = Snackbar.make(
                     requireActivity().findViewById(R.id.content),
-                    message, Snackbar.LENGTH_LONG
+                    message, Snackbar.LENGTH_SHORT
                 )
                 snackBar.show()
             }
         }
 
     }
+
+    private fun showNumberPickerDialog(value : Int) {
+        val numberPickerDialog = NumberPickerDialog().newInstance( Constants.GOAL_COUNT_FLAG, value)
+
+        activity?.supportFragmentManager?.let { fragmentManager ->
+            numberPickerDialog?.setOnButtonClickedListener { it ->
+                viewmodel.goalCount = it
+                viewmodel.savePomodoro()
+            }
+            numberPickerDialog?.show(fragmentManager, Constants.NUMBER_PICKER)
+        }
+    }
+
+
 
     private fun setToolbarTitle() : String {
 
@@ -230,11 +235,6 @@ class NewPomodoroFragment : Fragment() {
         return taskDate.plus(" Task")
 
     }
-
-
-
-
-
 
 
 

@@ -76,7 +76,6 @@ class PreferenceFragment : Fragment() {
             }
             numberPickerDialog?.show(fragmentManager, Constants.NUMBER_PICKER)
         }
-
     }
 
 
@@ -88,7 +87,6 @@ class PreferenceFragment : Fragment() {
             Constants.LONG_REST_TERM_FLAG -> preferenceViewModel.longRestTerm.value = value
 
         }
-
     }
 }
 
