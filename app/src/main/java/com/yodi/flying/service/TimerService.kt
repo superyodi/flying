@@ -237,7 +237,8 @@ class TimerService : LifecycleService(){
             resetTimer()
         }
 
-        initializeTicket()
+        if(pomodoroState == PomodoroState.NONE || pomodoroState == PomodoroState.FLYING )
+            initializeTicketAndTask()
 
         currentTimerState.postValue(TimerState.RUNNING)
         startTimer()
@@ -434,22 +435,22 @@ class TimerService : LifecycleService(){
 
         currentTotalTime.postValue(totalTime)
 
-        /*
+
         RUNNING_TIME = pomodoroRepository.runningTime
         SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
         LONG_BREAK_TIME = pomodoroRepository.longRestTime
         LONG_BREAK_TERM = pomodoroRepository.longRestTerm
 
-         */
+
         IS_AUTO_BREAK_MODE = pomodoroRepository.isAutoBreakMode
         IS_AUTO_SKIP_MODE = pomodoroRepository.isAutoSkipMode
         IS_NON_BREAK_MODE = pomodoroRepository.isNoneBreakMode
 
         // test code
-        RUNNING_TIME = TEST_RUNNING_TIME
-        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
-        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
-        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
+//        RUNNING_TIME = TEST_RUNNING_TIME
+//        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
+//        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
+//        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
 
 
     }
@@ -461,9 +462,9 @@ class TimerService : LifecycleService(){
         }
     }
 
-    private fun initializeTicket() {
+    private fun initializeTicketAndTask() {
         serviceScope.launch {
-            Timber.i("initializeTicket() 실행")
+
             // init ticket
             ticket = ticketRepository.getLatestTicket()
             val maxDepth = ticketRepository.getTodayCityDepth()
@@ -474,7 +475,7 @@ class TimerService : LifecycleService(){
                         ticketRepository.userId,
                         ticketRepository.todayDate,
                         Date().time,
-                        it.depth + 1
+                        maxDepth
                     )
                 }
 
@@ -495,7 +496,6 @@ class TimerService : LifecycleService(){
                 )
             }
 
-            Timber.i("initializeTicket() 끝")
         }
     }
 

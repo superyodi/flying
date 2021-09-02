@@ -98,8 +98,9 @@ fun convertLongToString(dateLong: Long?, pattern: String, locale: Locale) : Stri
 
 fun convertStringToLong(dateString : String?, pattern: String) : Long? {
     dateString?.let {
+        if(it == "") return null
         val df = SimpleDateFormat(pattern)
-        val date = df.parse(dateString)
+        val date = df.parse(it)
         return convertDateToLong(date)
     }
     return null

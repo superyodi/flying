@@ -79,26 +79,30 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     }
 
 
-//    fun onTicketButtonClicked(view: View) {
-//
-//        navigateToTicket.call()
-//    }
+    fun onTicketButtonClicked(view: View) {
+
+        navigateToTicket.call()
+    }
 
 
     // test code
-    fun onTicketButtonClicked(view: View) {
-        // insertTestData()
-
-        if (currentCity.value == Constants.MOON) resetTestData()
-        else insertTestData()
-
-    }
+//    fun onTicketButtonClicked(view: View) {
+//        // insertTestData()
+//
+//        if (currentCity.value == Constants.MOON) resetTestData()
+//        else {
+//            insertTestData()
+//
+//        }
+//
+//    }
 
 
     private fun insertTestData() = viewModelScope.launch {
         ticketRepository.updateTodayTotalTime(
             TimeUnit.HOURS.toMillis(2.toLong())
         )
+        ticketRepository.updateTodayCityDepth()
 
         Timber.d("hour to long: ${TimeUnit.HOURS.toMillis(2.toLong())}")
     }

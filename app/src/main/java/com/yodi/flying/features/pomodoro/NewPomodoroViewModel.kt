@@ -93,6 +93,7 @@ class NewPomodoroViewModel(
     }
 
     fun savePomodoro() {
+
         val currentTitle = title.value
         val currentGoalCount = goalCount.value
         val currentDescription = description.value ?: ""
@@ -101,9 +102,7 @@ class NewPomodoroViewModel(
         val currentInitDate = convertStringToLong(initDate.value, datePattern)
         var currentDueDate : Long? = convertStringToLong(dueDate.value, datePattern)
 
-
-
-
+        
         // check data validation
         if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.empty_pomodoro_title)
