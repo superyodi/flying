@@ -39,7 +39,9 @@ class TimerFragment : Fragment(){
     private lateinit var binding : FragmentTimerBinding
 
     private val timerViewmodel: TimerViewModel by viewModels {
-        TimerViewModelFactory((activity?.application as MainApplication).pomodoroRepository)
+        TimerViewModelFactory((
+                activity?.application as MainApplication).pomodoroRepository,
+            (activity?.application as MainApplication).ticketRepository)
     }
 
     /*This acts as a dummy to trigger onBind/onRebind/onUnbind in TimerService*/

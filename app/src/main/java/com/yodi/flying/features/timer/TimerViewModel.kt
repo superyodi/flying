@@ -1,24 +1,32 @@
 package com.yodi.flying.features.timer
 
+import android.view.View
 import androidx.lifecycle.*
 import com.yodi.flying.R
 import com.yodi.flying.model.PomodoroState
 import com.yodi.flying.model.TimerState
 import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.repository.PomodoroRepository
+import com.yodi.flying.model.repository.TicketRepository
+import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.service.TimerService
 import com.yodi.flying.utils.Constants
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
 import com.yodi.flying.utils.convertDateToString
 import com.yodi.flying.utils.getCityFromTotalTime
 import com.yodi.flying.utils.getFormattedStopWatchTime
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class TimerViewModel(
-    private val pomodoroRepository: PomodoroRepository
+    private val pomodoroRepository: PomodoroRepository,
+    private val ticketRepository: TicketRepository
 ) : ViewModel() {
 
     private lateinit var timerTask : Timer
+
 
     private val runningTime : Long
         get() = pomodoroRepository.runningTime
@@ -58,6 +66,25 @@ class TimerViewModel(
     val timerBackgroundResource = MutableLiveData<Int>()
 
 
+    //test
+    // TODO("delete this code")
+    fun onTestButtonClicked(view: View) {
+        insertTestData()
+    }
+    //test
+    // TODO("delete this code")
+    private fun insertTestData() = viewModelScope.launch {
+
+        val time = pomodoroRepository.getTotalTime().value
+        if (time != null) {
+            ticketRepository.updateTodayTotalTime(TimeUnit.HOURS.toMillis(2.toLong()))
+            pomodoroRepository.getTotalTime().postValue(time + TimeUnit.HOURS.toMillis(2.toLong()) )
+
+        }
+
+    }
+
+
     fun setTimerBackgroundResource(city: String) {
         when (city) {
             Constants.JEJU -> timerBackgroundResource.value = R.drawable.jeju_timer_1
@@ -74,12 +101,12 @@ class TimerViewModel(
 
 }
 
-class TimerViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
+class TimerViewModelFactory(val repository: PomodoroRepository, val ticketRepository: TicketRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
 
         return if (modelClass.isAssignableFrom(TimerViewModel::class.java)) {
-            TimerViewModel(repository) as T
+            TimerViewModel(repository, ticketRepository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }

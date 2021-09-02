@@ -237,7 +237,7 @@ class TimerService : LifecycleService(){
             resetTimer()
         }
 
-        if(pomodoroState == PomodoroState.NONE || pomodoroState == PomodoroState.FLYING )
+        if(pomodoroState == NONE || pomodoroState == FLYING )
             initializeTicketAndTask()
 
         currentTimerState.postValue(TimerState.RUNNING)
@@ -307,6 +307,8 @@ class TimerService : LifecycleService(){
             // Running time 후, update total time
             if(pomodoroState == FLYING) {
                 ticketRepository.updateTodayTotalTime(RUNNING_TIME)
+                totalTime += RUNNING_TIME
+                currentTotalTime.value = totalTime
 
                 // update or insert task
                 if(task == null) {
@@ -598,7 +600,7 @@ class TimerService : LifecycleService(){
         }
     }
     private suspend fun updateTicket() {
-        // totalTime의 Hour가  ticket.depth 보다 클 경우, 현재 티켓의 endTime 업데이트
+        // totalTime의 hour가  ticket.depth 보다 클 경우, 현재 티켓의 endTime 업데이트
         ticket?.let {
             it.endTime = Date().time
             ticketRepository.updateTicket(it)
@@ -628,5 +630,7 @@ class TimerService : LifecycleService(){
             ticketRepository.updateTask(it)
         }
     }
+
+
 
 }

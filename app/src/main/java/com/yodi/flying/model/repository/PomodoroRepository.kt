@@ -79,7 +79,7 @@ SharedPreferenceManager) {
 
     // return immutable livedata from timer service
 
-    fun getTotalTime() = TimerService.currentTotalTime as LiveData<Long>
+    fun getTotalTime() = TimerService.currentTotalTime
     fun getTimerServicePomodoroState() = TimerService.currentPomodoroState as LiveData<Int>
     fun getTimerServiceTimerState() = TimerService.currentTimerState as LiveData<TimerState>
     fun getTimerServiceRepetition() = TimerService.currentTomatoCount as LiveData<Int>

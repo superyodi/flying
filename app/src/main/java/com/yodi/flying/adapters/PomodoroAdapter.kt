@@ -1,5 +1,3 @@
-
-
 package com.yodi.flying.adapters
 
 

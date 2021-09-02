@@ -19,7 +19,7 @@ interface ReportDao {
     suspend fun getReport(userId : Long, date: Long): Report
 
     @Query("SELECT totalTime FROM reports WHERE userId = :userId AND date = :date")
-    suspend fun getTodayTotalTime(userId : Long, date: Long): Long?
+    suspend fun getTodayTotalTime(userId : Long, date: Long): Long
 
     @Query("SELECT cityDepth FROM reports WHERE userId = :userId AND date = :date")
     suspend fun getTodayCityDepth(userId : Long, date: Long): Int
