@@ -39,10 +39,11 @@ class TicketRepository(
 
     suspend fun getTotalTimeFlow(): Flow<Long> = flow {
         while (true) {
-            val latestTotalTime = reportDao.getTodayTotalTime(userId, todayDate)
+            val latestTotalTime = reportDao.getTodayTotalTime(userId, todayDate) ?: 0L
 
             emit(latestTotalTime)
             kotlinx.coroutines.delay(refreshIntervalMs)
+
         }
     }
 
@@ -64,7 +65,7 @@ class TicketRepository(
 
 
 
-    suspend fun getTotalTime() = reportDao.getTodayTotalTime(userId, todayDate)
+    suspend fun getTotalTime() = reportDao.getTodayTotalTime(userId, todayDate) ?: 0L
 
     suspend fun insertTicket(startTime : Long, depth : Int) {
         ticketDao.insert(

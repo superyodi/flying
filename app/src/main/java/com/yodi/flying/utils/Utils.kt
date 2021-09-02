@@ -48,8 +48,8 @@ fun getFormattedTotalTime(ms: Long?): String{
         // Convert to minutes
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
 
-        return (if (hours <= 0) "" else "${hours}h ") +
-                (if (minutes < 10) "0${minutes}m" else "${minutes}m")
+        return if(hours <= 0) "" else "${hours}h " +
+                if (minutes < 10) "0${minutes}m" else "${minutes}m"
     }
     return "0m"
 }
