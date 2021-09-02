@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
-import com.yodi.flying.adapters.ItemSwipeHeplerCallback
+import com.yodi.flying.adapters.ItemSwipeHelperCallback
 import com.yodi.flying.adapters.PomodoroAdapter
 import com.yodi.flying.databinding.FragmentPomodoroListBinding
 import com.yodi.flying.model.TimerState
@@ -116,7 +116,7 @@ class PomodoroListFragment: Fragment() {
     }
 
     private fun setItemSwipeListener() {
-        val itemSwipeHeplerCallback: ItemSwipeHeplerCallback = object : ItemSwipeHeplerCallback() {
+        val itemSwipeHeplerCallback: ItemSwipeHelperCallback = object : ItemSwipeHelperCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val item: Pomodoro = adapter.currentList.get(position)
@@ -126,10 +126,10 @@ class PomodoroListFragment: Fragment() {
                 val snackbar = Snackbar
                     .make(
                         binding.root,
-                        "Item was removed from the list.",
+                        "해당 뽀모도로가 삭제됐습니다.",
                         Snackbar.LENGTH_LONG
                     )
-                snackbar.setAction("UNDO") {
+                snackbar.setAction("취소") {
                     val deletedPomodoro = pomoListViewModel.deletedPomooro
                     if(deletedPomodoro != null) {
                         pomoListViewModel.insert(deletedPomodoro)

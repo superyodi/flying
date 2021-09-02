@@ -27,7 +27,7 @@ class TicketRepository(
     val todayDate : Long
         get() = preferences.getLong(Constants.PREF_TODAY_DATE)
 
-    private val refreshIntervalMs : Long = 500 //5000
+    private val refreshIntervalMs : Long = 10000
 
     fun getTickets(): Flow<List<Ticket>> = ticketDao.getTickets(userId, todayDate)
 

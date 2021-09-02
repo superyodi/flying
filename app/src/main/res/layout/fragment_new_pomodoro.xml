@@ -115,7 +115,7 @@
                         android:id="@+id/group_duedate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:constraint_referenced_ids="textView3, startdate_layout, enddate_layout, " />
 
                     <TextView
@@ -169,6 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
                             android:text="@string/btn_has_not_duedate"
+                            android:checked="true"
                             app:chipMinTouchTargetSize="0dp"/>
 
                         <com.google.android.material.chip.Chip
