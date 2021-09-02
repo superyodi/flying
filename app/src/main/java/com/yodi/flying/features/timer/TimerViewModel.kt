@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit
 
 class TimerViewModel(
     private val pomodoroRepository: PomodoroRepository,
-    private val ticketRepository: TicketRepository
 ) : ViewModel() {
 
     private lateinit var timerTask : Timer
@@ -66,23 +65,6 @@ class TimerViewModel(
     val timerBackgroundResource = MutableLiveData<Int>()
 
 
-    //test
-    // TODO("delete this code")
-    fun onTestButtonClicked(view: View) {
-        insertTestData()
-    }
-    //test
-    // TODO("delete this code")
-    private fun insertTestData() = viewModelScope.launch {
-
-        val time = pomodoroRepository.getTotalTime().value
-        if (time != null) {
-            ticketRepository.updateTodayTotalTime(TimeUnit.HOURS.toMillis(2.toLong()))
-            pomodoroRepository.getTotalTime().postValue(time + TimeUnit.HOURS.toMillis(2.toLong()) )
-
-        }
-
-    }
 
 
     fun setTimerBackgroundResource(city: String) {
@@ -101,12 +83,12 @@ class TimerViewModel(
 
 }
 
-class TimerViewModelFactory(val repository: PomodoroRepository, val ticketRepository: TicketRepository) : ViewModelProvider.Factory {
+class TimerViewModelFactory(val repository: PomodoroRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
 
         return if (modelClass.isAssignableFrom(TimerViewModel::class.java)) {
-            TimerViewModel(repository, ticketRepository) as T
+            TimerViewModel(repository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }
