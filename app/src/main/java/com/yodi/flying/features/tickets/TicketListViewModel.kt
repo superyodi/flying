@@ -9,12 +9,23 @@ import com.yodi.flying.model.entity.Pomodoro
 import com.yodi.flying.model.entity.Ticket
 import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.repository.TicketRepository
+import timber.log.Timber
 
 class TicketListViewModel (private val ticketRepository: TicketRepository) : ViewModel() {
 
     val allTickets : LiveData<List<Ticket>> = ticketRepository.getTickets().asLiveData()
 
 
+    init {
+        Timber.d("connected")
+        Timber.d("${ticketRepository.todayDate }")
+        allTickets.value?.let {
+
+            Timber.d("ticket: ${it[0].startTime}")
+
+        }
+
+    }
 }
 
 class TicketListViewModelFactory(private val ticketRepository: TicketRepository) : ViewModelProvider.Factory {

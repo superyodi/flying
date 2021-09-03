@@ -9,7 +9,7 @@ import com.yodi.flying.model.entity.Ticket
 
 @Dao
 interface TicketDao {
-    @Query("SELECT * FROM tickets WHERE userId = :userId AND date = :date AND endTime IS NOT NULL ORDER BY depth DESC")
+    @Query("SELECT * FROM tickets WHERE userId = :userId AND date = :date AND endTime IS NOT NULL")
     fun getTickets(userId : Long, date: Long): kotlinx.coroutines.flow.Flow<List<Ticket>>
 
 

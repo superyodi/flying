@@ -7,6 +7,9 @@
 
         <import type="android.view.View"/>
         <variable
+            name="hasTickets"
+            type="boolean" />
+        <variable
             name="viewModel"
             type="com.yodi.flying.features.tickets.TicketListViewModel"/>
     </data>
@@ -19,10 +22,13 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ticket_list"
             android:paddingBottom="24dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:isGone="@{!hasTickets}"
             tools:listitem="@layout/list_item_ticket"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

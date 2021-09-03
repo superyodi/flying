@@ -69,6 +69,7 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
 
 
     init {
+
         viewModelScope.launch {
 
             ticketRepository.getTotalTimeFlow().collect {

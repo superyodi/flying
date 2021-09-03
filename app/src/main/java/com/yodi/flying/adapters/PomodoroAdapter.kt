@@ -71,8 +71,6 @@ class PomodoroAdapter(var isTimerRunning: Boolean, var runningPomodoroId: Long) 
                         }
                 }
             }
-
-
         }
         private fun navigateToTimer(
             pomoId: Long,

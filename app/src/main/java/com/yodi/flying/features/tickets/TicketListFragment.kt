@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
+import com.yodi.flying.adapters.PomodoroAdapter
 import com.yodi.flying.adapters.TicketAdapter
 import com.yodi.flying.databinding.FragmentPomodoroListBinding
 import com.yodi.flying.databinding.FragmentTicketListBinding
@@ -35,12 +36,17 @@ class TicketListFragment : Fragment() {
         binding = FragmentTicketListBinding
             .inflate(inflater, container, false)
             .apply {
+                hasTickets = true
                 viewModel = ticketListViewModel
                 lifecycleOwner = viewLifecycleOwner
             }
 
+        adapter = TicketAdapter()
+        binding.ticketList.adapter = adapter
+        subscribeUi(adapter, binding)
 
         return binding.root
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,21 +60,18 @@ class TicketListFragment : Fragment() {
 
     }
 
-    private fun subscribeUi(adapter: TicketAdapter, binding: FragmentPomodoroListBinding) {
+    private fun subscribeUi(adapter: TicketAdapter, binding: FragmentTicketListBinding) {
         ticketListViewModel.allTickets.observe(::getLifecycle)  { result ->
-            binding.hasPomodoros = !result.isNullOrEmpty()
+            binding.hasTickets = !result.isNullOrEmpty()
+
+            Timber.i("result: "+result[0].startTime.toString())
+            Timber.i("hasTickets: ${binding.hasTickets}")
             adapter.submitList(result)
         }
     }
 
 
-//    private fun subscribeUi(adapter: PomodoroAdapter, binding: FragmentPomodoroListBinding) {
-//        pomoListViewModel.allPomos.observe(::getLifecycle)  { result ->
-//            binding.hasPomodoros = !result.isNullOrEmpty()
-//            adapter.submitList(result)
-//        }
-//
-//    }
+
 
 
 }
