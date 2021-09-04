@@ -14,7 +14,7 @@ interface TicketDao {
 
 
     @Query("SELECT * FROM tickets WHERE userId = :userId AND date = :date ORDER BY depth DESC LIMIT 1")
-    suspend fun getLatestTicket(userId : Long, date: Long): Ticket
+    suspend fun getLatestTicket(userId : Long, date: Long): Ticket?
 
     @Query("SELECT startTime FROM tickets WHERE userId = :userId AND date = :date AND depth = :depth")
     suspend fun getStartTime(userId : Long, date: Long, depth : Int): Long

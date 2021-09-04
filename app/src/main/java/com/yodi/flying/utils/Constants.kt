@@ -99,6 +99,8 @@ class Constants {
         const val TEST_SHORT_BREAK_TIME = 5000L //5sec // test
         const val TEST_LONG_BREAK_TERM = 4
 
+        const val TEST_CONVERT_CITY_TIME = 50000L
+
 
 
     }

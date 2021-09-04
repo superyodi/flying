@@ -31,7 +31,7 @@ class TicketRepository(
 
     fun getTickets(): Flow<List<Ticket>> = ticketDao.getTickets(userId, todayDate)
 
-    suspend fun getLatestTicket() : Ticket = ticketDao.getLatestTicket(userId, todayDate)
+    suspend fun getLatestTicket() : Ticket? = ticketDao.getLatestTicket(userId, todayDate)
 
     suspend fun getTodayCityDepth(): Int = reportDao. getTodayCityDepth(userId, todayDate)
 

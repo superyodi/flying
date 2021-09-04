@@ -230,19 +230,18 @@ class TimerService : LifecycleService(){
 
     private fun startServiceTimer(){
 
-        Timber.i("startServiceTimer() 실행")
-
         isKilled = false
         if(currentTimerState.value != TimerState.DONE) {
             resetTimer()
         }
 
         if(pomodoroState == NONE || pomodoroState == FLYING )
+            Timber.i("타이머 재생 그리고 티켓데이터 이니트 ")
             initializeTicketAndTask()
 
         currentTimerState.postValue(TimerState.RUNNING)
         startTimer()
-        Timber.i("startServiceTimer() 종")
+
     }
 
     private fun startTimer(wasPaused: Boolean = false){
@@ -308,7 +307,7 @@ class TimerService : LifecycleService(){
             if(pomodoroState == FLYING) {
                 ticketRepository.updateTodayTotalTime(RUNNING_TIME)
                 totalTime += RUNNING_TIME
-                currentTotalTime.value = totalTime
+                updateTicketData(totalTime)
 
                 // update or insert task
                 if(task == null) {
@@ -317,6 +316,8 @@ class TimerService : LifecycleService(){
                 else {
                     updateTask()
                 }
+
+                currentTotalTime.value = totalTime
             }
 
             // get next workout state
@@ -438,10 +439,10 @@ class TimerService : LifecycleService(){
         currentTotalTime.postValue(totalTime)
 
 
-        RUNNING_TIME = pomodoroRepository.runningTime
-        SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
-        LONG_BREAK_TIME = pomodoroRepository.longRestTime
-        LONG_BREAK_TERM = pomodoroRepository.longRestTerm
+//        RUNNING_TIME = pomodoroRepository.runningTime
+//        SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
+//        LONG_BREAK_TIME = pomodoroRepository.longRestTime
+//        LONG_BREAK_TERM = pomodoroRepository.longRestTerm
 
 
         IS_AUTO_BREAK_MODE = pomodoroRepository.isAutoBreakMode
@@ -449,10 +450,10 @@ class TimerService : LifecycleService(){
         IS_NON_BREAK_MODE = pomodoroRepository.isNoneBreakMode
 
         // test code
-//        RUNNING_TIME = TEST_RUNNING_TIME
-//        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
-//        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
-//        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
+        RUNNING_TIME = TEST_RUNNING_TIME
+        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
+        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
+        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
 
 
     }
@@ -466,35 +467,36 @@ class TimerService : LifecycleService(){
 
     private fun initializeTicketAndTask() {
         serviceScope.launch {
-
             // init ticket
             ticket = ticketRepository.getLatestTicket()
             val maxDepth = ticketRepository.getTodayCityDepth()
+            cityTime = Date().time
 
             ticket?.let {
+                Timber.i("depth 비교: ${it.depth}, $maxDepth")
                 if(it.depth < maxDepth) {
+                    Timber.i("새 티켓 생성")
                     ticket = Ticket(
                         ticketRepository.userId,
                         ticketRepository.todayDate,
-                        Date().time,
+                        cityTime,
                         maxDepth
                     )
                 }
 
             } ?: run {
+                Timber.i("첫번째 티켓 생성")
                 ticket = Ticket(
                     ticketRepository.userId,
                     ticketRepository.todayDate,
-                    Date().time,
+                    cityTime,
                     0
                 )
             }
 
-            cityTime = ticket!!.startTime
-
             pomodoro?.let { pomo ->
                 task = ticketRepository.getTaskForCity(
-                    cityTime, pomo.id
+                    ticket!!.startTime, pomo.id
                 )
             }
 
@@ -553,11 +555,6 @@ class TimerService : LifecycleService(){
             }
         })
 
-        // Observe currnetTotaltime and update current city (ticket)
-        currentTotalTime.observe(this, Observer {
-            updateTicketData(it)
-
-        })
     }
 
     private fun executeNextTimer() {
@@ -570,35 +567,60 @@ class TimerService : LifecycleService(){
             Timber.d("다음 뽀모도로: $pomodoroState")
             // start new timer
             if(IS_AUTO_SKIP_MODE)
-                startTimer()
+                startServiceTimer()
             else if(IS_AUTO_BREAK_MODE && (pomodoroState in arrayOf(SHORT_BREAK, LONG_BREAK)) )
-                startTimer()
+                startServiceTimer()
             else
-                stopTimer()
+                startServiceTimer()
         }
 
     }
 
-    private fun updateTicketData(totalTime : Long) {
+    // TODO("test code")
+    private suspend fun updateTicketData(totalTime : Long) {
         val hours = TimeUnit.MILLISECONDS.toHours(totalTime)
 
-        serviceScope.launch {
-            Timber.d("hours: $hours")
-            ticket?.let {
-                if(hours >= (it.depth + 1)* 2) {
-                    updateTicket()
-                    ticketRepository.updateTodayCityDepth()
-                }
-                else {
-                    // 현재 ticket과 DB 내부에서 가장 최근에 만들어진 ticket이 다를경우 현재 ticket insert
-                    if(it != ticketRepository.getLatestTicket()) {
+        ticket?.let {
+            if(totalTime >= (it.depth + 1)* Constants.TEST_CONVERT_CITY_TIME) {
+                updateTicket()
+                ticketRepository.updateTodayCityDepth()
+            }
+            else {
+                // 현재 ticket과 DB 내부에서 가장 최근에 만들어진 ticket이 다를경우 현재 ticket insert
+                Timber.d("최신티켓: ${ticketRepository.getLatestTicket()}")
+
+                ticketRepository.getLatestTicket()?.let { latestTicket ->
+                    if(it.depth > latestTicket.depth) {
                         insertTicket()
                     }
+                } ?: run {
+                    Timber.d("첫번째 티켓 insert")
+                    insertTicket()
                 }
             }
-
         }
     }
+
+//    private fun updateTicketData(totalTime : Long) {
+//        val hours = TimeUnit.MILLISECONDS.toHours(totalTime)
+//
+//        serviceScope.launch {
+//            Timber.d("hours: $hours")
+//            ticket?.let {
+//                if(hours >= (it.depth + 1)* 2) {
+//                    updateTicket()
+//                    ticketRepository.updateTodayCityDepth()
+//                }
+//                else {
+//                    // 현재 ticket과 DB 내부에서 가장 최근에 만들어진 ticket이 다를경우 현재 ticket insert
+//                    if(it != ticketRepository.getLatestTicket()) {
+//                        insertTicket()
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
     private suspend fun updateTicket() {
         // totalTime의 hour가  ticket.depth 보다 클 경우, 현재 티켓의 endTime 업데이트
         ticket?.let {
@@ -616,21 +638,18 @@ class TimerService : LifecycleService(){
 
     private suspend fun insertTask() {
         pomodoro?.let {
-            ticketRepository.insertTask(cityTime, it.id, 1, RUNNING_TIME)
+            ticketRepository.insertTask(ticket!!.startTime, it.id, 1, RUNNING_TIME)
         }
     }
 
-    private suspend fun updateTask() {
 
+    private suspend fun updateTask() {
         task?.let {
-            Timber.d("now task id: ${it.pomoId}")
-            Timber.d("now pomo id: ${pomodoro!!.id}")
             it.totalTime += RUNNING_TIME
             it.count += 1
             ticketRepository.updateTask(it)
         }
     }
-
 
 
 }
