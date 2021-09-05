@@ -3,6 +3,7 @@ package com.yodi.flying.features.pomodoro
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.SparseIntArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
-import com.yodi.flying.custom.DatePickerDialog
 import com.yodi.flying.custom.NumberPickerDialog
 import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
@@ -58,10 +58,6 @@ class NewPomodoroFragment : Fragment() {
             isNewPomodoro = true
         }
 
-
-
-
-
     }
 
 
@@ -71,6 +67,7 @@ class NewPomodoroFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
+
         binding = FragmentNewPomodoroBinding.inflate(inflater, container, false)
             .apply {
                 viewModel = viewmodel
@@ -79,13 +76,9 @@ class NewPomodoroFragment : Fragment() {
 
         repository = (requireActivity().application as MainApplication).pomodoroRepository
 
-        Timber.i("${args.pomoId}")
         viewmodel.start(args.pomoId)
 
-
-
         if (isNewPomodoro) viewmodel.setNewPomoData()
-
         else {
             viewmodel.isDataLoaded.observe(::getLifecycle) { isDataLoaded ->
                 if (isDataLoaded) {
@@ -104,6 +97,32 @@ class NewPomodoroFragment : Fragment() {
         return object : LightThemeFactory() {
             override val pickedDayBackgroundShapeType: BackgroundShapeType
                 get() = BackgroundShapeType.CIRCLE
+            override val selectionBarSingleDayItemTopLabelTextColor: Int
+                get() = getColor(R.color.white)
+            override val selectionBarSingleDayItemBottomLabelTextColor: Int
+                get() = getColor(R.color.white)
+            override val selectionBarSingleDayItemBottomLabelTextSize: Int
+                get() = 0
+            override val selectionBarBackgroundColor: Int
+                get() = getColor(R.color.white)
+            override val selectionBarSingleDayItemTopLabelTextSize: Int
+                get() = 0
+            override val calendarViewPickedDayBackgroundColor: Int
+                get() = getColor(R.color.flying_orange)
+            override val calendarViewPickedDayLabelTextColor: Int
+                get() = getColor(R.color.white)
+            override val calendarViewWeekLabelTextColors: SparseIntArray
+                get() = SparseIntArray(7).apply {
+                    val orange = getColor(R.color.flying_bright_orange)
+                    put(Calendar.SATURDAY, orange)
+                    put(Calendar.SUNDAY, orange)
+                    put(Calendar.MONDAY, orange)
+                    put(Calendar.TUESDAY, orange)
+                    put(Calendar.WEDNESDAY, orange)
+                    put(Calendar.THURSDAY, orange)
+                    put(Calendar.FRIDAY, orange)
+            }
+
 
         }
     }
@@ -111,8 +130,6 @@ class NewPomodoroFragment : Fragment() {
     private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
 
         dueDate = convertDateToLong(singleDay.getTime())
-        Toast.makeText(activity, "$dueDate", Toast.LENGTH_SHORT).show()
-
         binding.dueDate.text = singleDay.shortDateString
     }
 
@@ -156,17 +173,18 @@ class NewPomodoroFragment : Fragment() {
             }
         }
         binding.enddateLayout.setOnClickListener{
-            val datePickerDialog = DatePickerDialog().getInstance()
+            val today = CalendarFactory.newInstance(CalendarType.CIVIL, Locale.ENGLISH)
+            val theme = getDefaultTheme()
 
-            activity?.supportFragmentManager?.let { fragmentManager ->
+            val datePicker = PrimeDatePicker.bottomSheetWith(today)
+                .pickSingleDay(singleDayPickCallback)
+                .minPossibleDate(today)
+                .applyTheme(theme)
+                .build()
 
-//                datePickerDialog.setOnButtonClickedListener { it ->
-//                    if(it.isNotEmpty()) {
-//                        viewmodel.tag.value = it
-//                    }
-//                }
-                datePickerDialog.show(fragmentManager, Constants.DATE_PICKER)
-            }
+            activity?.supportFragmentManager?.let { view -> datePicker.show(view, Constants.DATE_PICKER) }
+
+            datePicker.setDayPickCallback(singleDayPickCallback)
         }
 
         binding.btnOneday.setOnClickListener {
@@ -229,9 +247,7 @@ class NewPomodoroFragment : Fragment() {
 
 
     private fun setToolbarTitle() : String {
-
         if (isNewPomodoro) return "New Task"
-
         val taskDate = SimpleDateFormat("MM/dd").format(Date(System.currentTimeMillis()))
         return taskDate.plus(" Task")
 

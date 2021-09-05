@@ -13,6 +13,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            app:orientation="horizontal"
+            app:selectedDayBackgroundColor="@color/flying_orange"
+            app:selectionType="single"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
