@@ -58,7 +58,7 @@ class NewPomodoroFragment : Fragment() {
             isNewPomodoro = true
         }
 
-        if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
+
 
 
 
@@ -70,6 +70,7 @@ class NewPomodoroFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (activity != null) (activity as MainActivity).setToolBarTitle(setToolbarTitle())
         binding = FragmentNewPomodoroBinding.inflate(inflater, container, false)
             .apply {
                 viewModel = viewmodel

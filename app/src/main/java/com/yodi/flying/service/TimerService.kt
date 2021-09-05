@@ -571,7 +571,7 @@ class TimerService : LifecycleService(){
             else if(IS_AUTO_BREAK_MODE && (pomodoroState in arrayOf(SHORT_BREAK, LONG_BREAK)) )
                 startServiceTimer()
             else
-                startServiceTimer()
+                stopTimer()
         }
 
     }
