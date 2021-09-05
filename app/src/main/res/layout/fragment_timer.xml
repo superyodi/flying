@@ -32,10 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginLeft="36dp"
             android:text="Departure"
             android:textColor="#fefefe"
-            android:textSize="6sp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
@@ -46,10 +46,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
             android:text="Arrival"
             android:textColor="#fefefe"
-            android:textSize="6sp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,11 +57,11 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:gravity="end"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Tokyo"
             android:textColor="#fefefe"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView9"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -70,11 +70,11 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:gravity="end"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Hanoi"
             android:textColor="#fefefe"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -86,19 +86,19 @@
             android:layout_marginTop="51dp"
             android:text="@{viewModel.pomodoro.title}"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-        <View
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/top_line"
             android:layout_width="162dp"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="39dp"
-            android:background="@color/flying_white"
+            app:srcCompat="@drawable/arrow_right_timer"
             app:layout_constraintEnd_toStartOf="@+id/textView11"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent" />
@@ -142,6 +142,7 @@
                 android:textColor="#ffffff"
                 android:textSize="48sp"
                 android:textStyle="normal"
+                android:fontFamily="@font/montserrat_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -175,7 +177,6 @@
                 android:id="@+id/btnStart"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
-                android:layout_marginStart="20dp"
                 android:background="@drawable/ic_start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnInit"
@@ -201,15 +202,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

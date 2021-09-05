@@ -71,8 +71,9 @@
                     android:layout_marginTop="12dp"
                     android:text="Date"
                     android:textColor="@color/text_white"
-                    android:textSize="6sp"
+                    android:fontFamily="@font/montserrat_medium"
                     android:textStyle="normal"
+                    android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,9 +82,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="28dp"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="Total Time"
                     android:textColor="@color/text_white"
-                    android:textSize="6sp"
+                    android:textSize="10sp"
                     android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView24" />
@@ -91,10 +93,11 @@
                 <TextView
                     android:id="@+id/textView26"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="@{viewModel.todayDate}"
                     android:textColor="@color/text_white"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="@+id/textView24"
                     app:layout_constraintTop_toBottomOf="@+id/textView24" />
@@ -102,14 +105,13 @@
                 <TextView
                     android:id="@+id/textView27"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="@{viewModel.totalTimeString}"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/text_white"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
                     app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
@@ -130,11 +132,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="Arival"
                         android:textColor="@color/text_white"
-                        android:textSize="6sp"
+                        android:textSize="10sp"
                         android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="@+id/textView32"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -143,9 +147,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="Departure"
                         android:textColor="@color/text_white"
-                        android:textSize="6sp"
+                        android:textSize="10sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -154,12 +159,11 @@
                         android:id="@+id/textView31"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="@{viewModel.currentCity}"
                         android:textColor="@color/text_white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat_bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView30"
                         app:layout_constraintTop_toBottomOf="@+id/textView30" />
@@ -168,15 +172,11 @@
                         android:id="@+id/textView32"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="32dp"
-                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text="@{viewModel.nextCity}"
                         android:textColor="@color/text_white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView29"
                         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
                     <ImageView
@@ -203,6 +203,7 @@
                     android:shadowDy="2"
                     android:shadowRadius="4"
                     android:text="@{viewModel.leftGoalTimeString}"
+                    android:fontFamily="@font/montserrat_medium"
                     android:textColor="#fefefe"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -238,16 +239,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/empty_pomos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="70dp"
-                    android:text="작업을 추가해주세요 "
-                    android:textAppearance="?attr/textAppearanceHeadline5"
-                    app:isGone="@{hasPomodoros}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/pomodoro_list"

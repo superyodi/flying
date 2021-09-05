@@ -25,6 +25,7 @@ class Constants {
 
 
 
+
         // Intent extra
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
         const val EXTRA_POMODORO_ID = "EXTRA_TIMER_ID"
@@ -37,6 +38,7 @@ class Constants {
         const val LONG_REST_TIME_FLAG = "LONG_REST_TIME_FLAG"
         const val LONG_REST_TERM_FLAG = "LONG_REST_TERM_FLAG"
         const val GOAL_COUNT_FLAG = "GOAL_COUNT_FLAG"
+
 
         // Intent Actions for communication with timer service
         const val ACTION_START = "ACTION_START"
@@ -55,6 +57,7 @@ class Constants {
         const val DATE_PICKER = "date picker bottomSheet"
         const val TAG_PICKER = "tag picker bottomSheet"
         const val NUMBER_PICKER = "number picker bottomSheet"
+
 
         // City Names and Total times
         const val JEJU = "Jeju"

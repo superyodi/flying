@@ -48,7 +48,7 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         if(goalTime- it <= 0) {
             "일일 목표 시간을 달성하셨습니다!🥳🎉"
         }
-        else "Left by " + getFormattedTotalTime(goalTime- it)
+        else "목표 시간까지 " + getFormattedTotalTime(goalTime- it)
     }
 
     val totalTimeString = totalTime.map {
@@ -79,24 +79,24 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         }
     }
 
-
-    fun onTicketButtonClicked(view: View) {
-
-        navigateToTicket.call()
-    }
+//
+//    fun onTicketButtonClicked(view: View) {
+//
+//        navigateToTicket.call()
+//    }
 
 
     // test code
-//    fun onTicketButtonClicked(view: View) {
-//        // insertTestData()
-//
-//        if (currentCity.value == Constants.MOON) resetTestData()
-//        else {
-//            insertTestData()
-//
-//        }
-//
-//    }
+    fun onTicketButtonClicked(view: View) {
+        // insertTestData()
+
+        if (currentCity.value == Constants.MOON) resetTestData()
+        else {
+            insertTestData()
+
+        }
+
+    }
 
 
     private fun insertTestData() = viewModelScope.launch {

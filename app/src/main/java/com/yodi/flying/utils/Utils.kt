@@ -26,7 +26,7 @@ fun getFormattedStopWatchTime(ms: Long?): String{
         val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
 
         // Build formatted String
-        return "${if(minutes < 10) "0" else ""}$minutes : " +
+        return "${if(minutes < 10) "0" else ""}$minutes:" +
                 "${if(seconds < 10) "0" else ""}$seconds"
     }
     return ""

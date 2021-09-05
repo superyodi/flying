@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.newPomodoroFragment -> {
                     navView.visibility = View.GONE
                     toolbar.visibility = View.VISIBLE
-                    toolbar.setBackgroundColor(Color.parseColor("#ff6037"))
+                    toolbar.setBackgroundColor(Color.parseColor("#ff8036"))
                     toolbar.setTitleTextColor(Color.parseColor("#ffffff"))
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_resource_return)
                 }

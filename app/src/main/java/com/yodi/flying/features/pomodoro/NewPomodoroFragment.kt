@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
+import com.yodi.flying.custom.DatePickerDialog
 import com.yodi.flying.custom.NumberPickerDialog
 import com.yodi.flying.custom.TagPickerDialog
 import com.yodi.flying.databinding.FragmentNewPomodoroBinding
@@ -154,18 +155,17 @@ class NewPomodoroFragment : Fragment() {
             }
         }
         binding.enddateLayout.setOnClickListener{
-            val today = CalendarFactory.newInstance(CalendarType.CIVIL, Locale.KOREAN)
-            val theme = getDefaultTheme()
+            val datePickerDialog = DatePickerDialog().getInstance()
 
-            val datePicker = PrimeDatePicker.bottomSheetWith(today)
-                .pickSingleDay(singleDayPickCallback)
-                .minPossibleDate(today)
-                .applyTheme(theme)
-                .build()
+            activity?.supportFragmentManager?.let { fragmentManager ->
 
-            activity?.supportFragmentManager?.let { view -> datePicker.show(view, Constants.DATE_PICKER) }
-
-            datePicker.setDayPickCallback(singleDayPickCallback)
+//                datePickerDialog.setOnButtonClickedListener { it ->
+//                    if(it.isNotEmpty()) {
+//                        viewmodel.tag.value = it
+//                    }
+//                }
+                datePickerDialog.show(fragmentManager, Constants.DATE_PICKER)
+            }
         }
 
         binding.btnOneday.setOnClickListener {

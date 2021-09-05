@@ -35,6 +35,7 @@
     <style name="CustomActionBarTitleTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/montserrat_semibold</item>
     </style>
 
     <style name="CustomActionButtonStyle" parent="Widget.AppCompat.ActionButton">
