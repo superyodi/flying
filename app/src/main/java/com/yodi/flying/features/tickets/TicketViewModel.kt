@@ -12,27 +12,18 @@ import java.util.*
 
 class TicketViewModel (ticket: Ticket)  {
 
-    /*
-    data class Ticket(
-    val userId : Long = 0L,
-    val date : Long = 0L,
-    val startTime: Long = 0L,
-    val depth : Int = 0 // city 단계
-)
-{
-    var endTime : Long = 0L
-}
-
-     */
 
     private val ticket = ticket
 
-    val startTimeText
+    val startedTimeText
         get() = run {
-            Timber.i("ticket ${ticket.depth} startTime: ${ticket.startTime}")
-            "START " + convertDateTimeToString(ticket.startTime, "HH:mm", Locale.ENGLISH)
+            "Departure " + convertDateTimeToString(ticket.startTime, "hh:mmaa", Locale.ENGLISH)
         }
 
+    val finishedTimeText
+        get() = run {
+            "Arrival " + convertDateTimeToString(ticket.endTime, "hh:mmaa", Locale.ENGLISH)
+        }
 
 
 }

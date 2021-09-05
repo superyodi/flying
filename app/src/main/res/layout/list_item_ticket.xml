@@ -14,15 +14,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/material_size_16"
         android:background="@color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout7"
-            android:layout_width="393dp"
-            android:layout_height="0dp"
-            android:background="@drawable/ic_ticket_background_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ticket_background_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="44dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Jeju"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -44,7 +45,8 @@
                 android:id="@+id/textView34"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Tokyo"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -57,8 +59,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:layout_marginBottom="20dp"
-                android:text="FINISH 15:30PM"
+                android:layout_marginBottom="40dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@{viewModel.finishedTimeText}"
                 android:textColor="#000000"
                 android:textSize="12sp"
                 android:textStyle="normal"
@@ -80,7 +83,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="@{viewModel.startTimeText}"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@{viewModel.startedTimeText}"
                 android:textColor="#000000"
                 android:textSize="12sp"
                 android:textStyle="normal"
@@ -92,54 +96,22 @@
             android:id="@+id/constraintLayout6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_ticket_background_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ticket_background_bottom"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="265dp"
+                android:layout_height="77dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="Total time"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-            <FrameLayout
-                android:id="@+id/frameLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                tools:listitem="@layout/list_item_ticket_task" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/list_item_ticket_task" />
-            </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,16 +23,20 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ticket_list"
-            android:paddingBottom="24dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:isGone="@{!hasTickets}"
-            tools:listitem="@layout/list_item_ticket"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="20dp"
 
+            android:paddingBottom="24dp"
+            app:isGone="@{!hasTickets}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/list_item_ticket" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

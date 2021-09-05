@@ -20,6 +20,18 @@
         android:layout_height="match_parent"
         android:background="#E7E7E7">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/test_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:onClick="@{viewModel::onTestButtonClicked}"
+            app:layout_constraintBottom_toTopOf="@+id/add_task"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_add_24" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
@@ -42,7 +54,6 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginEnd="26dp"
                 android:layout_marginBottom="20dp"
-
                 android:onClick="@{viewModel::onTicketButtonClicked}"
                 app:backgroundResource="@{viewModel.ticketBackgroundResource}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -247,6 +258,7 @@
                     app:isGone="@{!hasPomodoros}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/list_item_pomodoro" />
+
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
