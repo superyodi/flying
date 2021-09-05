@@ -164,44 +164,52 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/stop_layout"
-            android:layout_width="124dp"
-            android:layout_height="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="72dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageButton
                 android:id="@+id/btnStart"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnInit"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageButton
                 android:id="@+id/btnInit"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
                 android:background="@drawable/ic_reset"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/btnStop"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:background="@color/transparent"
             android:layout_marginTop="72dp"
-            android:background="@drawable/ic_stop"
+            android:src="@drawable/ic_stop"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_add_24" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

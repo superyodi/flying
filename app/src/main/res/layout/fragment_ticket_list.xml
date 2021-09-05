@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             app:isGone="@{!hasTickets}"
             tools:listitem="@layout/list_item_ticket"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

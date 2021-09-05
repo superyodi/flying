@@ -62,6 +62,13 @@ fun convertLongToTime(time: Long?): String {
 }
 
 
+fun convertDateTimeToString(time: Long?, pattern: String, locale: Locale) : String {
+    time?.let {
+        return SimpleDateFormat(pattern, locale).format(it)
+    }
+    return ""
+}
+
 // yyyyMMdd, yyyy/MM/dd 등
 fun convertDateToString(date: Date, pattern: String): String =
     SimpleDateFormat(pattern).format(date)

@@ -2,7 +2,12 @@ package com.yodi.flying.features.tickets
 
 
 import com.yodi.flying.model.entity.Ticket
+import com.yodi.flying.utils.convertDateTimeToLong
+import com.yodi.flying.utils.convertDateTimeToString
+import com.yodi.flying.utils.convertDateToString
 import com.yodi.flying.utils.convertLongToString
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 class TicketViewModel (ticket: Ticket)  {
@@ -24,8 +29,8 @@ class TicketViewModel (ticket: Ticket)  {
 
     val startTimeText
         get() = run {
-            "START "
-            convertLongToString(ticket.startTime, "HH:mm", Locale.ENGLISH)
+            Timber.i("ticket ${ticket.depth} startTime: ${ticket.startTime}")
+            "START " + convertDateTimeToString(ticket.startTime, "HH:mm", Locale.ENGLISH)
         }
 
 
