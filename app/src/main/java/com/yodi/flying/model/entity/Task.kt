@@ -12,11 +12,12 @@ data class Task(
     val cityTime : Long = 0L,
     val pomoId : Long = 0L,
     var count : Int = 0,
-    var totalTime : Long = 0L
+    var totalTime : Long = 0L,
+    var title : String = ""
 )
 {
     constructor(
         userId: Long, date: Long, cityTime: Long, pomoId: Long
-    ) : this(userId, date, cityTime, pomoId, 0, 0L)
+    ) : this(userId, date, cityTime, pomoId, 0, 0L, "")
 
 }

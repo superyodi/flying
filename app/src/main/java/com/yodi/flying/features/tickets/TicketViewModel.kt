@@ -10,10 +10,8 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TicketViewModel (ticket: Ticket)  {
+class TicketViewModel (private val ticket: Ticket)  {
 
-
-    private val ticket = ticket
 
     val startedTimeText
         get() = run {

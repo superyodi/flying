@@ -14,6 +14,7 @@ import com.yodi.flying.adapters.PomodoroAdapter
 import com.yodi.flying.adapters.TicketAdapter
 import com.yodi.flying.databinding.FragmentPomodoroListBinding
 import com.yodi.flying.databinding.FragmentTicketListBinding
+import com.yodi.flying.model.entity.Task
 import timber.log.Timber
 
 
@@ -21,6 +22,7 @@ class TicketListFragment : Fragment() {
 
     private lateinit var binding: FragmentTicketListBinding
     private lateinit var adapter: TicketAdapter
+    private lateinit var taks : List<Task>
 
     private val ticketListViewModel: TicketListViewModel by viewModels {
         TicketListViewModelFactory(
@@ -55,10 +57,12 @@ class TicketListFragment : Fragment() {
         if (activity != null) (activity as MainActivity).setToolBarTitle(getString(R.string.toolbar_title_ticket_list))
     }
 
+
     private fun observeViewModel() {
 
-
     }
+
+
 
     private fun subscribeUi(adapter: TicketAdapter, binding: FragmentTicketListBinding) {
         ticketListViewModel.allTickets.observe(::getLifecycle)  { result ->

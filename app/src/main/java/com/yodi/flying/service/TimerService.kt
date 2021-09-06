@@ -633,21 +633,23 @@ class TimerService : LifecycleService(){
         ticket?.let {
             ticketRepository.insertTicket(it.startTime, it.depth)
         }
-
     }
 
     private suspend fun insertTask() {
         pomodoro?.let {
-            ticketRepository.insertTask(ticket!!.startTime, it.id, 1, RUNNING_TIME)
+            ticketRepository.insertTask(
+                ticket!!.startTime, it.id, 1, RUNNING_TIME, it.title
+            )
         }
     }
-
 
     private suspend fun updateTask() {
         task?.let {
             it.totalTime += RUNNING_TIME
             it.count += 1
+            it.title = pomodoro?.title ?: ""
             ticketRepository.updateTask(it)
+
         }
     }
 

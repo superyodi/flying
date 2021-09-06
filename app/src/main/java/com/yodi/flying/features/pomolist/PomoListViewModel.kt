@@ -46,7 +46,7 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         val goalTime = ticketRepository.getUserGoalTime()
         Timber.d(getFormattedTotalTime(goalTime))
         if(goalTime- it <= 0) {
-            "일일 목표 시간을 달성하셨습니다!🥳🎉"
+            "일일 목표 시간을 달성했습니다!🥳🎉"
         }
         else "목표 시간까지 " + getFormattedTotalTime(goalTime- it)
     }

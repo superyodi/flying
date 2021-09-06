@@ -54,9 +54,9 @@ class TicketRepository(
 
     fun getUserGoalTime() = preferences.getLong(Constants.PREF_USER_GOAL_TIME)
 
-    suspend fun insertTask(cityTime: Long, pomoId: Long, count : Int, totalTime : Long) {
+    suspend fun insertTask(cityTime: Long, pomoId: Long, count : Int, totalTime : Long, title: String) {
         taskDao.insert(
-            Task(userId, todayDate, cityTime, pomoId, count, totalTime)
+            Task(userId, todayDate, cityTime, pomoId, count, totalTime, title)
         )
     }
 

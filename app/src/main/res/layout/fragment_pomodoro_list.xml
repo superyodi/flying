@@ -27,6 +27,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
+            android:visibility="gone"
             android:onClick="@{viewModel::onTestButtonClicked}"
             app:layout_constraintBottom_toTopOf="@+id/add_task"
             app:layout_constraintEnd_toEndOf="parent"
