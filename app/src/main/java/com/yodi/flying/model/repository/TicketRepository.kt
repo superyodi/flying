@@ -1,17 +1,19 @@
 package com.yodi.flying.model.repository
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.dao.ReportDao
 import com.yodi.flying.model.dao.TaskDao
 import com.yodi.flying.model.dao.TicketDao
 import com.yodi.flying.model.entity.*
 import com.yodi.flying.utils.Constants
-import com.yodi.flying.utils.convertDateToLong
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.util.*
+import kotlinx.coroutines.launch
 
 class TicketRepository(
     private val ticketDao: TicketDao,
@@ -29,8 +31,28 @@ class TicketRepository(
 
     private val refreshIntervalMs : Long = 10000
 
-    fun getTickets(): Flow<List<Ticket>> = ticketDao.getTickets(userId, todayDate)
+    private suspend fun getTickets(): List<Ticket> = ticketDao.getTickets(userId, todayDate)
 
+    suspend fun getTicketsWithTasks() : List<TicketWithTasks> {
+
+        val ticketsWithTasks = mutableListOf<TicketWithTasks>()
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            getTickets().forEach {
+                val tasks = getTasksForCity(it.startTime)
+                val ticketsWithTask = TicketWithTasks(
+                    todayDate,
+                    it.startTime,
+                    it.depth,
+                    it.endTime,
+                    tasks
+                )
+                ticketsWithTasks.add(ticketsWithTask)
+            }
+        }
+
+        job.join()
+        return ticketsWithTasks
+    }
     suspend fun getLatestTicket() : Ticket? = ticketDao.getLatestTicket(userId, todayDate)
 
     suspend fun getTodayCityDepth(): Int = reportDao. getTodayCityDepth(userId, todayDate)
@@ -47,6 +69,10 @@ class TicketRepository(
     }
 
     suspend fun updateTicket(ticket: Ticket) = ticketDao.update(ticket)
+
+
+
+    suspend fun getTasksForCity(cityTime : Long) = taskDao.getTasksForCity(userId, todayDate, cityTime)
 
     suspend fun getTaskForCity(cityTime : Long, pomoId : Long) =
         taskDao.getTaskForCity(userId, todayDate, cityTime, pomoId)

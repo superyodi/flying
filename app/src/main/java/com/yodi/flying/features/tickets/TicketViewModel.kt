@@ -1,16 +1,23 @@
 package com.yodi.flying.features.tickets
 
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.yodi.flying.MainApplication
+import com.yodi.flying.model.entity.Task
 import com.yodi.flying.model.entity.Ticket
-import com.yodi.flying.utils.convertDateTimeToLong
+import com.yodi.flying.model.entity.TicketWithTasks
 import com.yodi.flying.utils.convertDateTimeToString
-import com.yodi.flying.utils.convertDateToString
-import com.yodi.flying.utils.convertLongToString
-import timber.log.Timber
-import java.text.SimpleDateFormat
+import kotlinx.coroutines.launch
 import java.util.*
 
-class TicketViewModel (private val ticket: Ticket)  {
+class TicketViewModel (private val ticket: TicketWithTasks)  {
+
+
+
 
 
     val startedTimeText

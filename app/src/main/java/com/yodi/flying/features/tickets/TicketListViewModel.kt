@@ -1,31 +1,30 @@
 package com.yodi.flying.features.tickets
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import com.yodi.flying.features.pomolist.PomoListViewModel
-import com.yodi.flying.model.entity.Pomodoro
+import androidx.lifecycle.*
 import com.yodi.flying.model.entity.Ticket
-import com.yodi.flying.model.repository.PomodoroRepository
+import com.yodi.flying.model.entity.TicketWithTasks
 import com.yodi.flying.model.repository.TicketRepository
+import com.yodi.flying.mvvm.Event
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class TicketListViewModel (private val ticketRepository: TicketRepository) : ViewModel() {
 
-    val allTickets : LiveData<List<Ticket>> = ticketRepository.getTickets().asLiveData()
 
+    private val _allTickets = MutableLiveData<List<TicketWithTasks>>()
+    val allTickets : LiveData<List<TicketWithTasks>>
+     get() = _allTickets
 
     init {
-        Timber.d("connected")
-        Timber.d("${ticketRepository.todayDate }")
-        allTickets.value?.let {
-
-            Timber.d("ticket: ${it[0].startTime}")
-
+        viewModelScope.launch {
+            _allTickets.value = ticketRepository.getTicketsWithTasks()
         }
-
     }
+
+
+
 }
 
 class TicketListViewModelFactory(private val ticketRepository: TicketRepository) : ViewModelProvider.Factory {

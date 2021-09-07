@@ -6,7 +6,7 @@ import com.yodi.flying.model.entity.Task
 @Dao
 interface TaskDao {
     @Query("SELECT * FROM tasks WHERE userId = :userId AND date = :date AND cityTime = :cityTime")
-    fun getTasksForCity(userId : Long, date: Long, cityTime : Long): kotlinx.coroutines.flow.Flow<List<Task>>
+    suspend fun getTasksForCity(userId : Long, date: Long, cityTime : Long): List<Task>
 
     @Query("SELECT * FROM tasks WHERE userId = :userId AND date = :date AND cityTime = :cityTime AND pomoId = :pomoId")
     suspend fun getTaskForCity(userId : Long, date: Long, cityTime : Long, pomoId: Long): Task

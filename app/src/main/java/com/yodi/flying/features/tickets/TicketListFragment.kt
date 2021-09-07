@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
-import com.yodi.flying.adapters.PomodoroAdapter
 import com.yodi.flying.adapters.TicketAdapter
-import com.yodi.flying.databinding.FragmentPomodoroListBinding
 import com.yodi.flying.databinding.FragmentTicketListBinding
 import com.yodi.flying.model.entity.Task
 import timber.log.Timber
@@ -46,35 +43,26 @@ class TicketListFragment : Fragment() {
         adapter = TicketAdapter()
         binding.ticketList.adapter = adapter
         subscribeUi(adapter, binding)
-
         return binding.root
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         if (activity != null) (activity as MainActivity).setToolBarTitle(getString(R.string.toolbar_title_ticket_list))
     }
 
 
-    private fun observeViewModel() {
-
-    }
-
-
-
     private fun subscribeUi(adapter: TicketAdapter, binding: FragmentTicketListBinding) {
-        ticketListViewModel.allTickets.observe(::getLifecycle)  { result ->
-            binding.hasTickets = !result.isNullOrEmpty()
+        ticketListViewModel.allTickets.observe(::getLifecycle) { tickets ->
+            Timber.i("첫번째 시작 시간: ${tickets[0].startTime}")
+            binding.hasTickets = !tickets.isNullOrEmpty()
+            adapter.submitList(tickets)
 
-            Timber.i("result: "+result[0].startTime.toString())
-            Timber.i("hasTickets: ${binding.hasTickets}")
-            adapter.submitList(result)
         }
+
+
     }
-
-
 
 
 
