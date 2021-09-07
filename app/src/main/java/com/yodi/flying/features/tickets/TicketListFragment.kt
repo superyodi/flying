@@ -55,7 +55,7 @@ class TicketListFragment : Fragment() {
 
     private fun subscribeUi(adapter: TicketAdapter, binding: FragmentTicketListBinding) {
         ticketListViewModel.allTickets.observe(::getLifecycle) { tickets ->
-            Timber.i("첫번째 시작 시간: ${tickets[0].startTime}")
+
             binding.hasTickets = !tickets.isNullOrEmpty()
             adapter.submitList(tickets)
 
