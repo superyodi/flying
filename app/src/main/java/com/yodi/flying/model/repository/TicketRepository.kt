@@ -1,7 +1,5 @@
 package com.yodi.flying.model.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import com.yodi.flying.model.SharedPreferenceManager
 import com.yodi.flying.model.dao.ReportDao
 import com.yodi.flying.model.dao.TaskDao

@@ -27,6 +27,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView34"
+                app:layout_constraintEnd_toStartOf="@+id/textView22"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView22"
+                app:srcCompat="@drawable/ic_start_finish" />
+
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
@@ -34,7 +48,7 @@
                 android:layout_marginStart="44dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Jeju"
+                android:text="@{viewModel.currentCity}"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -47,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Tokyo"
+                android:text="@{viewModel.nextCity}"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -69,14 +83,15 @@
                 app:layout_constraintStart_toStartOf="@+id/textView34"
                 app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-            <com.yodi.flying.custom.TopCropImageView
+            <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="match_parent"
-                android:layout_height="108dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                app:imageResource="@{viewModel.ticketBackgroundResource}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/jeju_1" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -97,6 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/ticket_background_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
@@ -104,14 +120,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/task_list"
                 android:layout_width="0dp"
-                android:layout_height="77dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="30dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_ticket_task" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

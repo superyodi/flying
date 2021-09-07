@@ -1,6 +1,7 @@
 package com.yodi.flying.utils
 
 import android.telecom.ConnectionService
+import com.yodi.flying.R
 import com.yodi.flying.model.PomodoroState.Companion.FLYING
 import com.yodi.flying.model.PomodoroState.Companion.LONG_BREAK
 import com.yodi.flying.model.PomodoroState.Companion.NONE
@@ -165,6 +166,17 @@ fun getNextPomodoroState(state: Int, nowCount: Int, longBreakTerm : Int) = when(
     SHORT_BREAK -> FLYING
     LONG_BREAK -> FLYING
     else -> NONE
+}
+
+fun getCityFromDepth(depth: Int) = when(depth) {
+    0 -> Constants.JEJU
+    1 -> Constants.TOKYO
+    2 -> Constants.HANOI
+    3 ->Constants.HAWAII
+    4 -> Constants.NEWYORK
+    5 -> Constants.HAVANA
+    6 -> Constants.MOON
+    else -> Constants.MOON
 }
 
 fun getNextCity(currentCity : String) : String {
