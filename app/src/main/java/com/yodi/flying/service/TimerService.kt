@@ -439,21 +439,15 @@ class TimerService : LifecycleService(){
         currentTotalTime.postValue(totalTime)
 
 
-//        RUNNING_TIME = pomodoroRepository.runningTime
-//        SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
-//        LONG_BREAK_TIME = pomodoroRepository.longRestTime
-//        LONG_BREAK_TERM = pomodoroRepository.longRestTerm
+        RUNNING_TIME = pomodoroRepository.runningTime
+        SHORT_BREAK_TIME = pomodoroRepository.shortRestTime
+        LONG_BREAK_TIME = pomodoroRepository.longRestTime
+        LONG_BREAK_TERM = pomodoroRepository.longRestTerm
 
 
         IS_AUTO_BREAK_MODE = pomodoroRepository.isAutoBreakMode
         IS_AUTO_SKIP_MODE = pomodoroRepository.isAutoSkipMode
         IS_NON_BREAK_MODE = pomodoroRepository.isNoneBreakMode
-
-        // test code
-        RUNNING_TIME = TEST_RUNNING_TIME
-        SHORT_BREAK_TIME = TEST_SHORT_BREAK_TIME
-        LONG_BREAK_TIME = TEST_LONG_BREAK_TIME
-        LONG_BREAK_TERM = TEST_LONG_BREAK_TERM
 
 
     }
@@ -576,12 +570,12 @@ class TimerService : LifecycleService(){
 
     }
 
-    // TODO("test code")
+
     private suspend fun updateTicketData(totalTime : Long) {
         val hours = TimeUnit.MILLISECONDS.toHours(totalTime)
 
         ticket?.let {
-            if(totalTime >= (it.depth + 1)* Constants.TEST_CONVERT_CITY_TIME) {
+            if(hours >= (it.depth + 1)* 2) {
                 updateTicket()
                 ticketRepository.updateTodayCityDepth()
             }
@@ -601,26 +595,6 @@ class TimerService : LifecycleService(){
         }
     }
 
-//    private fun updateTicketData(totalTime : Long) {
-//        val hours = TimeUnit.MILLISECONDS.toHours(totalTime)
-//
-//        serviceScope.launch {
-//            Timber.d("hours: $hours")
-//            ticket?.let {
-//                if(hours >= (it.depth + 1)* 2) {
-//                    updateTicket()
-//                    ticketRepository.updateTodayCityDepth()
-//                }
-//                else {
-//                    // 현재 ticket과 DB 내부에서 가장 최근에 만들어진 ticket이 다를경우 현재 ticket insert
-//                    if(it != ticketRepository.getLatestTicket()) {
-//                        insertTicket()
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
     private suspend fun updateTicket() {
         // totalTime의 hour가  ticket.depth 보다 클 경우, 현재 티켓의 endTime 업데이트
         ticket?.let {
