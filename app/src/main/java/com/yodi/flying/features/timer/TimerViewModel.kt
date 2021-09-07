@@ -10,11 +10,8 @@ import com.yodi.flying.model.repository.PomodoroRepository
 import com.yodi.flying.model.repository.TicketRepository
 import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.service.TimerService
-import com.yodi.flying.utils.Constants
+import com.yodi.flying.utils.*
 import com.yodi.flying.utils.Constants.Companion.TIMER_STARTING_IN_TIME
-import com.yodi.flying.utils.convertDateToString
-import com.yodi.flying.utils.getCityFromTotalTime
-import com.yodi.flying.utils.getFormattedStopWatchTime
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -61,6 +58,10 @@ class TimerViewModel(
 
     val currentCity : LiveData<String> = pomodoroRepository.getTotalTime().map {
         getCityFromTotalTime(it)
+    }
+
+    val nextCity : LiveData<String> = currentCity.map {
+        getNextCity(it)
     }
     val timerBackgroundResource = MutableLiveData<Int>()
 
