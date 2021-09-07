@@ -9,6 +9,7 @@ class WaitingDialog {
         fun create(context: Context): Dialog {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.dialog_waiting)
+            dialog.window?.setBackgroundDrawableResource(R.color.transparent)
             return dialog
         }
 

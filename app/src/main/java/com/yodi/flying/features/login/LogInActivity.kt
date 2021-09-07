@@ -1,7 +1,9 @@
 package com.yodi.flying.features.login
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,6 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.MainActivity
 import com.yodi.flying.MainApplication
 import com.yodi.flying.R
+import com.yodi.flying.custom.WaitingDialog
 import com.yodi.flying.databinding.ActivityLoginBinding
 import com.yodi.flying.features.setup.SetupActivity
 import com.yodi.flying.features.splash.SplashActivity
@@ -20,6 +23,7 @@ import timber.log.Timber
 class LogInActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityLoginBinding
+    private lateinit var waitingDialog: Dialog
     private val logInViewModel: LogInViewModel by viewModels {
         LogInViewModelFactory((application as MainApplication).userRepository)
     }
@@ -27,14 +31,17 @@ class LogInActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        waitingDialog = WaitingDialog.create(this@LogInActivity);
+
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         binding.btnStartWithKakao.setOnClickListener{
+            waitingDialog.show()
             loginKakaoTalk()
+//            Timber.d("getKakaoId(): $userId")
 
-            Timber.d("getKakaoId(): $userId")
 
         }
 
@@ -55,14 +62,16 @@ class LogInActivity : AppCompatActivity(){
 
     // DI 라이브러리 추가 후 login repository로 이동할 예정
 
-
     private fun loginKakaoTalk() {
         val isKakaoTalkLoginAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(this)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if(error != null) {
+                waitingDialog.dismiss()
                 Timber.e("로그인 실패, $error")
+                Toast.makeText(this, "로그인에 실패했습니다. ", Toast.LENGTH_SHORT).show()
             }
             else if (token != null) {
+                waitingDialog.dismiss()
                 Timber.i("로그인 성공 ${token.accessToken}")
                 loadUserId()
             }

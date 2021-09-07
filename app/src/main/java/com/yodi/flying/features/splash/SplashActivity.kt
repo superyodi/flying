@@ -47,11 +47,6 @@ class SplashActivity : AppCompatActivity() {
             navigateToHome()
         }
 
-        binding.imageView.setOnClickListener {
-            Timber.d("눌렀다!")
-            splashViewModel.initTodayData()
-        }
-
 
     }
 
@@ -75,35 +70,5 @@ class SplashActivity : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
     }
 
-
-    private fun testData() {
-        val repo = (application as MainApplication).pomodoroRepository
-        val userId = repo.userId
-
-        val demos : List<Pomodoro> = listOf(
-            Pomodoro(
-                userId, "test1", "test", 5, 0,
-                "", false, 20210822,null
-            ),
-            Pomodoro(
-                userId, "test2", "test", 6, 0,
-                "", false, 20210824,null
-            ),
-            Pomodoro(
-                userId, "test3", "test", 6, 0,
-                "", true, 20210820,20210830
-            ),
-            Pomodoro(
-                userId, "test4", "test", 6, 0,
-                "", true, 20210820,20210823
-            )
-        )
-
-        CoroutineScope(Dispatchers.IO).launch {
-            for(pomo in demos){
-                repo.insert(pomo)
-            }
-        }
-    }
 
 }
