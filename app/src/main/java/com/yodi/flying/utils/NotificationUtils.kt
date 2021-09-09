@@ -23,9 +23,9 @@ fun provideBaseNotificationBuilder(
 ): NotificationCompat.Builder = NotificationCompat.Builder(app, NOTIFICATION_CHANNEL_ID)
     .setAutoCancel(false)
     .setOngoing(true)
-    .setSmallIcon(R.drawable.ic_baseline_access_alarm_24)
-    .setContentTitle("뽀모도로 타이머")
-    .setContentText("25:00")
+    .setSmallIcon(R.drawable.ic_flying)
+    .setContentTitle("Flying")
+    .setContentText("곧 비행기가 이륙합니다.🛫")
     .setContentIntent(pendingIntent)
 
 fun provideNotificationManager(
@@ -48,8 +48,6 @@ fun createNotificationChannel(notificationManager: NotificationManager) {
 fun buildTimeFragmentPendingIntentWithId(id: Long, context: Context): PendingIntent {
 
     val arg = TimerFragmentArgs(id).toBundle()
-
-    Timber.d("buildTimeFragmentPendingIntentWithId 실행됨 ")
 
     return NavDeepLinkBuilder(context)
         .setGraph(R.navigation.nav_pomodoro)

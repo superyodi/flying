@@ -154,7 +154,6 @@ class PomodoroListFragment: Fragment() {
                     .show()
             }
 
-
         }
         val itemTouchHelper = ItemTouchHelper(itemSwipeHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.pomodoroList)

@@ -302,7 +302,6 @@ class TimerService : LifecycleService(){
 
         // update currentPomodoro
         serviceScope.launch {
-            Timber.i("Coroutine Scope 시작 ")
             // Running time 후, update total time
             if(pomodoroState == FLYING) {
                 ticketRepository.updateTodayTotalTime(RUNNING_TIME)
@@ -339,7 +338,6 @@ class TimerService : LifecycleService(){
             currentTomatoCount.postValue(nowTomatoCount)
 
             executeNextTimer()
-            Timber.i("Coroutine Scope 종료  ")
         }
 
     }
@@ -500,7 +498,7 @@ class TimerService : LifecycleService(){
 
     private fun updateNotificationActions(state: TimerState){
         // Updates actions of current notification depending on TimerState
-        val notificationActionText = if(state == TimerState.RUNNING) "Pause" else "Resume"
+        val notificationActionText = if (state == TimerState.RUNNING) "일시정지" else "다시재생"
 
         // Build pendingIntent depending on TimerState
         val pendingIntent = if(state == TimerState.RUNNING){
@@ -518,8 +516,8 @@ class TimerService : LifecycleService(){
         // Set Action, icon seems irrelevant
         currentNotificationBuilder = baseNotificationBuilder
             .setContentTitle(pomodoro?.title)
-            .addAction(R.drawable.ic_baseline_access_alarm_24, notificationActionText, pendingIntent)
-            .addAction(R.drawable.ic_baseline_access_alarm_24, "Cancel", cancelActionPendingIntent)
+            .addAction(R.drawable.ic_flying, notificationActionText, pendingIntent)
+            .addAction(R.drawable.ic_flying, "취소", cancelActionPendingIntent)
         notificationManager.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
     }
 
