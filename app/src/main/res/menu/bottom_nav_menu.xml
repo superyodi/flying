@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_flying"
         android:title="@string/title_pomodoro"/>
 
-    <item
-        android:id="@+id/navigation_report"
-        android:icon="@drawable/ic_statistics"
-        android:title="@string/title_report"/>
 
     <item
         android:id="@+id/navigation_preference"
