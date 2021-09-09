@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit
 
 class PreferenceViewModel(private val userRepository: UserRepository) : ViewModel() {
 
+    val tmpText = MutableLiveData<String>()
     val userNickname = MutableLiveData<String>()
     val shortRestTime = MutableLiveData<Int>()
     val longRestTime = MutableLiveData<Int>()
@@ -63,6 +64,7 @@ class PreferenceViewModel(private val userRepository: UserRepository) : ViewMode
             isAutoSkipMode.value = it.isAutoSkipMode
             isNonBreakMode.value = it.isNonBreakMode
             userNickname.value = it.nickname + "님"
+            tmpText.value = it.nickname + "님만의 Flying을 만들어보세요"
         }
 
     }

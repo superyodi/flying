@@ -37,6 +37,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/temp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@={viewModel.tmpText}"
+            android:textColor="@color/flying_orange"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_nickname" />
+
+        <TextView
             android:id="@+id/total_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
