@@ -61,8 +61,8 @@ class PreferenceViewModel(private val userRepository: UserRepository) : ViewMode
 
             isAutoBreakMode.value = it.isAutoBreakMode
             isAutoSkipMode.value = it.isAutoSkipMode
-            isNonBreakMode.value = it. isNonBreakMode
-            userNickname.value = it.nickname
+            isNonBreakMode.value = it.isNonBreakMode
+            userNickname.value = it.nickname + "님"
         }
 
     }
