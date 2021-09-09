@@ -185,7 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="New York"
+                        android:text="@{viewModel.nextCity}"
                         android:textColor="@color/text_white"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/textView29"

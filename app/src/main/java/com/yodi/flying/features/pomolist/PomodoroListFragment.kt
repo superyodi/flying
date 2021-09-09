@@ -116,31 +116,47 @@ class PomodoroListFragment: Fragment() {
     }
 
     private fun setItemSwipeListener() {
-        val itemSwipeHeplerCallback: ItemSwipeHelperCallback = object : ItemSwipeHelperCallback() {
+        val itemSwipeHelperCallback: ItemSwipeHelperCallback = object : ItemSwipeHelperCallback() {
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val item: Pomodoro = adapter.currentList.get(position)
 
+                if (isTimerRunning && item.id == runningPomodoroId) {
+
+                    val msg = "실행되고 있는 뽀모도로는 삭제할 수 없습니다."
+                    Snackbar
+                        .make(
+                            binding.root,
+                            msg,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+                    adapter.notifyDataSetChanged()
+                    return
+                }
+
                 pomoListViewModel.delete(item)
 
-                val snackbar = Snackbar
+                val msg = "해당 뽀모도로가 삭제됐습니다."
+                Snackbar
                     .make(
                         binding.root,
-                        "해당 뽀모도로가 삭제됐습니다.",
+                        msg,
                         Snackbar.LENGTH_LONG
                     )
-                snackbar.setAction("취소") {
-                    val deletedPomodoro = pomoListViewModel.deletedPomooro
-                    if(deletedPomodoro != null) {
-                        pomoListViewModel.insert(deletedPomodoro)
-                    }
-                }
-                snackbar.setActionTextColor(Color.YELLOW)
-                snackbar.show()
-
+                    .setAction("취소") {
+                        val deletedPomodoro = pomoListViewModel.deletedPomooro
+                        if (deletedPomodoro != null) {
+                            pomoListViewModel.insert(deletedPomodoro)
+                        }
+                    }.setActionTextColor(Color.YELLOW)
+                    .show()
             }
+
+
         }
-        val itemTouchHelper = ItemTouchHelper(itemSwipeHeplerCallback)
+        val itemTouchHelper = ItemTouchHelper(itemSwipeHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.pomodoroList)
     }
 
