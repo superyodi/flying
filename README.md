@@ -1,7 +1,6 @@
 # Flying ✈️: pomodoro timer 
 
-<img width="1375" alt="스크린샷 2021-08-26 오후 3 33 39" src="https://user-images.githubusercontent.com/31922389/130913889-bbc62a2a-cee7-4061-a48e-9c8930dbecd0.png">
-
+<img alt="flying_img" src="https://user-images.githubusercontent.com/31922389/132884560-73b47003-62b7-4382-90db-2cc0cc9bae7d.png">
 >  뽀모도로 타이머로 떠나는 세계여행~ ✈️
 
 
