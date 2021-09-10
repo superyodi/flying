@@ -61,7 +61,7 @@
 
 
 
-<img width="617" alt="스크린샷 2021-08-26 오후 3 24 19" src="https://user-images.githubusercontent.com/31922389/130913949-a38c0bed-8ea9-4f32-b52e-d97fa544d72b.png">
+<img width="597" alt="스크린샷 2021-09-10 오후 12 37 53" src="https://user-images.githubusercontent.com/31922389/132795733-8fd66b90-8aa5-461d-baba-53dd71c84aa0.png">
 
 
 

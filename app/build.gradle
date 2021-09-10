@@ -122,12 +122,10 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'com.xw.repo:bubbleseekbar:3.16'
 
-    // Number Sliding Picker
-    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
 
     // Number Picker
     implementation 'io.github.ShawnLin013:number-picker:2.4.13'
 
-    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
+
 
 }
