@@ -1,8 +1,10 @@
 package com.yodi.flying.features.preference
 
+import android.view.View
 import androidx.lifecycle.*
 import com.yodi.flying.model.entity.User
 import com.yodi.flying.model.repository.UserRepository
+import com.yodi.flying.mvvm.SingleLiveEvent
 import com.yodi.flying.utils.getFormattedStopWatchTime
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,21 +19,16 @@ class PreferenceViewModel(private val userRepository: UserRepository) : ViewMode
     val runningTime = MutableLiveData<Int>()
     val longRestTerm = MutableLiveData<Int>()
 
+    val logOutTextClicked: SingleLiveEvent<Void> = SingleLiveEvent()
+
     val isAutoBreakMode = MutableLiveData<Boolean>()// 자동으로 뽀모도로 넘김
     val isAutoSkipMode = MutableLiveData<Boolean>() // 자동으로 휴식 시작
     val isNonBreakMode = MutableLiveData<Boolean>()
 
-    private var userId : Long = 0L
+    private var userId: Long = 0L
     private val currentUser = MutableLiveData<User>()
 
 
-
-  /*
-    val shortRestTimeInput = MutableLiveData<String>()
-    val longRestTimeInput = MutableLiveData<String>()
-    val runningTimeInput = MutableLiveData<String>()
-    val longRestTermInput = MutableLiveData<String>()
-  */
 
     val runningTimeString : LiveData<String>
         get() = runningTime.map { "${it}분"}
@@ -46,6 +43,11 @@ class PreferenceViewModel(private val userRepository: UserRepository) : ViewMode
     fun start() {
 
         setUserData()
+
+    }
+
+    fun onLogOutTextClicked(view: View) {
+        logOutTextClicked.call()
 
     }
 

@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.kakao.sdk.user.UserApiClient
 import com.yodi.flying.MainApplication
 import com.yodi.flying.custom.NumberPickerDialog
 import com.yodi.flying.databinding.FragmentPreferenceBinding
 import com.yodi.flying.utils.Constants
+import timber.log.Timber
 
 class PreferenceFragment : Fragment() {
 
@@ -33,7 +35,7 @@ class PreferenceFragment : Fragment() {
             }
 
         preferenceViewModel.start()
-
+        observeViewModel()
         setViewEventListener()
 
         return binding.root
@@ -44,6 +46,19 @@ class PreferenceFragment : Fragment() {
         preferenceViewModel.updateUserData()
     }
 
+    private fun observeViewModel() {
+        preferenceViewModel.logOutTextClicked.observe(::getLifecycle) {
+
+            UserApiClient.instance.unlink { error ->
+                if (error != null) {
+                    Timber.e("연결 끊기 실패: $error")
+                } else {
+                    Timber.i("연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                }
+            }
+
+        }
+    }
 
 
     private fun setViewEventListener() {
@@ -51,10 +66,14 @@ class PreferenceFragment : Fragment() {
         binding.setClickListener { view ->
             when (view) {
                 binding.runningTimeButton ->
-                    showNumberPickerDialog(Constants.RUNNING_TIME_FLAG,
-                        preferenceViewModel.runningTime.value ?: 0)
-                binding.longRestButton -> showNumberPickerDialog(Constants.LONG_REST_TIME_FLAG,
-                    preferenceViewModel.longRestTime.value)
+                    showNumberPickerDialog(
+                        Constants.RUNNING_TIME_FLAG,
+                        preferenceViewModel.runningTime.value ?: 0
+                    )
+                binding.longRestButton -> showNumberPickerDialog(
+                    Constants.LONG_REST_TIME_FLAG,
+                    preferenceViewModel.longRestTime.value
+                )
                 binding.shortRestButton -> showNumberPickerDialog(Constants.SHORT_REST_TIME_FLAG,
                     preferenceViewModel.shortRestTime.value)
                 binding.longTermButton -> showNumberPickerDialog(Constants.LONG_REST_TERM_FLAG,

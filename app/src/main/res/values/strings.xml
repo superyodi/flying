@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pomodoro</string>
+    <string name="app_name">Flying</string>
     <string name="tab_text_pomo">뽀모도로</string>
     <string name="tab_text_report">리포트</string>
     <string name="tab_text_preference">설정</string>

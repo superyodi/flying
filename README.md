@@ -38,47 +38,28 @@
 
 
 
-## Overview
+## Preview
 
 
 
+> 화면 설명 
 
+| <img src="https://user-images.githubusercontent.com/31922389/132655362-86c4f065-dff1-43b6-9238-f61d5b9cc4f2.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132668814-f501c162-492b-49a8-976f-503d89dd3609.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132669301-7dcbcca6-a536-4e9b-84ca-76d2b2b1fd68.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132669854-6a4e1306-ad53-497b-98fa-50b06fad0817.gif" width="400px"> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                           *Log in*                           |                           *Setup*                            |                       *Pomodoro list*                        |                      *Delete Pomodoro*                       |
+| <img src="https://user-images.githubusercontent.com/31922389/132667436-ce1dee00-1dcd-4d65-9edf-9f205216564d.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132668296-b7ed0d88-51a9-41c6-8b8c-d5c12fd28c45.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132789677-5d051d0c-e1ff-4ae4-9d24-98269bd75c2d.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132793092-bb7cac16-8daf-4132-80a2-2c7121236096.gif" width="400px"> |
+|                      *Insert Pomodoro*                       |                      *Update Pomodoro*                       |                         *Timer View*                         |                     *Timer Notification*                     |
+| <img src="https://user-images.githubusercontent.com/31922389/132791067-74df6d6e-c86d-444c-a371-dbf62305ea7d.gif" width="400px"> |                                                              |                                                              |                                                              |
+|                         *Preference*                         |                        *Ticket list*                         |                       *Various cities*                       |                                                              |
+
+<br>
 
 
 
 ## Features
 
-+ 스플레쉬 화면
++ 집중시간이 2시간이 지나면 도시가 바껴요 
 
-  + user id 확인하고 결과에 따라 이동
-  + 24시간마다 뽀모도로 데이터 초기화 
-
-+ 로그인 화면
-
-+ 뽀모도로 생성 화면
-
-+ 뽀모도로 리스트 화면 
-  
-  + 해당 리스트 스와이프하면 삭제 가능 
-  
-+ 뽀모도로 보기 및 수정 화면
-
-+ 타이머 화면
-  + 타이머 1회 완료하면 짧은 휴식 1회
-  + 타이머 n(user setting)회 완료하면 긴 휴식 1회
-  
-+ 사용자 설정 화면
-
-  + Running time, Short break time, Long break time, Long break term 설정 
-
-  + 타이머 Flag 설정 
-
-    +  "자동으로 뽀모도로 넘김", "자동으로 휴식 시작", "휴식없이 무한 질주"
-
-
-+ 티켓 리스트 화면
-
-  + 사용자가 하루동안 여행한 도시와 각 도시에서 실행했던 뽀모도로 task들을 보여줌 
 
 
 
@@ -121,10 +102,17 @@
 
 ## 👷Under Development🚧
 
-+ Report feature
++ 기능
 
-+ Notification
+  + 리포트 화면
+  + 알람 기능 
+  + 백업 기능
 
-+ Duedate Alarm
++ 코드 개선 
+
+  + DI
+  + Test code 
+
+  
 
   

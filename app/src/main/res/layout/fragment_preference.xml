@@ -132,7 +132,7 @@
             android:textColor="#222222"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -142,7 +142,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/text_gray_light"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -279,7 +279,8 @@
             android:textColor="#222222"
             android:textSize="16sp"
             android:textStyle="normal"
-            android:visibility="invisible"
+            android:onClick="@{viewModel::onLogOutTextClicked}"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageView5"
             app:layout_constraintStart_toEndOf="@+id/imageView5" />
 
@@ -320,10 +321,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="25dp"
-            android:visibility="invisible"
+            android:layout_marginTop="18dp"
+            android:onClick="@{viewModel::onLogOutTextClicked}"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
             app:srcCompat="@drawable/ic_logout" />
 
 
