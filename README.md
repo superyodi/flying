@@ -42,25 +42,17 @@
 
 
 
-> 화면 설명 
+> 상황별 미리보기 
 
 | <img src="https://user-images.githubusercontent.com/31922389/132655362-86c4f065-dff1-43b6-9238-f61d5b9cc4f2.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132668814-f501c162-492b-49a8-976f-503d89dd3609.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132669301-7dcbcca6-a536-4e9b-84ca-76d2b2b1fd68.gif" width="400px"> | <img src="https://user-images.githubusercontent.com/31922389/132669854-6a4e1306-ad53-497b-98fa-50b06fad0817.gif" width="400px"> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                           *Log in*                           |                           *Setup*                            |                       *Pomodoro list*                        |                      *Delete Pomodoro*                       |
 | <img src="https://user-images.githubusercontent.com/31922389/132667436-ce1dee00-1dcd-4d65-9edf-9f205216564d.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132668296-b7ed0d88-51a9-41c6-8b8c-d5c12fd28c45.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132789677-5d051d0c-e1ff-4ae4-9d24-98269bd75c2d.gif" width="400px"> | <img src = "https://user-images.githubusercontent.com/31922389/132793092-bb7cac16-8daf-4132-80a2-2c7121236096.gif" width="400px"> |
 |                      *Insert Pomodoro*                       |                      *Update Pomodoro*                       |                         *Timer View*                         |                     *Timer Notification*                     |
-| <img src="https://user-images.githubusercontent.com/31922389/132791067-74df6d6e-c86d-444c-a371-dbf62305ea7d.gif" width="400px"> |                                                              |                                                              |                                                              |
+| <img src="https://user-images.githubusercontent.com/31922389/132791067-74df6d6e-c86d-444c-a371-dbf62305ea7d.gif" width="400px"> |                                                             | <img src="https://user-images.githubusercontent.com/31922389/132794867-5c08fddd-b725-4ae0-bbb2-f56ce1f59c44.gif" width="400px">                                                              |                                                              |
 |                         *Preference*                         |                        *Ticket list*                         |                       *Various cities*                       |                                                              |
 
 <br>
-
-
-
-## Features
-
-+ 집중시간이 2시간이 지나면 도시가 바껴요 
-
-
 
 
 

@@ -85,13 +85,12 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
         navigateToTicket.call()
     }
 
-    fun onTestButtonClicked(view: View) {
-        if (currentCity.value == Constants.MOON) resetTestData()
-        else {
-            insertTestData()
-        }
-    }
-
+//    fun onTestButtonClicked(view: View) {
+//        if (currentCity.value == Constants.MOON) resetTestData()
+//        else {
+//            insertTestData()
+//        }
+//    }
 
 
     private fun insertTestData() = viewModelScope.launch {
