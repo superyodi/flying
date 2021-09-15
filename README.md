@@ -1,7 +1,8 @@
 # Flying ✈️: pomodoro timer 
 
-<img alt="flying_img" src="https://user-images.githubusercontent.com/31922389/132884560-73b47003-62b7-4382-90db-2cc0cc9bae7d.png">
->  뽀모도로 타이머로 떠나는 세계여행~ ✈️
+<img alt="flying_img_2" src="https://user-images.githubusercontent.com/31922389/133453541-e01328c4-680f-42df-add3-bbebe6d6eb61.png">
+
+> 뽀모도로 타이머로 떠나는 세계여행~ ✈️
 
 
 
