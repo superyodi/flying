@@ -80,7 +80,7 @@
 
 - [Navigation](https://developer.android.com/topic/libraries/architecture/navigation) (Fragment transitions)
 
-- [View Binding](https://developer.android.com/topic/libraries/view-binding) (Bind views)
+- [Data Binding](https://developer.android.com/topic/libraries/data-binding) (Data binding)
 
 - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) (Store and manage UI-related data)
 
