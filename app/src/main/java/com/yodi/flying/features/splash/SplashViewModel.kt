@@ -39,9 +39,7 @@ class SplashViewModel (
             insertReport(todayDate)
             updateTodayPomodoros(todayDate)
         }
-
     }
-
 
     private suspend fun insertReport(date : Long) {
         reportRepository.insertReport(date)

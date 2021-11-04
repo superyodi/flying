@@ -71,19 +71,15 @@ class PomoListViewModel(private val pomodoroRepository: PomodoroRepository,
     init {
 
         viewModelScope.launch {
-
             ticketRepository.getTotalTimeFlow().collect {
                 totalTime.value = it
             }
-
         }
     }
 
     fun onTicketButtonClicked(view: View) {
-
         navigateToTicket.call()
     }
-
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way

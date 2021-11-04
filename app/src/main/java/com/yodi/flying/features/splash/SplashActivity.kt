@@ -35,12 +35,15 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView< ActivitySplashBinding>(this, R.layout.activity_splash)
+        Timber.d("splash activity started")
+
+        binding =
+            DataBindingUtil.setContentView<ActivitySplashBinding>(this, R.layout.activity_splash)
 
         setupTimber()
 
         val userId = splashViewModel.getUserId()
-        if(userId == -1L || userId == 0L)
+        if (userId == -1L || userId == 0L)
             navigateToLogIn()
         else {
             splashViewModel.initTodayData()

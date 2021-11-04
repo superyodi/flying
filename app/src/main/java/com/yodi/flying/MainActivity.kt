@@ -1,5 +1,6 @@
 package com.yodi.flying
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.yodi.flying.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yodi.flying.features.splash.SplashActivity
 import timber.log.Timber
 
 
@@ -77,9 +79,16 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = title
     }
 
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.d("restarted")
+        navigateToSplash()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 super.onBackPressed()
             }
@@ -90,6 +99,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
+    }
+
+
+    private fun navigateToSplash() {
+        Timber.d("navigate to splash")
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+
     }
 
 }

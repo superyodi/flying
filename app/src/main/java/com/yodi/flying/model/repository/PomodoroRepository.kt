@@ -74,7 +74,6 @@ SharedPreferenceManager) {
         pomodoroDao.deleteLastPomodoros(false)
         pomodoroDao.deleteLastPomodoros(true, date)
         pomodoroDao.updateHasDueDatePomodoros(true, date)
-
     }
 
     // return immutable livedata from timer service

@@ -237,7 +237,7 @@ class TimerService : LifecycleService(){
 
         if(pomodoroState == NONE || pomodoroState == FLYING )
             Timber.i("타이머 재생 그리고 티켓데이터 이니트 ")
-            initializeTicketAndTask()
+        initializeTicketAndTask()
 
         currentTimerState.postValue(TimerState.RUNNING)
         startTimer()
